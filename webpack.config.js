@@ -19,6 +19,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'], //array of files extensions for import without extension & working import in .ts files
     alias: {
+      '@': src,  //short path to src folder
       '@page': resolve(src, 'page'),  //short path to page folder
       '@api': resolve(src, 'api'),  //short path to api folder
     }
