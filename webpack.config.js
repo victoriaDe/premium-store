@@ -53,12 +53,7 @@ module.exports = {
           //if development mode then put styles in the <style>
           //if production mode then put styles in a separate file by using mini-css-extract-plugin loader
           isDevMode ? 'style-loader' : MiniCSSExtractPlugin.loader,
-          {
-            loader: 'css-loader', //for transform css styles to js module (processing all @import and url())
-            options: {
-              sourceMap: true,  //enabled generate source map
-            },
-          },
+          'css-loader', //for transform css styles to js module (processing all @import and url())
           {
             loader: 'postcss-loader', //loader for processing css styles by using postcss
             options: {
