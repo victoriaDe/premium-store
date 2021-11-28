@@ -29,7 +29,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       //index.html is default filename
-      template: resolve(src, 'pages/main.html'), //template for html
+      template: resolve(src, 'page/main.html'), //template for html
       minify: !isDevMode  //minify output html only in production mode
     }),
     new MiniCSSExtractPlugin({
