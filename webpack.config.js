@@ -24,6 +24,7 @@ module.exports = {
       '@api': resolve(src, 'api'),  //short path to api folder
     }
   },
+  devtool: isDevMode ? 'eval-source-map' : false,  //generate source map only in development mode
   devServer: {
     //dev server in default has been started on port 8080 with live reload
     open: true, //open dev server in default browser
