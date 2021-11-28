@@ -17,6 +17,7 @@ module.exports = {
   },
   stats: 'errors-warnings', //show after run webpack only errors and warnings
   resolve: {
+    extensions: ['.ts', '.js'], //array of files extensions for import without extension & working import in .ts files
     alias: {
       '@page': resolve(src, 'page'),  //short path to page folder
       '@api': resolve(src, 'api'),  //short path to api folder
