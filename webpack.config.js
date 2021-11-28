@@ -17,11 +17,14 @@ module.exports = {
   },
   stats: 'errors-warnings', //show after run webpack only errors and warnings
   resolve: {
+    extensions: ['.ts', '.js'], //array of files extensions for import without extension & working import in .ts files
     alias: {
+      '@': src,  //short path to src folder
       '@page': resolve(src, 'page'),  //short path to page folder
       '@api': resolve(src, 'api'),  //short path to api folder
     }
   },
+  devtool: isDevMode ? 'eval-source-map' : false,  //generate source map only in development mode
   devServer: {
     //dev server in default has been started on port 8080 with live reload
     open: true, //open dev server in default browser
@@ -29,7 +32,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       //index.html is default filename
-      template: resolve(src, 'pages/main.html'), //template for html
+      template: resolve(src, 'page/main.html'), //template for html
       minify: !isDevMode  //minify output html only in production mode
     }),
     new MiniCSSExtractPlugin({
@@ -50,12 +53,7 @@ module.exports = {
           //if development mode then put styles in the <style>
           //if production mode then put styles in a separate file by using mini-css-extract-plugin loader
           isDevMode ? 'style-loader' : MiniCSSExtractPlugin.loader,
-          {
-            loader: 'css-loader', //for transform css styles to js module (processing all @import and url())
-            options: {
-              sourceMap: true,  //enabled generate source map
-            },
-          },
+          'css-loader', //for transform css styles to js module (processing all @import and url())
           {
             loader: 'postcss-loader', //loader for processing css styles by using postcss
             options: {
