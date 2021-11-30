@@ -45,7 +45,7 @@
     height: 23px;
     width: 23px;
 
-    background-image: url('../assets/images/logo/VectorSmartObject.svg');
+    background-image: url('~@images/logo/logo.svg');
     background-repeat: no-repeat;
     background-size: cover;
 
@@ -125,7 +125,7 @@
 
       span.wishlist-span-container {
         &:after {
-          content: url("../assets/images/buttons/valentines-heart.png");
+          content: url("~@images/buttons/valentines-heart.png");
           width: 16px;
           height: 14px;
 
@@ -175,7 +175,7 @@
       @media screen and (max-device-width: s.$min-width) {
         font-size: 0;
         &:before {
-          content: url("../assets/images/buttons/ico.png");
+          content: url("~@images/buttons/ico.png");
           width: 20px;
           height: 17px;
 
