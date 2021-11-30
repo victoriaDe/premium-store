@@ -1,0 +1,190 @@
+@use 'variables/colors' as c;
+@use 'variables/sizes' as s;
+
+.header {
+  width: 100%;
+  padding: 8px 0;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+
+  background-color: c.$bgColor_main;
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    padding: 2px 0;
+  }
+}
+
+.header-container {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-container-logo {
+  padding: 10px 0;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    h1 {
+      color: c.$fColorHeader_active;
+    }
+  }
+
+  span {
+    height: 23px;
+    width: 23px;
+
+    background-image: url('../assets/images/logo/VectorSmartObject.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    @media screen and (max-device-width: s.$max-device-width) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  h1 {
+    margin-left: 12px;
+
+    font-size: s.$fzHeaderH1;
+    font-weight: normal;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: c.$fColorHeader;
+
+    transition: color 0.4s;
+
+    @media screen and (max-device-width: s.$max-device-width) {
+      font-size: s.$fzHeaderH1_adapt;
+      margin-left: 5px;
+    }
+  }
+
+  @media screen and (max-device-width: s.$min-width) {
+    padding: 5px 0;
+  }
+}
+
+.header-container-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 45px;
+
+  @media screen and (max-device-width: s.$min-width) {
+    gap: 35px;
+  }
+  @media screen and (max-device-width: s.$max-device-width) {
+    gap: 10px;
+  }
+
+  .header-nav-link {
+    padding: 10px 0;
+    box-sizing: border-box;
+
+    font-size: s.$fzHeader_nav;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+    text-transform: capitalize;
+    color: c.$fColorHeader;
+
+    transition: color 0.4s;
+
+    &:hover {
+      color: c.$fColorHeader_active;
+    }
+
+    span {
+      color: c.$fColorWhite;
+
+      @media screen and (max-device-width: s.$min-width) {
+        width: 40px;
+        display: inline-block;
+
+        position: relative;
+
+        font-size: 15px;
+      }
+    }
+
+    @media screen and (max-device-width: s.$min-width) {
+      font-size: 0;
+
+      span.wishlist-span-container {
+        &:after {
+          content: url("../assets/images/buttons/valentines-heart.png");
+          width: 16px;
+          height: 14px;
+
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(35%, -45%);
+        }
+      }
+      span.cart-span-container {
+        text-align: right;
+
+        &:before {
+          content: url("../assets/images/buttons/cart.png");
+          width: 16px;
+          height: 14px;
+
+          position: absolute;
+          top: 50%;
+          left: -50%;
+          transform: translate(100%, -50%);
+        }
+      }
+    }
+    @media screen and (max-device-width: s.$max-device-width) {
+      span.wishlist-span-container {
+        &:after {
+          transform: translate(0%, -45%);
+        }
+      }
+      span.cart-span-container {
+        &:before {
+          left: -25%;
+        }
+      }
+    }
+  }
+
+  .header-nav-account {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    span {
+      @media screen and (max-device-width: s.$min-width) {
+        font-size: 0;
+        &:before {
+          content: url("../assets/images/buttons/ico.png");
+          width: 20px;
+          height: 17px;
+
+          position: absolute;
+          top: 50%;
+          right: 4%;
+          transform: translate(0%, -45%);
+        }
+      }
+    }
+  }
+}
