@@ -23,6 +23,7 @@
       "import"
   ],
   "rules": {
-    "global-require": "off"
+    "global-require": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }
