@@ -1,5 +1,5 @@
-@use 'variables/colors' as c;
-@use 'variables/sizes' as s;
+@use '~@scss/variables/colors' as c;
+@use '~@scss/variables/sizes' as s;
 
 .header {
   width: 100%;
@@ -45,7 +45,7 @@
     height: 23px;
     width: 23px;
 
-    background-image: url('~@images/logo/logo.svg');
+    background-image: url('~@images/logo/VectorSmartObject.svg');
     background-repeat: no-repeat;
     background-size: cover;
 
@@ -139,7 +139,7 @@
         text-align: right;
 
         &:before {
-          content: url("../assets/images/buttons/cart.png");
+          content: url("~@images/buttons/cart.png");
           width: 16px;
           height: 14px;
 

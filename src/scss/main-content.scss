@@ -1,5 +1,5 @@
-@use 'variables/colors' as c;
-@use 'variables/sizes' as s;
+@use '~@scss/variables/colors' as c;
+@use '~@scss/variables/sizes' as s;
 
 .main-container-content {
   max-width: 100%;
@@ -125,31 +125,31 @@
       &[data-type='AT-SPG'] {
         height: 10px;
         width: 12px;
-        background: url('../assets/images/vehicleType/AT-SPG.svg') center/cover no-repeat;
+        background: url('~@images/vehicleType/AT-SPG.svg') center/cover no-repeat;
       }
 
       &[data-type='heavyTank'] {
         height: 18px;
         width: 15px;
-        background: url('../assets/images/vehicleType/heavyTank.svg') center/cover no-repeat;
+        background: url('~@images/vehicleType/heavyTank.svg') center/cover no-repeat;
       }
 
       &[data-type='lightTank'] {
         height: 13px;
         width: 11px;
-        background: url('../assets/images/vehicleType/lightTank.svg') center/cover no-repeat;
+        background: url('~@images/vehicleType/lightTank.svg') center/cover no-repeat;
       }
 
       &[data-type='mediumTank'] {
         height: 15px;
         width: 12px;
-        background: url('../assets/images/vehicleType/mediumTank.svg') center/cover no-repeat;
+        background: url('~@images/vehicleType/mediumTank.svg') center/cover no-repeat;
       }
 
       &[data-type='SPG'] {
         height: 8px;
         width: 8px;
-        background: url('../assets/images/vehicleType/SPG.svg') center/cover no-repeat;
+        background: url('~@images/vehicleType/SPG.svg') center/cover no-repeat;
       }
 
     }
@@ -216,7 +216,7 @@
     width: 37px;
     height: 33px;
 
-    background: url('../assets/images/buttons/heartB.svg') no-repeat;
+    background: url('~@images/buttons/heartB.svg') no-repeat;
 
     @media screen and (max-device-width: s.$max-device-width) {
       transform: scale(0.7);
@@ -228,7 +228,7 @@
   }
 
   .button-like_active {
-    background: url('../assets/images/buttons/heart.svg') no-repeat center;
+    background: url('~@images/buttons/heart.svg') no-repeat center;
 
     &:hover {
       animation: heartRemove 1.5s ease-in-out;
