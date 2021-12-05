@@ -1,10 +1,11 @@
-import '../scss/item.scss';
-import '../scss/main.scss';
-import '../scss/main-content.scss';
 import Item from '@page/item';
 import { Product } from '@page/itemList';
 import Shopping from '@page/shopping';
 import { DataMethods, UserData } from './dataMethods';
+
+import '@scss/main.scss';
+import '@scss/main-content.scss';
+import '@scss/item.scss';
 
 class MainPage {
   #productData: Array<Product> = [];
