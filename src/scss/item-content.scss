@@ -35,8 +35,8 @@
 
   img {
     width: 100%;
-    background: url("../assets/images/background/prem.png") center no-repeat;
     grid-area: span 3;
+    object-fit: cover;
 
     @media screen and (max-device-width: s.$min-width) {
       grid-row-start: 2;
