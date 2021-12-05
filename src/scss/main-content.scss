@@ -241,38 +241,6 @@
   grid-column: span 2/auto;
 }
 
-
-@keyframes heartAdd {
-  25% {
-    transform: scale(1.2)
-  }
-  75% {
-    transform: scale(0.9)
-  }
-}
-
-@keyframes heartRemove {
-  10% {
-    transform: rotate (-30deg)
-  }
-  30% {
-    transform: rotate(+30deg)
-  }
-  50% {
-    transform: rotate(-30deg)
-  }
-  60% {
-    transform: rotate(0deg)
-  }
-  80% {
-    transform: scale(0.8)
-  }
-  100% {
-    transform: scale(1)
-  }
-}
-
-
 //стиль устанавливается для анимации покупки продукта в addWishlist.js
 .productMoveStyle {
   position: fixed;
