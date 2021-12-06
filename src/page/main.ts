@@ -30,11 +30,7 @@ class MainPage {
     this.#productData.forEach((value, index) => {
       if ($container) {
         $container.appendChild(
-          this.#item.createItem(
-            value,
-            this.#userData,
-            this.#productData,
-          ),
+          this.#item.createItem(value, this.#userData, this.#productData),
         );
       }
     });
