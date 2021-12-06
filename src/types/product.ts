@@ -48,5 +48,5 @@ export interface ITechniqueData extends IProductData {
 export interface IProduct {
   type: TFilter;
   span: number;
-  data: Array<ITechniqueData & IProductData>;
+  data: ITechniqueData | IProductData;
 }
