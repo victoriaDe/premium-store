@@ -1,13 +1,32 @@
+import { IUser } from '@type/user';
+import { IProduct } from '@type/product';
+import {
+  IAddUserReq,
+  IGetProductsByListReq,
+  IChangeWishlistReq,
+  IChangePurchaseReq,
+} from '@type/api';
+
 export default class API {
   readonly #baseURL = 'https://wg-force3-backend.herokuapp.com/api';
 
   async #get(path: string) {
     const response = await fetch(`${this.#baseURL}${path}`);
-    const serializedResponse = await response.json();
-    return serializedResponse.data;
+    if (response.statusText === 'OK') {
+      const serializedResponse = await response.json();
+      return serializedResponse.data;
+    }
+    throw new Error('Ooops!');
   }
 
-  async #post(path: string, data: any) {
+  async #post(
+    path: string,
+    data:
+      | IAddUserReq
+      | IGetProductsByListReq
+      | IChangeWishlistReq
+      | IChangePurchaseReq,
+  ) {
     const response = await fetch(`${this.#baseURL}${path}`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -20,41 +39,53 @@ export default class API {
   }
 
   getAllUsers() {
-    return this.#get('/users');
+    const result: Promise<IUser[]> = this.#get('/users');
+    return result;
   }
 
   getUserByID(id: string) {
-    return this.#get(`/user?id=${id}`);
+    const result: Promise<IUser> = this.#get(`/user?id=${id}`);
+    return result;
   }
 
   getProductByID(id: string) {
-    return this.#get(`/product?id=${id}`);
+    const result: Promise<IProduct> = this.#get(`/product?id=${id}`);
+    return result;
   }
 
   getProductsByFilter(filter: string) {
-    return this.#get(`/product/filter?filter=${filter}`);
+    const result: Promise<IProduct[]> = this.#get(
+      `/product/filter?filter=${filter}`,
+    );
+    return result;
   }
 
   addUser(name: string) {
-    return this.#post('/user', { name });
+    const result: Promise<IUser> = this.#post('/user', { name });
+    return result;
   }
 
   getProductsByList(listProductsID: string[]) {
-    return this.#post('/products', { listProductsId: listProductsID });
+    const result: Promise<IProduct[]> = this.#post('/products', {
+      listProductsId: listProductsID,
+    });
+    return result;
   }
 
   changeWishlist(userID: string, productID: string) {
-    return this.#post('/user/wishlist', {
+    const result: Promise<IUser> = this.#post('/user/wishlist', {
       userId: userID,
       productId: productID,
     });
+    return result;
   }
 
   changePurchase(userID: string, productID: string, isAdd: boolean) {
-    return this.#post('/user/purchase', {
+    const result: Promise<IUser> = this.#post('/user/purchase', {
       userId: userID,
       productId: productID,
       isAdd,
     });
+    return result;
   }
 }
