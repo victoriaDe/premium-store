@@ -1,7 +1,7 @@
-import { Product } from '@page/itemList';
+import { IProduct } from '@type/product';
 
 class Shopping {
-  showShoppingList(shopping: Product[]) {
+  static showShoppingList(shopping: IProduct[]): void {
     const $shoppingCounter: HTMLElement | null = document.querySelector(
       '.cart-span-container',
     );
@@ -10,16 +10,16 @@ class Shopping {
     }
   }
 
-  changeShoppingList(
-    product: Product,
-    shopping: Product[],
-    showShopping: Function,
+  static changeShoppingList(
+    product: IProduct,
+    shopping: IProduct[],
+    showShopping: (shopping: IProduct[]) => void,
   ) {
     shopping.push(product);
     showShopping(shopping);
   }
 
-  showWishList(wishList: Product[]) {
+  static showWishList(wishList: IProduct[]): void {
     const $wishListCounter: HTMLElement | null = document.querySelector(
       '.wishlist-span-container',
     );
@@ -28,9 +28,9 @@ class Shopping {
     }
   }
 
-  changeWishList(product: Product, wishList: Product[], showWishList:Function) {
-
-  }
+  // changeWishList(product: IProduct, wishList: string[], showWishList: Function) {
+  //
+  // }
 }
 
 export default Shopping;
