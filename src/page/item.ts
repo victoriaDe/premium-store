@@ -1,43 +1,33 @@
 import Shopping from '@page/shopping';
-import { UserData } from '@page/dataMethods';
-import { Product } from './itemList';
+import { IProduct } from '@type/product';
+import { IUser } from '@type/user';
 
 class Item {
-  #shopping: Shopping = new Shopping();
-
   createItem(
-    product: Product,
-    userData: UserData,
-    productData: Product[],
-  ): Element {
+    product: any,
+    userData: IUser,
+    productData: IProduct[],
+  ): HTMLElement {
     const $item = document.createElement('div');
     let buttonLike = `<button class="main-container-description_button-like"></button>`;
     $item.classList.add('main-container-product');
-    if (
-      userData.wishList.find((item) => item.productID === product.productID)
-    ) {
+    if (userData.wishlist.find((item: string) => item === product.data.id)) {
       buttonLike = `<button class="main-container-description_button-like button-like_active"></button>`;
     }
     $item.innerHTML = `
         <a class="main-container-link">
-                    <img class="main-container-link_img" src=${require('@/assets/images/background/Layer40.svg')} alt="Танк">
+                    <img class="main-container-link_img" src=${product.data.images.span_2x1} alt="Танк">
                 </a>
                 <div class="main-container-description">
-                            <span class="main-container-description_flag" data-country="${
-                              product.productDescription.country
-                            }"></span>
-                            <span class="main-container-description_type" data-type="${
-                              product.productDescription.type
-                            }"></span>
-                            <h2>${product.productDescription.name}</h2>
-                            <span class="main-container-description_price">${
-                              product.productCost
-                            }</span>
+                            <span class="main-container-description_flag" data-country="${product.data.filter.nation}"></span>
+                            <span class="main-container-description_type" data-type="${product.data.filter.type}"></span>
+                            <h2>${product.data.name}</h2>
+                            <span class="main-container-description_price">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
                             <button class="main-container-description_button-purchase">purchase</button>
                  </div>
                 ${buttonLike}
     `;
-    if (product.productDescription.span === '2') {
+    if (product.span === 2) {
       $item.classList.add('span-two');
     }
     const $likeButton: HTMLElement | null = $item.querySelector(
@@ -47,24 +37,24 @@ class Item {
       '.main-container-description_button-purchase',
     );
     if ($purchaseButton) {
-      this.addEvent(
-        'click',
-        $purchaseButton,
-        this.#shopping.changeShoppingList,
-        [product, userData.shopping, this.#shopping.showShoppingList],
-      );
+      this.addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
+        product,
+        userData.shoppingList,
+        Shopping.showShoppingList,
+      ]);
     }
     if ($likeButton) {
       this.addEvent('click', $likeButton, this.changeLikeState, [
         $likeButton,
         productData,
-        userData.wishList,
+        userData.wishlist,
       ]);
     }
-    $item.addEventListener('click', (event: any) => {
-      if (event.target.nodeName !== 'BUTTON') {
+    $item.addEventListener('click', (event: UIEvent) => {
+      const eventTarget = event.target as HTMLElement;
+      if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
         this.showSelectedItem(
-          product.productID,
+          product.data.id,
           productData,
           this.createSelectedItem,
         );
@@ -74,24 +64,24 @@ class Item {
     return $item;
   }
 
-  createSelectedItem(itemId: number, productDataList: Product[]) {
-    const itemData: Product | undefined = productDataList.find(
-      (product: Product) => product.productID === itemId,
+  createSelectedItem(itemId: string, productData: IProduct[]): HTMLElement {
+    const product: any = productData.find(
+      (element: IProduct) => element.data.id === itemId,
     );
     const $item = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
-    if (itemData) {
+    if (product) {
       $item.innerHTML = `
-          <h2>${itemData.productDescription.name}</h2>
-          <img src=${itemData.productImage} alt="${itemData.productDescription.name}"/>
+          <h2>${product.data.name}</h2>
+          <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
-              <span class="item-purchase-price">${itemData.productCost}</span>
+              <span class="item-purchase-price">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
               <button class="item-purchase-button">purchase</button>
           </div>
           <div class="item-container-description">
                 <h3>Details</h3>
-                <p>${itemData.productDescription.description}</p>
+                <p>${product.data.description}</p>
             </div>`;
     }
     return $item;
@@ -100,7 +90,6 @@ class Item {
   addEvent(
     event: string,
     $element: HTMLElement,
-    // eslint-disable-next-line @typescript-eslint/ban-types
     eventFunction: Function,
     params: any[],
   ): void {
@@ -111,25 +100,30 @@ class Item {
 
   changeLikeState(
     $element: HTMLElement,
-    productData: Product,
-    wishList: Product[],
+    productData: IProduct,
+    wishList: IProduct[],
   ) {
     wishList.push(productData);
     $element.classList.toggle('button-like_active'); //! disable button!
   }
 
   showSelectedItem(
-    itemId: number,
-    productDataList: Product[],
-    createItem: Function,
+    itemId: string,
+    productDataList: IProduct[],
+    createItem: (itemId: string, productDataList: IProduct[]) => HTMLElement,
   ) {
-    const $container: any = document.getElementById('main');
-    const $containerParent = $container.parentElement;
-    $container.parentElement.removeChild(
-      $container.parentElement.lastElementChild,
-    );
+    const $container: HTMLElement | null = document.getElementById('main');
     const $item = createItem(itemId, productDataList);
-    if ($container) {
+    let $containerParent: HTMLElement | null;
+    if (
+      $container &&
+      $container.parentElement &&
+      $container.parentElement.lastElementChild
+    ) {
+      $containerParent = $container.parentElement;
+      $container.parentElement.removeChild(
+        $container.parentElement.lastElementChild,
+      );
       $containerParent.appendChild($item);
     }
   }
