@@ -23,8 +23,9 @@ module.exports = {
       '@': src, // short path to src folder
       '@page': resolve(src, 'page'), // short path to page folder
       '@api': resolve(src, 'api'), // short path to api folder
-      '@scss': resolve(src, 'scss'),
-      '@images': resolve(src, 'assets/images'),
+      '@scripts': resolve(src, 'scripts'), // short path to scripts folder
+      '@scss': resolve(src, 'scss'), // short path to scss folder
+      '@images': resolve(src, 'assets/images'), // short path to images folder
     },
   },
   devtool: isDevMode ? 'eval-source-map' : false, // generate source map only in development mode
