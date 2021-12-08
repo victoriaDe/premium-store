@@ -1,14 +1,11 @@
 import Item from '@page/item';
 import Shopping from '@page/shopping';
 import ProductAPI from '@api/product';
+import lazy from '@scripts/lazy';
 
 import '@scss/main.scss';
 import '@scss/main-content.scss';
 import '@scss/item.scss';
-import UserAPI from '@api/user';
-import { IResponse } from '@type/api';
-import { IProduct } from '@type/product';
-import { IUser } from '@type/user';
 
 class MainPage {
   #productData: IResponse<IProduct[]> | [] = [];
@@ -40,11 +37,14 @@ class MainPage {
   }
 
   init(): void {
-    this.getData().then((data: any[]) => {
-      this.showMainItems(data[0], data[1]);
-      Shopping.showShoppingList(data[1].shoppingList);
-      Shopping.showWishList(data[1].wishlist);
-    });
+    this.getData()
+      .then((data: any[]) => {
+        this.showMainItems(data[0], data[1]);
+        Shopping.showShoppingList(data[1].shoppingList);
+        Shopping.showWishList(data[1].wishlist);
+        return data;
+      })
+      .then((data) => lazy(20, 100, data[1], data[0], new Item()));
   }
 }
 
