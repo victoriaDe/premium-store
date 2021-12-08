@@ -1,3 +1,8 @@
+import { IResponse } from '@type/api';
+import { IUser } from '@type/user';
+import { IProduct } from '@type/product';
+
+import UserAPI from '@api/user';
 import Item from '@page/item';
 import Shopping from '@page/shopping';
 import ProductAPI from '@api/product';
