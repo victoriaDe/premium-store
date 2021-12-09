@@ -1,8 +1,21 @@
+/**
+ * @module User API
+ */
+
 import instance from '@api/api';
 import { IUser } from '@type/user';
 import { IResponse } from '@type/api';
 
+/**
+ * Class for working with users
+ */
+
 class UserAPI {
+  /**
+   * Method for getting a user by ID
+   * @param id user ID
+   */
+
   static async getUserByID(id: string) {
     try {
       const response = await instance.get<IResponse<IUser>>(`user?id=${id}`);
@@ -11,6 +24,10 @@ class UserAPI {
       throw new Error('Ooops!');
     }
   }
+
+  /**
+   * Method to get all users
+   */
 
   static async getAllUsers() {
     try {
@@ -21,6 +38,11 @@ class UserAPI {
     }
   }
 
+  /**
+   * Method for adding a new user to the database
+   * @param name new user`s name
+   */
+
   static async addUser(name: string) {
     try {
       const response = await instance.post<IResponse<IUser>>('user', { name });
@@ -29,6 +51,12 @@ class UserAPI {
       throw new Error('Ooops!');
     }
   }
+
+  /**
+   * Method for adding / removing an product from the user's wishlist
+   * @param userID user ID
+   * @param productID product ID
+   */
 
   static async changeWishlist(userID: string, productID: string) {
     try {
@@ -41,6 +69,13 @@ class UserAPI {
       throw new Error('Ooops!');
     }
   }
+
+  /**
+   * Method for adding / removing an product to the shopping cart
+   * @param userID user ID
+   * @param productID product ID
+   * @param isAdd flag indicating whether there is such a product in the cart
+   */
 
   static async changePurchase(
     userID: string,
@@ -58,6 +93,11 @@ class UserAPI {
       throw new Error('Ooops!');
     }
   }
+
+  /**
+   * Method for complex modification of user data (name, wishlist, shopping cart)
+   * @param user complete user data
+   */
 
   static async changeUserData(user: IUser) {
     try {

@@ -1,0 +1,10 @@
+{
+  "name": "Premium Store",
+  "tsconfig": "./tsconfig.json",
+  "entryPointStrategy": "Expand",
+  "entryPoints": [
+    "src/api",
+    "src/scripts",
+    "src/types"
+  ]
+}
