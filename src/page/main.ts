@@ -14,7 +14,7 @@ import '@scss/item.scss';
 class MainPage {
   #productData: IProduct[] | null = [];
 
-  #userData: any | [] = [];
+  #userData: IUser | null = null;
 
   async getData() {
     const localUserData = localStorage.getItem('user');
@@ -26,7 +26,7 @@ class MainPage {
     }
     this.#productData = await ProductAPI.getProductsByFilter('All');
     localStorage.setItem('productData', JSON.stringify(this.#productData));
-    return [this.#productData, this.#userData.data];
+    return [this.#productData, this.#userData];
   }
 
   static showMainItems(productData: IProduct[], userData: IUser): void {
