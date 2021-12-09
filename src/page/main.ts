@@ -1,4 +1,3 @@
-import { IResponse } from '@type/api';
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
@@ -13,9 +12,9 @@ import '@scss/main-content.scss';
 import '@scss/item.scss';
 
 class MainPage {
-  #productData: any = [];
+  #productData: IProduct[] | null = [];
 
-  #userData: any | [] = [];
+  #userData: IUser | null = null;
 
   async getData() {
     const localUserData = localStorage.getItem('user');
@@ -26,8 +25,8 @@ class MainPage {
       localStorage.setItem('user', JSON.stringify(this.#userData));
     }
     this.#productData = await ProductAPI.getProductsByFilter('All');
-    localStorage.setItem('productData', this.#productData);
-    return [this.#productData.data, this.#userData.data];
+    localStorage.setItem('productData', JSON.stringify(this.#productData));
+    return [this.#productData, this.#userData];
   }
 
   static showMainItems(productData: IProduct[], userData: IUser): void {
