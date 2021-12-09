@@ -1,3 +1,7 @@
+/**
+ * @module Lazy Loading
+ */
+
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
