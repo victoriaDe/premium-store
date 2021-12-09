@@ -39,6 +39,12 @@ class UserAPI {
       })
       .then((response) => response.data);
   }
+
+  static changeUserData(user: IUser) {
+    return instance
+      .post<IResponse<IUser>>('userData', { data: user })
+      .then((response) => response.data);
+  }
 }
 
 export default UserAPI;
