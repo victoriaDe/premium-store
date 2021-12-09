@@ -9,7 +9,7 @@ class ProductAPI {
       .then((response) => response.data);
   }
 
-  static getProductsByFilter(filter: TFilter) {
+  static getProductsByFilter(filter: TFilter | 'All') {
     return instance
       .get<IResponse<IProduct[]>>(`product/filter?filter=${filter}`)
       .then((response) => response.data);
