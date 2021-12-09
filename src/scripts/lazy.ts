@@ -1,7 +1,7 @@
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
-import Item from '@page/item';
+import Item from '@scripts/item';
 
 /**
  * Function for lazy loading of products on the main page
@@ -50,7 +50,7 @@ function lazy(
             ) {
               if (i < products.length) {
                 $productsContainer.appendChild(
-                  item.createItem(products[i], user, products),
+                  Item.createItem(products[i], user, products),
                 );
               } else {
                 break;
