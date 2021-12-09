@@ -1,11 +1,20 @@
-import Shopping from '@page/shopping';
+import Shopping from '@scripts/changeUserLists';
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
 
+interface AddEvent {
+  (
+    event: string,
+    $element: HTMLElement,
+    eventFunction: (...args: any[]) => void,
+    params: any[],
+  ): void;
+}
+
 class Item {
-  createItem(
+  static createItem(
     product: any,
-    userData: IUser,
+    userData: any,
     productData: IProduct[],
   ): HTMLElement {
     const $item = document.createElement('div');
@@ -16,13 +25,25 @@ class Item {
     }
     $item.innerHTML = `
         <a class="main-container-link">
-                    <img class="main-container-link_img" src=${product.data.images.span_2x1} alt="Танк">
+                    <img class="main-container-link_img" src=${
+                      product.data.images.span_2x1
+                    } alt="Танк">
                 </a>
                 <div class="main-container-description">
-                            <span class="main-container-description_flag" data-country="${product.data.filter.nation}"></span>
-                            <span class="main-container-description_type" data-type="${product.data.filter.type}"></span>
+                            <span class="main-container-description_flag" data-country="${
+                              product.data.filter
+                                ? product.data.filter.nation
+                                : ''
+                            }"></span>
+                            <span class="main-container-description_type" data-type="${
+                              product.data.filter
+                                ? product.data.filter.type
+                                : ''
+                            }"></span>
                             <h2>${product.data.name}</h2>
-                            <span class="main-container-description_price">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
+                            <span class="main-container-description_price">${
+                              product.data.price.basic.cost
+                            }${product.data.price.basic.currency}</span>
                             <button class="main-container-description_button-purchase">purchase</button>
                  </div>
                 ${buttonLike}
@@ -37,26 +58,28 @@ class Item {
       '.main-container-description_button-purchase',
     );
     if ($purchaseButton) {
-      this.addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
+      Item.addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
         product,
         userData.shoppingList,
         Shopping.showShoppingList,
       ]);
     }
     if ($likeButton) {
-      this.addEvent('click', $likeButton, this.changeLikeState, [
-        $likeButton,
-        productData,
+      Item.addEvent('click', $likeButton, Shopping.changeWishlist, [
+        product,
         userData.wishlist,
+        Shopping.showWishlist,
+        $likeButton,
       ]);
     }
     $item.addEventListener('click', (event: UIEvent) => {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
-        this.showSelectedItem(
+        Item.showSelectedItem(
           product.data.id,
           productData,
-          this.createSelectedItem,
+          userData,
+          Item.createSelectedItem,
         );
       }
     });
@@ -64,11 +87,16 @@ class Item {
     return $item;
   }
 
-  createSelectedItem(itemId: string, productData: IProduct[]): HTMLElement {
-    const product: any = productData.find(
+  static createSelectedItem(
+    itemId: string,
+    productData: IProduct[],
+    userData: IUser,
+    addEvent: AddEvent,
+  ): HTMLElement {
+    const product: IProduct | undefined = productData.find(
       (element: IProduct) => element.data.id === itemId,
     );
-    const $item = document.createElement('div');
+    const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
     if (product) {
@@ -84,13 +112,23 @@ class Item {
                 <p>${product.data.description}</p>
             </div>`;
     }
+    const $purchaseButton: HTMLElement | null = $item.querySelector(
+      '.item-purchase-button',
+    );
+    if ($purchaseButton) {
+      addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
+        product,
+        userData.shoppingList,
+        Shopping.showShoppingList,
+      ]);
+    }
     return $item;
   }
 
-  addEvent(
+  static addEvent(
     event: string,
     $element: HTMLElement,
-    eventFunction: Function,
+    eventFunction: (...args: any[]) => void,
     params: any[],
   ): void {
     $element.addEventListener(`${event}`, () => {
@@ -98,22 +136,24 @@ class Item {
     });
   }
 
-  changeLikeState(
-    $element: HTMLElement,
-    productData: IProduct,
-    wishList: IProduct[],
-  ) {
-    wishList.push(productData);
-    $element.classList.toggle('button-like_active'); //! disable button!
-  }
-
-  showSelectedItem(
+  static showSelectedItem(
     itemId: string,
     productDataList: IProduct[],
-    createItem: (itemId: string, productDataList: IProduct[]) => HTMLElement,
+    userData: IUser,
+    createItem: (
+      itemId: string,
+      productDataList: IProduct[],
+      userData: IUser,
+      addEvent: AddEvent,
+    ) => HTMLElement,
   ) {
     const $container: HTMLElement | null = document.getElementById('main');
-    const $item = createItem(itemId, productDataList);
+    const $item: HTMLElement = createItem(
+      itemId,
+      productDataList,
+      userData,
+      Item.addEvent,
+    );
     let $containerParent: HTMLElement | null;
     if (
       $container &&
