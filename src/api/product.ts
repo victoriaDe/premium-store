@@ -3,24 +3,37 @@ import { IProduct, TFilter } from '@type/product';
 import { IResponse } from '@type/api';
 
 class ProductAPI {
-  static getProductByID(id: string) {
-    return instance
-      .get<IResponse<IProduct>>(`product?id=${id}`)
-      .then((response) => response.data);
+  static async getProductByID(id: string) {
+    try {
+      const response = await instance.get<IResponse<IProduct>>(
+        `product?id=${id}`,
+      );
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 
-  static getProductsByFilter(filter: TFilter) {
-    return instance
-      .get<IResponse<IProduct[]>>(`product/filter?filter=${filter}`)
-      .then((response) => response.data);
+  static async getProductsByFilter(filter: TFilter | 'All') {
+    try {
+      const response = await instance.get<IResponse<IProduct[]>>(
+        `product/filter?filter=${filter}`,
+      );
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 
-  static getProductsByList(listProductsID: string[]) {
-    return instance
-      .post<IResponse<IProduct[]>>('products', {
+  static async getProductsByList(listProductsID: string[]) {
+    try {
+      const response = await instance.post<IResponse<IProduct[]>>('products', {
         listProductsId: listProductsID,
-      })
-      .then((response) => response.data);
+      });
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 }
 

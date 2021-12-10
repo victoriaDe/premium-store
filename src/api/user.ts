@@ -3,41 +3,71 @@ import { IUser } from '@type/user';
 import { IResponse } from '@type/api';
 
 class UserAPI {
-  static getUserByID(id: string) {
-    return instance
-      .get<IResponse<IUser>>(`user?id=${id}`, {})
-      .then((response) => response.data);
+  static async getUserByID(id: string) {
+    try {
+      const response = await instance.get<IResponse<IUser>>(`user?id=${id}`);
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 
-  static getAllUsers() {
-    return instance
-      .get<IResponse<IUser[]>>('users')
-      .then((response) => response.data);
+  static async getAllUsers() {
+    try {
+      const response = await instance.get<IResponse<IUser[]>>('users');
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 
-  static addUser(name: string) {
-    return instance
-      .post<IResponse<IUser>>('user', { name })
-      .then((response) => response.data);
+  static async addUser(name: string) {
+    try {
+      const response = await instance.post<IResponse<IUser>>('user', { name });
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 
-  static changeWishlist(userID: string, productID: string) {
-    return instance
-      .post<IResponse<IUser>>(`user/wishlist`, {
+  static async changeWishlist(userID: string, productID: string) {
+    try {
+      const response = await instance.post<IResponse<IUser>>(`user/wishlist`, {
         userId: userID,
         productId: productID,
-      })
-      .then((response) => response.data);
+      });
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 
-  static changePurchase(userID: string, productID: string, isAdd: boolean) {
-    return instance
-      .post<IResponse<IUser>>(`user/shopping`, {
+  static async changePurchase(
+    userID: string,
+    productID: string,
+    isAdd: boolean,
+  ) {
+    try {
+      const response = await instance.post<IResponse<IUser>>(`user/shopping`, {
         userId: userID,
         productId: productID,
         isAdd,
-      })
-      .then((response) => response.data);
+      });
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
+  }
+
+  static async changeUserData(user: IUser) {
+    try {
+      const response = await instance.post<IResponse<IUser>>('userData', {
+        data: user,
+      });
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
   }
 }
 
