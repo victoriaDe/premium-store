@@ -46,10 +46,9 @@ class MainPage {
   init(): void {
     this.getData()
       .then((data: any[]) => {
-        console.log(data[0]);
         MainPage.showMainItems(data[0], data[1]);
-        Shopping.showShoppingList(data[1].data.shoppingList);
-        Shopping.showWishlist(data[1].data.wishlist);
+        Shopping.showShoppingList(data[1].shoppingList);
+        Shopping.showWishlist(data[1].wishlist);
         return data;
       })
       .then((data) => lazy(20, 100, data[1], data[0], new Item()));

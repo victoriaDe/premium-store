@@ -1,5 +1,5 @@
 import Shopping from '@scripts/changeUserLists';
-import { IProduct } from '@type/product';
+import { IProduct, ITechniqueData } from '@type/product';
 import { IUser } from '@type/user';
 
 interface AddEvent {
@@ -13,18 +13,17 @@ interface AddEvent {
 
 class Item {
   static createItem(
-    product: any,
-    userData: any,
+    product: IProduct,
+    userData: IUser,
     productData: IProduct[],
   ): HTMLElement {
     const $item = document.createElement('div');
     let buttonLike = `<button class="main-container-description_button-like"></button>`;
     $item.classList.add('main-container-product');
-    if (
-      userData.data.wishlist.find((item: string) => item === product.data.id)
-    ) {
+    if (userData.wishlist.find((item: string) => item === product.data.id)) {
       buttonLike = `<button class="main-container-description_button-like button-like_active"></button>`;
     }
+    const filter = 'filter' in product.data ? product.data.filter : '';
     $item.innerHTML = `
         <a class="main-container-link">
                     <img class="main-container-link_img" src=${
@@ -33,14 +32,10 @@ class Item {
                 </a>
                 <div class="main-container-description">
                             <span class="main-container-description_flag" data-country="${
-                              product.data.filter
-                                ? product.data.filter.nation
-                                : ''
+                              typeof filter !== 'string' ? filter.nation : ''
                             }"></span>
                             <span class="main-container-description_type" data-type="${
-                              product.data.filter
-                                ? product.data.filter.type
-                                : ''
+                              typeof filter !== 'string' ? filter.type : ''
                             }"></span>
                             <h2>${product.data.name}</h2>
                             <span class="main-container-description_price">${
@@ -62,14 +57,14 @@ class Item {
     if ($purchaseButton) {
       Item.addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
         product,
-        userData.data.shoppingList,
+        userData.shoppingList,
         Shopping.showShoppingList,
       ]);
     }
     if ($likeButton) {
       Item.addEvent('click', $likeButton, Shopping.changeWishlist, [
         product,
-        userData.data.wishlist,
+        userData.wishlist,
         Shopping.showWishlist,
         $likeButton,
       ]);
