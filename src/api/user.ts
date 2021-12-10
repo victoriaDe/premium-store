@@ -1,5 +1,5 @@
 /**
- * @module User API
+ * @module API
  */
 
 import instance from '@api/api';

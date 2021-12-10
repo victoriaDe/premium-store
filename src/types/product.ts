@@ -1,5 +1,5 @@
 /**
- * @module Product Types
+ * @module Product Interface
  */
 
 type TCountry =

@@ -1,5 +1,5 @@
 /**
- * @module User Type
+ * @module User Interface
  */
 
 export interface IUser {
