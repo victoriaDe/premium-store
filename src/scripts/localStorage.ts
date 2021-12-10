@@ -1,8 +1,9 @@
 import { IUser } from '@type/user';
+import { IProductData } from '@type/product';
 
 class LocalStorage {
   // get data from localstorage
-  static getLocalData(id: string): IUser {
+  static getLocalData(id: string) {
     let data: any = localStorage.getItem(`${id}`);
     if (data) {
       data = JSON.parse(data);
