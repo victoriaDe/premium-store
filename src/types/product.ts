@@ -1,3 +1,7 @@
+/**
+ * @module Product Interface
+ */
+
 type TCountry =
   | 'china'
   | 'czech'

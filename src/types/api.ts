@@ -1,3 +1,7 @@
+/**
+ * @module API Interfaces
+ */
+
 export interface IResponse<T> {
   resultCode: 0 | 1;
   messages: string[];
