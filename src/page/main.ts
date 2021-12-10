@@ -10,6 +10,7 @@ import lazy from '@scripts/lazy';
 import '@scss/main.scss';
 import '@scss/main-content.scss';
 import '@scss/item.scss';
+import Filter from '@scripts/filter';
 
 class MainPage {
   #productData: IProduct[] | null = [];
@@ -45,12 +46,14 @@ class MainPage {
   init(): void {
     this.getData()
       .then((data: any[]) => {
+        console.log(data[0]);
         MainPage.showMainItems(data[0], data[1]);
-        Shopping.showShoppingList(data[1].shoppingList);
-        Shopping.showWishlist(data[1].wishlist);
+        Shopping.showShoppingList(data[1].data.shoppingList);
+        Shopping.showWishlist(data[1].data.wishlist);
         return data;
       })
       .then((data) => lazy(20, 100, data[1], data[0], new Item()));
+    Filter.addEvent();
   }
 }
 

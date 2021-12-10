@@ -20,7 +20,9 @@ class Item {
     const $item = document.createElement('div');
     let buttonLike = `<button class="main-container-description_button-like"></button>`;
     $item.classList.add('main-container-product');
-    if (userData.wishlist.find((item: string) => item === product.data.id)) {
+    if (
+      userData.data.wishlist.find((item: string) => item === product.data.id)
+    ) {
       buttonLike = `<button class="main-container-description_button-like button-like_active"></button>`;
     }
     $item.innerHTML = `
@@ -60,14 +62,14 @@ class Item {
     if ($purchaseButton) {
       Item.addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
         product,
-        userData.shoppingList,
+        userData.data.shoppingList,
         Shopping.showShoppingList,
       ]);
     }
     if ($likeButton) {
       Item.addEvent('click', $likeButton, Shopping.changeWishlist, [
         product,
-        userData.wishlist,
+        userData.data.wishlist,
         Shopping.showWishlist,
         $likeButton,
       ]);

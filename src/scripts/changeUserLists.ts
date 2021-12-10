@@ -18,6 +18,7 @@ class ChangeUserLists {
     shopping: string[],
     showShopping: (shopping: string[]) => void,
   ): void {
+    console.log(shopping);
     shopping.push(product.data.id);
     LocalStorage.changeLocalShoppingList('user', product.data.id);
     showShopping(shopping);
