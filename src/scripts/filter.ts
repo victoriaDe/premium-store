@@ -2,6 +2,7 @@ import LocalStorage from '@scripts/localStorage';
 import { IProduct } from '@type/product';
 import Item from '@scripts/item';
 import lazy from '@scripts/lazy';
+import { IUser } from '@type/user';
 
 class Filter {
   static addEvent(): void {
@@ -16,30 +17,33 @@ class Filter {
   }
 
   static filterProducts(filter: string | null) {
-    const productData = LocalStorage.getLocalData('productData');
-    const userData = LocalStorage.getLocalData('user');
+    const productData = LocalStorage.getLocalData('productData') as IProduct[];
+    const userData = LocalStorage.getLocalData('user') as IUser;
     if (filter === 'all') {
-      const allProduct = productData;
-      Filter.showFilterProducts(allProduct, userData, productData);
+      Filter.showFilterProducts(productData, userData, productData);
     } else if (filter === 'vehicles') {
       const vehiclesProducts = productData.filter(
-        (item: any) => item.type === 'Technique',
+        (item: IProduct) => item.type === 'Technique',
       );
       Filter.showFilterProducts(vehiclesProducts, userData, productData);
     } else if (filter === 'gold') {
       const goldProducts = productData.filter(
-        (item: any) => item.type === 'Gold',
+        (item: IProduct) => item.type === 'Gold',
       );
       Filter.showFilterProducts(goldProducts, userData, productData);
     } else if (filter === 'premium account') {
       const premiumProducts = productData.filter(
-        (item: any) => item.type === 'Premium',
+        (item: IProduct) => item.type === 'Premium',
       );
       Filter.showFilterProducts(premiumProducts, userData, productData);
     }
   }
 
-  static showFilterProducts(products: [], userData: any, productData: any) {
+  static showFilterProducts(
+    products: IProduct[],
+    userData: IUser,
+    productData: IProduct[],
+  ) {
     const $container: HTMLElement | null = document.getElementById('main');
     let itemCounter = 0;
     if ($container) {

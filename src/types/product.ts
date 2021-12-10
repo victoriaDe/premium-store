@@ -43,7 +43,7 @@ export interface IProductData {
 
 export interface ITechniqueData extends IProductData {
   filter: {
-    country: TCountry;
+    nation: TCountry;
     type: TTechnique;
     tier: TTier;
   };
@@ -52,5 +52,5 @@ export interface ITechniqueData extends IProductData {
 export interface IProduct {
   type: TFilter;
   span: number;
-  data: ITechniqueData | IProductData;
+  data: IProductData | ITechniqueData;
 }
