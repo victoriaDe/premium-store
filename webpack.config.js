@@ -20,12 +20,13 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'], // array of files extensions for import without extension & working import in .ts files
     alias: {
-      '@': src,  //short path to src folder
-      '@page': resolve(src, 'page'),  //short path to page folder
-      '@api': resolve(src, 'api'),  //short path to api folder
-      '@scss': resolve(src, 'scss'),
-      '@images': resolve(src, 'assets/images'),
-    }
+      '@': src, // short path to src folder
+      '@page': resolve(src, 'page'), // short path to page folder
+      '@api': resolve(src, 'api'), // short path to api folder
+      '@scripts': resolve(src, 'scripts'), // short path to scripts folder
+      '@scss': resolve(src, 'scss'), // short path to scss folder
+      '@images': resolve(src, 'assets/images'), // short path to images folder
+    },
   },
   devtool: isDevMode ? 'eval-source-map' : false, // generate source map only in development mode
   devServer: {

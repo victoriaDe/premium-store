@@ -29,15 +29,16 @@
         <div class="mainNav main-nav-container">
             <a class="main-nav-logo"></a>
             <nav class="main-nav-links">
-                <button class="main-nav-link ">all</button>
-                <button class="main-nav-link active-link">vehicles</button>
-                <button class="main-nav-link">gold</button>
-                <button class="main-nav-link">premium account</button>
+                <button class="main-nav-link" id="allItems">all</button>
+                <button class="main-nav-link active-link" id="vehicles">vehicles</button>
+                <button class="main-nav-link" id="gold">gold</button>
+                <button class="main-nav-link" id="premiumAcc">premium account</button>
             </nav>
         </div>
+
         <div class="item-filters">
             <div class="filter-container">
-                <button class="filter-container-checkedBtn nations" type="button">All nations</button>
+                <button class="filter-container-checkedBtn nations" id="allNations" type="button">All nations</button>
                 <ul class="filter-list nations-list">
                     <li class="nations-btn filter-btn">
                         <button class="nations">All nations</button>
@@ -66,7 +67,7 @@
                 </ul>
             </div>
             <div class="filter-container">
-                <button class="filter-container-checkedBtn types" type="button">All types</button>
+                <button class="filter-container-checkedBtn types" id="allTypes" type="button">All types</button>
                 <ul class="filter-list type-list">
                     <li class="type-btn filter-btn">
                         <button class="types">All types</button>
@@ -92,7 +93,7 @@
                 </ul>
             </div>
             <div class="filter-container">
-                <button class="filter-container-checkedBtn tiers" type="button">All Tiers</button>
+                <button class="filter-container-checkedBtn tiers" id="allTiers" type="button">All Tiers</button>
                 <ul class="filter-list tiers-list ">
                     <li class="tires-btn filter-btn">
                         <button>&#8545;-&#8553;</button>
@@ -117,7 +118,7 @@
                     </li>
                 </ul>
             </div>
-            <button class="item-filters-btn">Show all vehicles</button>
+            <button class="item-filters-btn" id="allVehicles">Show all vehicles</button>
         </div>
         <div class="items-filtered" id="items-filtered">
             <div class="item-filtered-container">

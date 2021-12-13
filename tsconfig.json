@@ -31,8 +31,11 @@
     "paths": {
       "@/*": ["*"],  //short path to src folder
       "@api/*": ["api/*"],  //short path to api folder
+      "@type/*": ["types/*"],  //short path to types folder
+      "@scripts/*": ["scripts/*"],  //short path to scripts folder
       "@page/*": ["page/*"], //short path to page folder
-      "@scss/*": ["scss/*"]  //short path to scss folder
+      "@scss/*": ["scss/*"],  //short path to scss folder
+      "@images/*": ["images/*"]  //short path to images folder
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */

@@ -10,12 +10,13 @@
 
   padding-bottom: 5em;
 
-  @media screen and (max-device-width: s.$min-width) {
+  @media screen and (max-device-width: s.$max-width-tab) {
     grid-template-columns: repeat(3, 1fr);
     padding-bottom: 2em;
   }
-  @media screen and (max-device-width: s.$max-device-width) {
+  @media screen and (max-device-width: s.$min-width) {
     grid-template-columns: repeat(2, 1fr);
+    padding-bottom: 2em;
   }
 }
 
@@ -72,8 +73,8 @@
 
 
     .main-container-description_flag {
-      height: 14px;
-      width: 9%;
+      height: 1rem;
+      width: 1.6rem;
 
       &[data-country='china'] {
         background: url('~@images/country/filter-china.png') center/cover no-repeat;
@@ -154,11 +155,13 @@
 
     }
 
-    & h2 {
+    h2 {
       font-size: s.$fzDescription_product;
       font-weight: 400;
       line-height: 1.2;
       letter-spacing: 0.1em;
+
+      word-break: break-all;
 
       text-transform: uppercase;
       text-shadow: 0 1px 0 rgba(0, 0, 0, 0.33);

@@ -1,6 +1,9 @@
 #JetBrains .idea folder
 *.idea
 
+#Typedoc documentation
+docs
+
 # Logs
 logs
 *.log
