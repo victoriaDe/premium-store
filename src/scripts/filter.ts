@@ -11,6 +11,14 @@ class Filter {
     $filterButtons.forEach((item: Node) => {
       item.addEventListener('click', (e) => {
         const $eventTarget: HTMLElement = e.target as HTMLElement;
+        const $prevFilter = document.querySelector('.active-link');
+
+        if ($prevFilter && $prevFilter !== $eventTarget) {
+          $prevFilter.classList.remove('active-link');
+        }
+
+        $eventTarget.classList.add('active-link');
+
         Filter.filterProducts($eventTarget.textContent);
       });
     });
