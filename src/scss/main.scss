@@ -2,6 +2,7 @@
 @import '~@scss/main-nav';
 @import '~@scss/main-content';
 @import '~@scss/animations.scss';
+@import "~@scss/popup.scss";
 
 body {
   margin: 0;
@@ -41,6 +42,33 @@ button {
   outline: none;
   background: none;
 }
+
+input {
+  border: none;
+  outline: none;
+  appearance: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.wrapper {
+  max-width: 1210px;
+  margin: 0 auto;
+  padding: 0 30px;
+  box-sizing: border-box;
+  @media screen and (max-device-width: 425px) {
+    padding: 0 15px;
+  }
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
 
 .wrapper {
   max-width: 1210px;
