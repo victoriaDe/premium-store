@@ -31,22 +31,31 @@ class MainPage {
   }
 
   static showMainItems(productData: IProduct[], userData: IUser): void {
-    const $container: HTMLElement | null = document.getElementById('main');
-    let itemCounter = 0;
-    productData.forEach((value: IProduct) => {
-      if ($container) {
-        if (itemCounter < 20) {
-          $container.appendChild(Item.createItem(value, userData, productData));
-          itemCounter += value.span;
+    const $visualContainer: HTMLElement | null = document.getElementById('main-visual-container');
+    const $container= document.createElement("div")
+    $container.id = "main"
+    $container.classList.add("main-container-content");
+    if($visualContainer){
+      $visualContainer.appendChild($container)
+      /* const $container: HTMLElement | null = document.getElementById('main');*/
+      let itemCounter = 0;
+      productData.forEach((value: IProduct) => {
+        if ($container) {
+          if (itemCounter < 20) {
+            $container.appendChild(Item.createItem(value, userData, productData));
+            itemCounter += value.span;
+          }
         }
-      }
-    });
+      });
+    }
   }
-
   init(): void {
     this.getData()
       .then((data: any[]) => {
-        MainPage.showMainItems(data[0], data[1]);
+
+       /* MainPage.showMainItems(data[0], data[1]);*/
+        Filter.filterProducts("all")
+
         Shopping.showShoppingList(data[1].shoppingList);
         Shopping.showWishlist(data[1].wishlist);
         return data;

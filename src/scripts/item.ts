@@ -106,7 +106,7 @@ class Item {
           </div>
           <div class="item-container-description">
                 <h3>Details</h3>
-                <p>${product.data.description}</p>
+                <div>${product.data.description}</div>
             </div>`;
     }
     const $purchaseButton: HTMLElement | null = $item.querySelector(
@@ -144,8 +144,29 @@ class Item {
       addEvent: AddEvent,
     ) => HTMLElement,
   ) {
+    const $visualContainer: HTMLElement | null = document.getElementById('main-visual-container');
     const $container: HTMLElement | null = document.getElementById('main');
-    const $item: HTMLElement = createItem(
+    if($visualContainer && $container){
+      $visualContainer?.removeChild($container)
+      const $item: HTMLElement = createItem(
+        itemId,
+        productDataList,
+        userData,
+        Item.addEvent,
+      );
+      $visualContainer.appendChild($item);
+    }
+
+
+
+
+
+
+
+
+
+
+    /*const $item: HTMLElement = createItem(
       itemId,
       productDataList,
       userData,
@@ -162,7 +183,7 @@ class Item {
         $container.parentElement.lastElementChild,
       );
       $containerParent.appendChild($item);
-    }
+    }*/
   }
 }
 
