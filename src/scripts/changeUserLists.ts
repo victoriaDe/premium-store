@@ -17,10 +17,14 @@ class ChangeUserLists {
     product: IProduct,
     shopping: string[],
     showShopping: (shopping: string[]) => void,
+    $purchaseButton: HTMLElement,
+    $containerLink: HTMLElement,
   ): void {
     shopping.push(product.data.id);
     LocalStorage.changeLocalShoppingList('user', product.data.id);
     showShopping(shopping);
+    $purchaseButton.classList.add("button-purchase-added")
+    $containerLink.classList.add("main-container-link-added")
   }
 
   // show number of wishlist
