@@ -14,11 +14,20 @@ body {
   color: #cccccc;
 }
 
+body.lock {
+  overflow: hidden;
+}
+
 a {
   text-decoration: none;
   cursor: pointer;
   margin: 0;
   padding: 0;
+  color: #cccccc;
+}
+
+p {
+  margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
