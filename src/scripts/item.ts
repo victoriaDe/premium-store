@@ -18,14 +18,21 @@ class Item {
     productData: IProduct[],
   ): HTMLElement {
     const $item = document.createElement('div');
-    let buttonLike = `<button class="main-container-description_button-like"></button>`;
+    let $buttonLike = `<button class="main-container-description_button-like"></button>`;
     $item.classList.add('main-container-product');
     if (userData.wishlist.find((item: string) => item === product.data.id)) {
-      buttonLike = `<button class="main-container-description_button-like button-like_active"></button>`;
+      $buttonLike = `<button class="main-container-description_button-like button-like_active"></button>`;
     }
     const filter = 'filter' in product.data ? product.data.filter : '';
+
+    const isAddedToPurchase = userData.shoppingList.includes(product.data.id)
+    let $buttonPurchase = `<button class="main-container-description_button-purchase">purchase</button>`;
+    if(isAddedToPurchase) {
+      $buttonPurchase = `<button class="main-container-description_button-purchase button-purchase-added">purchase</button>`;
+    }
+
     $item.innerHTML = `
-        <a class="main-container-link">
+        <a class="main-container-link ${isAddedToPurchase? "main-container-link-added" : ""}">
                     <img class="main-container-link_img" src=${
                       product.data.images.span_2x1
                     } alt="Танк">
@@ -41,9 +48,9 @@ class Item {
                             <span class="main-container-description_price">${
                               product.data.price.basic.cost
                             }${product.data.price.basic.currency}</span>
-                            <button class="main-container-description_button-purchase">purchase</button>
+                            ${$buttonPurchase}
                  </div>
-                ${buttonLike}
+                ${$buttonLike}
     `;
     if (product.span === 2) {
       $item.classList.add('span-two');
@@ -54,11 +61,19 @@ class Item {
     const $purchaseButton: HTMLElement | null = $item.querySelector(
       '.main-container-description_button-purchase',
     );
-    if ($purchaseButton) {
+    const $containerLink: HTMLElement | null = $item.querySelector(
+      '.main-container-link',
+    );
+
+
+
+    if ($purchaseButton && !isAddedToPurchase) {
       Item.addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
         product,
         userData.shoppingList,
         Shopping.showShoppingList,
+        $purchaseButton,
+        $containerLink
       ]);
     }
     if ($likeButton) {
@@ -106,7 +121,7 @@ class Item {
           </div>
           <div class="item-container-description">
                 <h3>Details</h3>
-                <p>${product.data.description}</p>
+                <div>${product.data.description || "coming soon..." }</div>
             </div>`;
     }
     const $purchaseButton: HTMLElement | null = $item.querySelector(
@@ -144,8 +159,29 @@ class Item {
       addEvent: AddEvent,
     ) => HTMLElement,
   ) {
+    const $visualContainer: HTMLElement | null = document.getElementById('main-visual-container');
     const $container: HTMLElement | null = document.getElementById('main');
-    const $item: HTMLElement = createItem(
+    if($visualContainer && $container){
+      $visualContainer?.removeChild($container)
+      const $item: HTMLElement = createItem(
+        itemId,
+        productDataList,
+        userData,
+        Item.addEvent,
+      );
+      $visualContainer.appendChild($item);
+    }
+
+
+
+
+
+
+
+
+
+
+    /*const $item: HTMLElement = createItem(
       itemId,
       productDataList,
       userData,
@@ -162,7 +198,7 @@ class Item {
         $container.parentElement.lastElementChild,
       );
       $containerParent.appendChild($item);
-    }
+    }*/
   }
 }
 
