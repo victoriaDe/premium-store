@@ -11,6 +11,14 @@ class Filter {
     $filterButtons.forEach((item: Node) => {
       item.addEventListener('click', (e) => {
         const $eventTarget: HTMLElement = e.target as HTMLElement;
+        const $prevFilter = document.querySelector('.active-link');
+
+        if ($prevFilter && $prevFilter !== $eventTarget) {
+          $prevFilter.classList.remove('active-link');
+        }
+
+        $eventTarget.classList.add('active-link');
+
         Filter.filterProducts($eventTarget.textContent);
       });
     });
@@ -44,7 +52,33 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
   ) {
-    const $container: HTMLElement | null = document.getElementById('main');
+    const $visualContainer: HTMLElement | null = document.getElementById('main-visual-container');
+    if($visualContainer){
+      $visualContainer.innerText = '';
+      const $container= document.createElement("div")
+      $container.id = "main"
+      $container.classList.add("main-container-content");
+      $visualContainer.appendChild($container)
+
+
+      let itemCounter = 0;
+      products.forEach((value: IProduct) => {
+        if (itemCounter < 20) {
+          $container.appendChild(Item.createItem(value, userData, productData));
+          itemCounter += value.span;
+        }
+      });
+
+    }
+    lazy(20, 100, userData, products, new Item());
+
+
+
+
+
+
+
+    /*const $container: HTMLElement | null = document.getElementById('main');
     let itemCounter = 0;
     if ($container) {
       $container.innerText = '';
@@ -55,7 +89,7 @@ class Filter {
         }
       });
     }
-    lazy(20, 100, userData, products, new Item());
+    lazy(20, 100, userData, products, new Item());*/
   }
 }
 
