@@ -1,4 +1,4 @@
-import Shopping from '@scripts/changeUserLists';
+import ChangeUserLists from '@scripts/changeUserLists';
 import { IProduct, ITechniqueData } from '@type/product';
 import { IUser } from '@type/user';
 
@@ -7,6 +7,7 @@ interface AddEvent {
     event: string,
     $element: HTMLElement,
     eventFunction: (...args: any[]) => void,
+    once: boolean,
     params: any[],
   ): void;
 }
@@ -25,14 +26,16 @@ class Item {
     }
     const filter = 'filter' in product.data ? product.data.filter : '';
 
-    const isAddedToPurchase = userData.shoppingList.includes(product.data.id)
+    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     let $buttonPurchase = `<button class="main-container-description_button-purchase">purchase</button>`;
-    if(isAddedToPurchase) {
+    if (isAddedToPurchase) {
       $buttonPurchase = `<button class="main-container-description_button-purchase button-purchase-added">purchase</button>`;
     }
 
     $item.innerHTML = `
-        <a class="main-container-link ${isAddedToPurchase? "main-container-link-added" : ""}">
+        <a class="main-container-link ${
+          isAddedToPurchase ? 'main-container-link-added' : ''
+        }">
                     <img class="main-container-link_img" src=${
                       product.data.images.span_2x1
                     } alt="Танк">
@@ -65,24 +68,29 @@ class Item {
       '.main-container-link',
     );
 
-
-
     if ($purchaseButton && !isAddedToPurchase) {
-      Item.addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
-        product,
-        userData.shoppingList,
-        Shopping.showShoppingList,
+      Item.addEvent(
+        'click',
         $purchaseButton,
-        $containerLink
-      ]);
+        ChangeUserLists.changeShoppingList,
+        true,
+        [
+          product,
+          userData.shoppingList,
+          ChangeUserLists.showShoppingList,
+          $purchaseButton,
+          $containerLink,
+        ],
+      );
     }
     if ($likeButton) {
-      Item.addEvent('click', $likeButton, Shopping.changeWishlist, [
-        product,
-        userData.wishlist,
-        Shopping.showWishlist,
+      Item.addEvent(
+        'click',
         $likeButton,
-      ]);
+        ChangeUserLists.changeWishlist,
+        false,
+        [product, userData.wishlist, ChangeUserLists.showWishlist, $likeButton],
+      );
     }
     $item.addEventListener('click', (event: UIEvent) => {
       const eventTarget = event.target as HTMLElement;
@@ -116,22 +124,22 @@ class Item {
           <h2>${product.data.name}</h2>
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
-              <span class="item-purchase-price">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
+              <span class="item-purchase-price">${
+                product.data.price.basic.cost
+              }${product.data.price.basic.currency}</span>
               <button class="item-purchase-button">purchase</button>
           </div>
           <div class="item-container-description">
                 <h3>Details</h3>
-                <div>${product.data.description || "coming soon..." }</div>
+                <div>${product.data.description || 'coming soon...'}</div>
             </div>`;
     }
     const $purchaseButton: HTMLElement | null = $item.querySelector(
       '.item-purchase-button',
     );
     if ($purchaseButton) {
-      addEvent('click', $purchaseButton, Shopping.changeShoppingList, [
-        product,
-        userData.shoppingList,
-        Shopping.showShoppingList,
+      addEvent('click', $purchaseButton, ChangeUserLists.changeShoppingList, true, [
+        [product, userData.shoppingList, ChangeUserLists.showShoppingList],
       ]);
     }
     return $item;
@@ -141,11 +149,16 @@ class Item {
     event: string,
     $element: HTMLElement,
     eventFunction: (...args: any[]) => void,
+    once: boolean,
     params: any[],
   ): void {
-    $element.addEventListener(`${event}`, () => {
-      eventFunction(...params);
-    });
+    $element.addEventListener(
+      `${event}`,
+      () => {
+        eventFunction(...params);
+      },
+      { once: once },
+    );
   }
 
   static showSelectedItem(
@@ -159,10 +172,12 @@ class Item {
       addEvent: AddEvent,
     ) => HTMLElement,
   ) {
-    const $visualContainer: HTMLElement | null = document.getElementById('main-visual-container');
+    const $visualContainer: HTMLElement | null = document.getElementById(
+      'main-visual-container',
+    );
     const $container: HTMLElement | null = document.getElementById('main');
-    if($visualContainer && $container){
-      $visualContainer?.removeChild($container)
+    if ($visualContainer && $container) {
+      $visualContainer?.removeChild($container);
       const $item: HTMLElement = createItem(
         itemId,
         productDataList,
@@ -171,34 +186,6 @@ class Item {
       );
       $visualContainer.appendChild($item);
     }
-
-
-
-
-
-
-
-
-
-
-    /*const $item: HTMLElement = createItem(
-      itemId,
-      productDataList,
-      userData,
-      Item.addEvent,
-    );
-    let $containerParent: HTMLElement | null;
-    if (
-      $container &&
-      $container.parentElement &&
-      $container.parentElement.lastElementChild
-    ) {
-      $containerParent = $container.parentElement;
-      $container.parentElement.removeChild(
-        $container.parentElement.lastElementChild,
-      );
-      $containerParent.appendChild($item);
-    }*/
   }
 }
 

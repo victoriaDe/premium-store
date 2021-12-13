@@ -52,14 +52,15 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
   ) {
-    const $visualContainer: HTMLElement | null = document.getElementById('main-visual-container');
-    if($visualContainer){
+    const $visualContainer: HTMLElement | null = document.getElementById(
+      'main-visual-container',
+    );
+    if ($visualContainer) {
       $visualContainer.innerText = '';
-      const $container= document.createElement("div")
-      $container.id = "main"
-      $container.classList.add("main-container-content");
-      $visualContainer.appendChild($container)
-
+      const $container = document.createElement('div');
+      $container.id = 'main';
+      $container.classList.add('main-container-content');
+      $visualContainer.appendChild($container);
 
       let itemCounter = 0;
       products.forEach((value: IProduct) => {
@@ -68,28 +69,8 @@ class Filter {
           itemCounter += value.span;
         }
       });
-
     }
     lazy(20, 100, userData, products, new Item());
-
-
-
-
-
-
-
-    /*const $container: HTMLElement | null = document.getElementById('main');
-    let itemCounter = 0;
-    if ($container) {
-      $container.innerText = '';
-      products.forEach((value: IProduct) => {
-        if (itemCounter < 20) {
-          $container.appendChild(Item.createItem(value, userData, productData));
-          itemCounter += value.span;
-        }
-      });
-    }
-    lazy(20, 100, userData, products, new Item());*/
   }
 }
 

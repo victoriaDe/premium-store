@@ -10,7 +10,9 @@ import lazy from '@scripts/lazy';
 import '@scss/main.scss';
 import '@scss/main-content.scss';
 import '@scss/item.scss';
+import '@scss/items-filtered-list.scss';
 import Filter from '@scripts/filter';
+import Wishlist from '@scripts/wishlist';
 
 class MainPage {
   #productData: IProduct[] | null = [];
@@ -30,38 +32,21 @@ class MainPage {
     return [this.#productData, this.#userData];
   }
 
-  static showMainItems(productData: IProduct[], userData: IUser): void {
-    const $visualContainer: HTMLElement | null = document.getElementById('main-visual-container');
-    const $container= document.createElement("div")
-    $container.id = "main"
-    $container.classList.add("main-container-content");
-    if($visualContainer){
-      $visualContainer.appendChild($container)
-      /* const $container: HTMLElement | null = document.getElementById('main');*/
-      let itemCounter = 0;
-      productData.forEach((value: IProduct) => {
-        if ($container) {
-          if (itemCounter < 20) {
-            $container.appendChild(Item.createItem(value, userData, productData));
-            itemCounter += value.span;
-          }
-        }
-      });
-    }
-  }
   init(): void {
     this.getData()
       .then((data: any[]) => {
-
-       /* MainPage.showMainItems(data[0], data[1]);*/
-        Filter.filterProducts("all")
-
+        Filter.filterProducts('all');
         Shopping.showShoppingList(data[1].shoppingList);
         Shopping.showWishlist(data[1].wishlist);
         return data;
       })
       .then((data) => lazy(20, 100, data[1], data[0], new Item()));
     Filter.addEvent();
+    const $wishlistButton: HTMLElement | null =
+      document.getElementById('wishlistId');
+    $wishlistButton?.addEventListener('click', () => {
+      Wishlist.createWishlist();
+    });
   }
 }
 
