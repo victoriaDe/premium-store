@@ -48,6 +48,10 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.2);
   }
+  .main-container-link-added {
+    background-color: rgba(255, 131, 0, 0.2);
+  }
+
 
   .main-container-link_img {
     height: 100%;
@@ -211,6 +215,14 @@
     }
 
   }
+  .button-purchase-added{
+    background: c.$bgColorButton_purchase_added;
+    &:hover {
+      background: c.$bgColorButton_purchase_added;
+    }
+  }
+
+
 
   .main-container-description_button-like {
     position: absolute;
