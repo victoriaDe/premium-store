@@ -47,7 +47,9 @@ class Wishlist {
     }
     const $wrapper: HTMLElement | null =
       document.querySelector('.main-container');
-    $wrapper?.removeChild($wrapper?.children[1]);
+    if ($wrapper) {
+      $wrapper.innerHTML = '';
+    }
     $wrapper?.append($container);
   }
 }
