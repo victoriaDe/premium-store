@@ -1,3 +1,6 @@
+@use '~@scss/variables/colors.scss' as c;
+@use '~@scss/variables/sizes.scss' as s;
+
 .pop-up-wrapper.opened-popup {
   transform: translateX(0%);
   transition: transform 0.5s ease-in;
