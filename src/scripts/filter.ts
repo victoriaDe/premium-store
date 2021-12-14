@@ -1,8 +1,11 @@
-import LocalStorage from '@scripts/localStorage';
-import { IProduct } from '@type/product';
+import { IProduct, TFilter } from '@type/product';
 import Item from '@scripts/item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
+import { main } from '@page/main';
+
+export type SetActiveFilterType = 'all' | 'vehicles' | 'gold' | 'premium account' | 'provisions'
+
 
 class Filter {
   static addEvent(): void {
@@ -25,46 +28,29 @@ class Filter {
   }
 
   static filterProducts(filter: string | null) {
-    const productData = LocalStorage.getLocalData('productData') as IProduct[];
-    const userData = LocalStorage.getLocalData('user') as IUser;
-    if (filter === 'all') {
-      Filter.showFilterProducts(productData, userData, productData);
-    } else if (filter === 'vehicles') {
-      const vehiclesProductsLoc = LocalStorage.getLocalData(
-        'vehicles',
-      ) as IProduct[];
-      if (vehiclesProductsLoc) {
-        Filter.showFilterProducts(vehiclesProductsLoc, userData, productData);
-      } else {
-        const vehiclesProducts = productData.filter(
-          (item: IProduct) => item.type === 'Technique',
-        );
-        localStorage.setItem('vehicles', JSON.stringify(vehiclesProducts));
-        Filter.showFilterProducts(vehiclesProducts, userData, productData);
+    main.getUserData("61a6286353b5dad92e57b4c0").then((userData)=>{
+      if(userData){
+        let actualFilter: TFilter | 'All';
+        if (filter === 'all') {
+          actualFilter = 'All';
+        } else if (filter === 'vehicles') {
+          actualFilter = 'Technique';
+        } else if (filter === 'gold') {
+          actualFilter = 'Gold';
+        } else if (filter === 'premium account') {
+          actualFilter = 'Premium';
+        } else actualFilter = 'All';
+        console.log(actualFilter)
+
+        main.getProductDataByFilter(actualFilter).then((data) => {
+          console.log(data)
+          if (data) this.showFilterProducts(data, userData, data);
+        });
+        setTimeout(()=>{
+          main.updateProductDataByFilter(actualFilter).then(()=>{})
+        })
       }
-    } else if (filter === 'gold') {
-      const goldProductsLoc = LocalStorage.getLocalData('gold') as IProduct[];
-      if (goldProductsLoc) {
-        Filter.showFilterProducts(goldProductsLoc, userData, productData);
-      } else {
-        const goldProducts = productData.filter(
-          (item: IProduct) => item.type === 'Gold',
-        );
-        localStorage.setItem('gold', JSON.stringify(goldProducts));
-        Filter.showFilterProducts(goldProducts, userData, productData);
-      }
-    } else if (filter === 'premium account') {
-      const premiumLoc = LocalStorage.getLocalData('premium') as IProduct[];
-      if (premiumLoc) {
-        Filter.showFilterProducts(premiumLoc, userData, productData);
-      } else {
-        const premium = productData.filter(
-          (item: IProduct) => item.type === 'Premium',
-        );
-        localStorage.setItem('premium', JSON.stringify(premium));
-        Filter.showFilterProducts(premium, userData, productData);
-      }
-    }
+    })
   }
 
   static showFilterProducts(
@@ -92,6 +78,11 @@ class Filter {
     }
     lazy(20, 100, userData, products, new Item());
   }
+
+  static setActiveFilter(changedFilter: SetActiveFilterType | 'none') {
+
+  }
+
 }
 
 export default Filter;

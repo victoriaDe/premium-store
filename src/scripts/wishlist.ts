@@ -35,22 +35,24 @@ class Wishlist {
 
   static createWishlist() {
     const user = LocalStorage.getLocalData('user');
-    const $container: HTMLElement = document.createElement('div');
-    $container.classList.add('items-filtered');
-    $container.id = 'items-filtered';
-    if ('wishlist' in user) {
-      ProductAPI.getProductsByList(user.wishlist).then((data) =>
-        data?.forEach((product) => {
-          $container.append(Wishlist.createWishlistItem(product, user));
-        }),
-      );
+    if(user){
+      const $container: HTMLElement = document.createElement('div');
+      $container.classList.add('items-filtered');
+      $container.id = 'items-filtered';
+      if ('wishlist' in user) {
+        ProductAPI.getProductsByList(user.wishlist).then((data) =>
+          data?.forEach((product) => {
+            $container.append(Wishlist.createWishlistItem(product, user));
+          }),
+        );
+      }
+      const $wrapper: HTMLElement | null =
+        document.querySelector('.main-container');
+      if ($wrapper) {
+        $wrapper.innerHTML = '';
+      }
+      $wrapper?.append($container);
     }
-    const $wrapper: HTMLElement | null =
-      document.querySelector('.main-container');
-    if ($wrapper) {
-      $wrapper.innerHTML = '';
-    }
-    $wrapper?.append($container);
   }
 }
 
