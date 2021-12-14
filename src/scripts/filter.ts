@@ -28,7 +28,7 @@ class Filter {
   }
 
   static filterProducts(filter: string | null) {
-    main.getUserData("61a6286353b5dad92e57b4c0").then((userData)=>{
+    main.getUserData().then((userData)=>{
       if(userData){
         let actualFilter: TFilter | 'All';
         if (filter === 'all') {
@@ -40,10 +40,8 @@ class Filter {
         } else if (filter === 'premium account') {
           actualFilter = 'Premium';
         } else actualFilter = 'All';
-        console.log(actualFilter)
 
         main.getProductDataByFilter(actualFilter).then((data) => {
-          console.log(data)
           if (data) this.showFilterProducts(data, userData, data);
         });
         setTimeout(()=>{

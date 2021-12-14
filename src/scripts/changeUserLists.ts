@@ -13,6 +13,16 @@ class ChangeUserLists {
       $shoppingCounter.textContent = `(${shopping.length})`;
     }
   }
+  // show number of wishlist
+  static showWishlist(wishList: string[]): void {
+    const $wishListCounter: HTMLElement | null = document.querySelector(
+      '.wishlist-span-container',
+    );
+    if ($wishListCounter) {
+      $wishListCounter.textContent = `(${wishList.length})`;
+    }
+  }
+
 
   // change product in shoppingList
   static changeShoppingList(
@@ -24,7 +34,7 @@ class ChangeUserLists {
   ): void {
     LocalStorage.changeLocalShoppingList('user', product.data.id);
     let userActualData: IUser;
-    main.getUserData('61a6286353b5dad92e57b4c0').then((data) => {
+    main.getUserData().then((data) => {
       if (data) {
         showShopping(data.shoppingList);
         $purchaseButton.classList.add('button-purchase-added');
@@ -33,38 +43,31 @@ class ChangeUserLists {
       }
     });
     setTimeout(() => {
-      main.sendUserData('61a6286353b5dad92e57b4c0');
+      main.sendUserData();
     });
   }
 
-  // show number of wishlist
-  static showWishlist(wishList: string[]): void {
-    const $wishListCounter: HTMLElement | null = document.querySelector(
-      '.wishlist-span-container',
-    );
-    if ($wishListCounter) {
-      $wishListCounter.textContent = `(${wishList.length})`;
-    }
-  }
+
 
   // change product in wishlist
   static changeWishlist(
     product: IProduct,
-    wishlist: string[],
     showWishList: (wishlist: string[]) => void,
     $element: HTMLElement,
   ): void {
+
     LocalStorage.changeLocalWishlist('user', product.data.id);
     let userActualData: IUser;
-    main.getUserData('61a6286353b5dad92e57b4c0').then((data) => {
+    main.getUserData().then((data) => {
       if (data) {
         showWishList(data.wishlist);
         $element.classList.toggle('button-like_active');
         userActualData = data;
       }
     });
+
     setTimeout(() => {
-      main.sendUserData('61a6286353b5dad92e57b4c0');
+      main.sendUserData();
     });
   }
 }
