@@ -4,11 +4,26 @@
 @import '~@scss/animations.scss';
 @import "~@scss/popup.scss";
 
+
+@font-face {
+  font-family: 'RobotoCondensedRegular', sans-serif;
+  src: url("~@font/Roboto-Regular.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'RobotoCondensedBold', sans-serif;
+  src: url("~@font/Roboto-Regular.ttf");
+  font-weight: bold;
+}
+
+
 body {
   margin: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
+
 
   background-color: #1c1b15;
   font-family: 'Roboto Condensed', sans-serif;
@@ -67,15 +82,4 @@ ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
-}
-
-
-.wrapper {
-  max-width: 1210px;
-  margin: 0 auto;
-  padding: 0 30px;
-  box-sizing: border-box;
-  @media screen and (max-device-width: 425px) {
-    padding: 0 15px;
-  }
 }
