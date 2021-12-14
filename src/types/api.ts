@@ -5,7 +5,7 @@
 export interface IResponse<T> {
   resultCode: 0 | 1;
   messages: string[];
-  data: T | null;
+  data: T | null ;
 }
 
 export interface IAddUserReq {

@@ -19,41 +19,26 @@ class Item {
     productData: IProduct[],
   ): HTMLElement {
     const $item = document.createElement('div');
-    let $buttonLike = `<button class="main-container-description_button-like"></button>`;
     $item.classList.add('main-container-product');
-    if (userData.wishlist.find((item: string) => item === product.data.id)) {
-      $buttonLike = `<button class="main-container-description_button-like button-like_active"></button>`;
-    }
+
+    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
+    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const filter = 'filter' in product.data ? product.data.filter : '';
 
-    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
-    let $buttonPurchase = `<button class="main-container-description_button-purchase">purchase</button>`;
-    if (isAddedToPurchase) {
-      $buttonPurchase = `<button class="main-container-description_button-purchase button-purchase-added">purchase</button>`;
-    }
-
     $item.innerHTML = `
-        <a class="main-container-link ${
-          isAddedToPurchase ? 'main-container-link-added' : ''
-        }">
-                    <img class="main-container-link_img" src=${
-                      product.data.images.span_2x1
-                    } alt="Танк">
-                </a>
-                <div class="main-container-description">
-                            <span class="main-container-description_flag" data-country="${
-                              typeof filter !== 'string' ? filter.nation : ''
-                            }"></span>
-                            <span class="main-container-description_type" data-type="${
-                              typeof filter !== 'string' ? filter.type : ''
-                            }"></span>
+                     <a class="main-container-link ${isAddedToPurchase ? 'main-container-link-added' : ''}">
+                          <img class="main-container-link_img" src=${product.data.images.span_2x1} alt="Танк">
+                     </a>
+                     <div class="main-container-description">
+                            <span class="main-container-description_flag" data-country="${typeof filter !== 'string' ? filter.nation : ''}"></span>
+                            <span class="main-container-description_type" data-type="${typeof filter !== 'string' ? filter.type : ''}"></span>
                             <h2>${product.data.name}</h2>
-                            <span class="main-container-description_price">${
-                              product.data.price.basic.cost
-                            }${product.data.price.basic.currency}</span>
-                            ${$buttonPurchase}
-                 </div>
-                ${$buttonLike}
+                            <span class="main-container-description_price">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
+                            <button class="main-container-description_button-purchase ${isAddedToPurchase ? 'button-purchase-added' : ''}">
+                                    purchase
+                            </button>                            
+                      </div>
+                     <button class="main-container-description_button-like ${isAddedToWishlist ? 'button-like_active' : ' '}"></button>
     `;
     if (product.span === 2) {
       $item.classList.add('span-two');
@@ -76,7 +61,6 @@ class Item {
         true,
         [
           product,
-          userData.shoppingList,
           ChangeUserLists.showShoppingList,
           $purchaseButton,
           $containerLink,
@@ -89,7 +73,7 @@ class Item {
         $likeButton,
         ChangeUserLists.changeWishlist,
         false,
-        [product, userData.wishlist, ChangeUserLists.showWishlist, $likeButton],
+        [product, ChangeUserLists.showWishlist, $likeButton],
       );
     }
     $item.addEventListener('click', (event: UIEvent) => {
@@ -125,8 +109,8 @@ class Item {
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
               <span class="item-purchase-price">${
-                product.data.price.basic.cost
-              }${product.data.price.basic.currency}</span>
+        product.data.price.basic.cost
+      }${product.data.price.basic.currency}</span>
               <button class="item-purchase-button">purchase</button>
           </div>
           <div class="item-container-description">
@@ -143,22 +127,6 @@ class Item {
       ]);
     }
     return $item;
-  }
-
-  static addEvent(
-    event: string,
-    $element: HTMLElement,
-    eventFunction: (...args: any[]) => void,
-    once: boolean,
-    params: any[],
-  ): void {
-    $element.addEventListener(
-      `${event}`,
-      () => {
-        eventFunction(...params);
-      },
-      { once: once },
-    );
   }
 
   static showSelectedItem(
@@ -187,6 +155,53 @@ class Item {
       $visualContainer.appendChild($item);
     }
   }
+
+  static createMainNavContainer(): HTMLElement {
+    const $mainNavContainer = document.createElement('div');
+    $mainNavContainer.classList.add('main-nav-container');
+    $mainNavContainer.innerHTML = `       
+            <a class="main-nav-logo"></a>
+            <nav class="main-nav-links">
+                <button class="main-nav-link" type="submit">all</button>
+                <button class="main-nav-link" type="submit">vehicles</button>
+                <button class="main-nav-link" type="submit">gold</button>
+                <button class="main-nav-link" type="submit">premium account</button>
+            </nav>       
+    `;
+    return $mainNavContainer;
+  }
+
+  static showMainNavContainer() {
+    const $mainContainer: HTMLElement | null = document.getElementById(
+      'main-container-id',
+    );
+    const $mainVisualContainer = document.createElement('div');
+    $mainVisualContainer.innerHTML = '<div id="main-visual-container"></div>';
+
+    if ($mainContainer) {
+      $mainContainer.innerHTML = '';
+      $mainContainer.append(this.createMainNavContainer());
+      $mainContainer.append($mainVisualContainer);
+    }
+  }
+
+  static addEvent(
+    event: string,
+    $element: HTMLElement,
+    eventFunction: (...args: any[]) => void,
+    once: boolean,
+    params: any[],
+  ): void {
+    $element.addEventListener(
+      `${event}`,
+      () => {
+        eventFunction(...params);
+      },
+      { once: once },
+    );
+  }
+
+
 }
 
 export default Item;
