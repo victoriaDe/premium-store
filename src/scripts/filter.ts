@@ -30,20 +30,40 @@ class Filter {
     if (filter === 'all') {
       Filter.showFilterProducts(productData, userData, productData);
     } else if (filter === 'vehicles') {
-      const vehiclesProducts = productData.filter(
-        (item: IProduct) => item.type === 'Technique',
-      );
-      Filter.showFilterProducts(vehiclesProducts, userData, productData);
+      const vehiclesProductsLoc = LocalStorage.getLocalData(
+        'vehicles',
+      ) as IProduct[];
+      if (vehiclesProductsLoc) {
+        Filter.showFilterProducts(vehiclesProductsLoc, userData, productData);
+      } else {
+        const vehiclesProducts = productData.filter(
+          (item: IProduct) => item.type === 'Technique',
+        );
+        localStorage.setItem('vehicles', JSON.stringify(vehiclesProducts));
+        Filter.showFilterProducts(vehiclesProducts, userData, productData);
+      }
     } else if (filter === 'gold') {
-      const goldProducts = productData.filter(
-        (item: IProduct) => item.type === 'Gold',
-      );
-      Filter.showFilterProducts(goldProducts, userData, productData);
+      const goldProductsLoc = LocalStorage.getLocalData('gold') as IProduct[];
+      if (goldProductsLoc) {
+        Filter.showFilterProducts(goldProductsLoc, userData, productData);
+      } else {
+        const goldProducts = productData.filter(
+          (item: IProduct) => item.type === 'Gold',
+        );
+        localStorage.setItem('gold', JSON.stringify(goldProducts));
+        Filter.showFilterProducts(goldProducts, userData, productData);
+      }
     } else if (filter === 'premium account') {
-      const premiumProducts = productData.filter(
-        (item: IProduct) => item.type === 'Premium',
-      );
-      Filter.showFilterProducts(premiumProducts, userData, productData);
+      const premiumLoc = LocalStorage.getLocalData('premium') as IProduct[];
+      if (premiumLoc) {
+        Filter.showFilterProducts(premiumLoc, userData, productData);
+      } else {
+        const premium = productData.filter(
+          (item: IProduct) => item.type === 'Premium',
+        );
+        localStorage.setItem('premium', JSON.stringify(premium));
+        Filter.showFilterProducts(premium, userData, productData);
+      }
     }
   }
 

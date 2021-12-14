@@ -13,22 +13,38 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import Filter from '@scripts/filter';
 import Wishlist from '@scripts/wishlist';
+import LocalStorage from '@scripts/localStorage';
 
 class MainPage {
   #productData: IProduct[] | null = [];
 
   #userData: IUser | null = null;
+  // Я НЕ РЕФАКТОРИЛ ЭТОТ КОД
+
+  static updateLocalData() {
+    UserAPI.getUserByID('61a6286353b5dad92e57b4c0').then((data) => {
+      localStorage.setItem('user', JSON.stringify(data));
+    });
+    ProductAPI.getProductsByFilter('All').then((data) => {
+      localStorage.setItem('productData', JSON.stringify(data));
+    });
+  }
 
   async getData() {
-    const localUserData = localStorage.getItem('user');
-    if (localUserData) {
-      this.#userData = JSON.parse(localUserData);
-    } else {
+    const localUserData = LocalStorage.getLocalData('user');
+    const productData = LocalStorage.getLocalData('productData');
+    if (!localUserData) {
       this.#userData = await UserAPI.getUserByID('61a6286353b5dad92e57b4c0');
       localStorage.setItem('user', JSON.stringify(this.#userData));
+    } else {
+      this.#userData = localUserData as IUser;
     }
-    this.#productData = await ProductAPI.getProductsByFilter('All');
-    localStorage.setItem('productData', JSON.stringify(this.#productData));
+    if (!productData) {
+      this.#productData = await ProductAPI.getProductsByFilter('All');
+      localStorage.setItem('productData', JSON.stringify(this.#productData));
+    } else {
+      this.#productData = productData as IProduct[];
+    }
     return [this.#productData, this.#userData];
   }
 
@@ -47,6 +63,7 @@ class MainPage {
     $wishlistButton?.addEventListener('click', () => {
       Wishlist.createWishlist();
     });
+    MainPage.updateLocalData();
   }
 }
 
