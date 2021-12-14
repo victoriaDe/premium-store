@@ -6,7 +6,10 @@ import { IUser } from '@type/user';
 import { main } from '@page/main';
 
 class Wishlist {
-  static createWishlistItem(product: IProduct) {
+  static createWishlistItem(product: IProduct,userData:IUser) {
+    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
+    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
+
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
@@ -15,11 +18,12 @@ class Wishlist {
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
                     <div>
-                        <button class="item-description-likeBtn button-like_active"></button>
+                        <button class="item-description-likeBtn ${isAddedToWishlist ? 'button-like_active' : ' '}"></button>
                         <span class="item-purchase-prise">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
-                        <button>Purchase</button>
+                        <button id="button-purchase">Purchase</button>
                     </div>
     `;
+
     const $likeButton: any = $item.querySelector('.item-description-likeBtn');
     if ($likeButton) {
       Item.addEvent(
@@ -30,10 +34,28 @@ class Wishlist {
         [product, ChangeUserLists.showWishlist, $likeButton],
       );
     }
+    const $buttonPurchase: any = $item.querySelectorAll("button")[1];
+    if ($buttonPurchase && !isAddedToPurchase) {
+      Item.addEvent(
+        'click',
+        $buttonPurchase,
+        ChangeUserLists.changeShoppingList,
+        true,
+        [
+          product,
+          ChangeUserLists.showShoppingList,
+          $buttonPurchase,
+          null,
+        ],
+      );
+    }
     return $item;
   }
 
-  static createShoppingListItem(product: IProduct) {
+  static createShoppingListItem(product: IProduct, userData:IUser) {
+    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
+    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
+
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
@@ -42,7 +64,7 @@ class Wishlist {
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
                     <div>
-                        <button class="item-description-likeBtn button-like_active"></button>
+                        <button class="item-description-likeBtn ${isAddedToWishlist ? 'button-like_active' : ' '}"></button>
                         <span class="item-purchase-prise">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
                         <button>Purchase</button>
                     </div>
@@ -70,6 +92,7 @@ class Wishlist {
 
   static async createWishlist() {
     const wishlistData = await main.getListData('wishlist');
+    const userData = await main.getUserData()
     const $container: HTMLElement = document.createElement('div');
     $container.classList.add('items-filtered');
     $container.id = 'items-filtered';
@@ -77,9 +100,9 @@ class Wishlist {
       document.querySelector('.main-container');
     if ($wrapper) {
       $wrapper.innerHTML = '';
-      if (wishlistData && wishlistData.length > 0) {
+      if (userData && wishlistData && wishlistData.length > 0) {
         wishlistData?.forEach((product) => {
-          $container.append(this.createWishlistItem(product));
+          $container.append(this.createWishlistItem(product,userData));
         });
         $wrapper.append($container);
       } else {
@@ -90,16 +113,17 @@ class Wishlist {
 
   static async createShoppingList() {
     const shoppingListData = await main.getListData('shoppingList');
+    const userData = await main.getUserData()
     const $container: HTMLElement = document.createElement('div');
     $container.classList.add('items-filtered');
     $container.id = 'items-filtered';
     const $wrapper: HTMLElement | null = document.querySelector('.main-container');
     if ($wrapper) {
       $wrapper.innerHTML = '';
-      if (shoppingListData) {
+      if (shoppingListData && userData) {
         shoppingListData?.forEach((product) => {
           //временная затычка
-          $container.append(this.createShoppingListItem(product));
+          $container.append(this.createShoppingListItem(product, userData));
         });
         $wrapper.append($container);
       } else {

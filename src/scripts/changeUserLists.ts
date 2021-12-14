@@ -27,7 +27,6 @@ class ChangeUserLists {
   // change product in shoppingList
   static changeShoppingList(
     product: IProduct,
-    shopping: string[],
     showShopping: (shopping: string[]) => void,
     $purchaseButton: HTMLElement,
     $containerLink: HTMLElement,
@@ -38,12 +37,12 @@ class ChangeUserLists {
       if (data) {
         showShopping(data.shoppingList);
         $purchaseButton.classList.add('button-purchase-added');
-        $containerLink.classList.add('main-container-link-added');
+        $containerLink?.classList.add('main-container-link-added');
         userActualData = data;
       }
     });
     setTimeout(() => {
-      main.sendUserData();
+      main.sendUserData().then(()=>{});
     });
   }
 
@@ -65,7 +64,6 @@ class ChangeUserLists {
         userActualData = data;
       }
     });
-
     setTimeout(() => {
       main.sendUserData();
     });

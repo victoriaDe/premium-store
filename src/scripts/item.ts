@@ -26,29 +26,19 @@ class Item {
     const filter = 'filter' in product.data ? product.data.filter : '';
 
     $item.innerHTML = `
-        <a class="main-container-link ${
-      isAddedToPurchase ? 'main-container-link-added' : ''
-    }">
-                    <img class="main-container-link_img" src=${
-      product.data.images.span_2x1
-    } alt="Танк">
-                </a>
-                <div class="main-container-description">
-                            <span class="main-container-description_flag" data-country="${
-      typeof filter !== 'string' ? filter.nation : ''
-    }"></span>
-                            <span class="main-container-description_type" data-type="${
-      typeof filter !== 'string' ? filter.type : ''
-    }"></span>
+                     <a class="main-container-link ${isAddedToPurchase ? 'main-container-link-added' : ''}">
+                          <img class="main-container-link_img" src=${product.data.images.span_2x1} alt="Танк">
+                     </a>
+                     <div class="main-container-description">
+                            <span class="main-container-description_flag" data-country="${typeof filter !== 'string' ? filter.nation : ''}"></span>
+                            <span class="main-container-description_type" data-type="${typeof filter !== 'string' ? filter.type : ''}"></span>
                             <h2>${product.data.name}</h2>
-                            <span class="main-container-description_price">${
-      product.data.price.basic.cost
-    }${product.data.price.basic.currency}</span>
+                            <span class="main-container-description_price">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
                             <button class="main-container-description_button-purchase ${isAddedToPurchase ? 'button-purchase-added' : ''}">
                                     purchase
                             </button>                            
-                 </div>
-                 <button class="main-container-description_button-like ${isAddedToWishlist ? 'button-like_active' : ' '}"></button>
+                      </div>
+                     <button class="main-container-description_button-like ${isAddedToWishlist ? 'button-like_active' : ' '}"></button>
     `;
     if (product.span === 2) {
       $item.classList.add('span-two');
@@ -71,7 +61,6 @@ class Item {
         true,
         [
           product,
-          userData.shoppingList,
           ChangeUserLists.showShoppingList,
           $purchaseButton,
           $containerLink,
