@@ -1,5 +1,7 @@
 import { IProduct } from '@type/product';
 import LocalStorage from '@scripts/localStorage';
+import { main } from '@page/main';
+import { IUser } from '@type/user';
 
 class ChangeUserLists {
   // show number of shopping list
@@ -11,18 +13,6 @@ class ChangeUserLists {
       $shoppingCounter.textContent = `(${shopping.length})`;
     }
   }
-
-  // change product in shoppingList
-  static changeShoppingList(
-    product: IProduct,
-    shopping: string[],
-    showShopping: (shopping: string[]) => void,
-  ): void {
-    shopping.push(product.data.id);
-    LocalStorage.changeLocalShoppingList('user', product.data.id);
-    showShopping(shopping);
-  }
-
   // show number of wishlist
   static showWishlist(wishList: string[]): void {
     const $wishListCounter: HTMLElement | null = document.querySelector(
@@ -33,23 +23,50 @@ class ChangeUserLists {
     }
   }
 
+
+  // change product in shoppingList
+  static changeShoppingList(
+    product: IProduct,
+    showShopping: (shopping: string[]) => void,
+    $purchaseButton: HTMLElement,
+    $containerLink: HTMLElement,
+  ): void {
+    LocalStorage.changeLocalShoppingList('user', product.data.id);
+    let userActualData: IUser;
+    main.getUserData().then((data) => {
+      if (data) {
+        showShopping(data.shoppingList);
+        $purchaseButton.classList.add('button-purchase-added');
+        $containerLink?.classList.add('main-container-link-added');
+        userActualData = data;
+      }
+    });
+    setTimeout(() => {
+      main.sendUserData().then(()=>{});
+    });
+  }
+
+
+
   // change product in wishlist
   static changeWishlist(
     product: IProduct,
-    wishlist: string[],
     showWishList: (wishlist: string[]) => void,
     $element: HTMLElement,
   ): void {
-    const index: number = wishlist.indexOf(product.data.id);
-    if (index !== -1) {
-      wishlist.splice(index, 1);
-    } else {
-      wishlist.push(product.data.id);
-    }
-    LocalStorage.changeLocalWishlist('user', wishlist);
-    showWishList(wishlist);
-    // add or remove style for like button
-    $element.classList.toggle('button-like_active'); //! disable button!
+
+    LocalStorage.changeLocalWishlist('user', product.data.id);
+    let userActualData: IUser;
+    main.getUserData().then((data) => {
+      if (data) {
+        showWishList(data.wishlist);
+        $element.classList.toggle('button-like_active');
+        userActualData = data;
+      }
+    });
+    setTimeout(() => {
+      main.sendUserData();
+    });
   }
 }
 
