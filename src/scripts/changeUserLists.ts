@@ -1,5 +1,7 @@
 import { IProduct } from '@type/product';
 import LocalStorage from '@scripts/localStorage';
+import { main } from '@page/main';
+import { IUser } from '@type/user';
 
 class ChangeUserLists {
   // show number of shopping list
@@ -20,11 +22,19 @@ class ChangeUserLists {
     $purchaseButton: HTMLElement,
     $containerLink: HTMLElement,
   ): void {
-    shopping.push(product.data.id);
     LocalStorage.changeLocalShoppingList('user', product.data.id);
-    showShopping(shopping);
-    $purchaseButton.classList.add('button-purchase-added');
-    $containerLink.classList.add('main-container-link-added');
+    let userActualData: IUser;
+    main.getUserData('61a6286353b5dad92e57b4c0').then((data) => {
+      if (data) {
+        showShopping(data.shoppingList);
+        $purchaseButton.classList.add('button-purchase-added');
+        $containerLink.classList.add('main-container-link-added');
+        userActualData = data;
+      }
+    });
+    setTimeout(() => {
+      main.sendUserData('61a6286353b5dad92e57b4c0');
+    });
   }
 
   // show number of wishlist
@@ -44,16 +54,18 @@ class ChangeUserLists {
     showWishList: (wishlist: string[]) => void,
     $element: HTMLElement,
   ): void {
-    const index: number = wishlist.indexOf(product.data.id);
-    if (index !== -1) {
-      wishlist.splice(index, 1);
-    } else {
-      wishlist.push(product.data.id);
-    }
-    LocalStorage.changeLocalWishlist('user', wishlist);
-    showWishList(wishlist);
-    // add or remove style for like button
-    $element.classList.toggle('button-like_active'); //! disable button!
+    LocalStorage.changeLocalWishlist('user', product.data.id);
+    let userActualData: IUser;
+    main.getUserData('61a6286353b5dad92e57b4c0').then((data) => {
+      if (data) {
+        showWishList(data.wishlist);
+        $element.classList.toggle('button-like_active');
+        userActualData = data;
+      }
+    });
+    setTimeout(() => {
+      main.sendUserData('61a6286353b5dad92e57b4c0');
+    });
   }
 }
 

@@ -4,6 +4,10 @@ import Item from '@scripts/item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 
+export type SetActiveFilterType = "all" |"vehicles"|"gold" | "premium account" | "provisions"
+
+
+
 class Filter {
   static addEvent(): void {
     const $filterButtons: NodeListOf<Element> =
@@ -36,9 +40,13 @@ class Filter {
       if (vehiclesProductsLoc) {
         Filter.showFilterProducts(vehiclesProductsLoc, userData, productData);
       } else {
+
+
         const vehiclesProducts = productData.filter(
           (item: IProduct) => item.type === 'Technique',
         );
+
+
         localStorage.setItem('vehicles', JSON.stringify(vehiclesProducts));
         Filter.showFilterProducts(vehiclesProducts, userData, productData);
       }
@@ -47,6 +55,8 @@ class Filter {
       if (goldProductsLoc) {
         Filter.showFilterProducts(goldProductsLoc, userData, productData);
       } else {
+
+
         const goldProducts = productData.filter(
           (item: IProduct) => item.type === 'Gold',
         );
@@ -57,6 +67,7 @@ class Filter {
       const premiumLoc = LocalStorage.getLocalData('premium') as IProduct[];
       if (premiumLoc) {
         Filter.showFilterProducts(premiumLoc, userData, productData);
+
       } else {
         const premium = productData.filter(
           (item: IProduct) => item.type === 'Premium',
@@ -92,6 +103,11 @@ class Filter {
     }
     lazy(20, 100, userData, products, new Item());
   }
+
+  static setActiveFilter(changedFilter:SetActiveFilterType | "none"){
+
+  }
+
 }
 
 export default Filter;

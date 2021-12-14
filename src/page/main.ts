@@ -1,5 +1,5 @@
 import { IUser } from '@type/user';
-import { IProduct } from '@type/product';
+import { IProduct, TFilter } from '@type/product';
 
 import UserAPI from '@api/user';
 import Item from '@scripts/item';
@@ -19,6 +19,7 @@ class MainPage {
   #productData: IProduct[] | null = [];
 
   #userData: IUser | null = null;
+
   // Я НЕ РЕФАКТОРИЛ ЭТОТ КОД
 
   static updateLocalData() {
@@ -30,42 +31,75 @@ class MainPage {
     });
   }
 
-  async getData() {
-    const localUserData = LocalStorage.getLocalData('user');
-    const productData = LocalStorage.getLocalData('productData');
-    if (!localUserData) {
-      this.#userData = await UserAPI.getUserByID('61a6286353b5dad92e57b4c0');
-      localStorage.setItem('user', JSON.stringify(this.#userData));
-    } else {
-      this.#userData = localUserData as IUser;
-    }
-    if (!productData) {
-      this.#productData = await ProductAPI.getProductsByFilter('All');
-      localStorage.setItem('productData', JSON.stringify(this.#productData));
-    } else {
-      this.#productData = productData as IProduct[];
-    }
-    return [this.#productData, this.#userData];
+  async getAllData() {
+    const productData = await this.getProductDataByFilter('All');
+    const userData = await this.getUserData('61a6286353b5dad92e57b4c0');
+    return [productData, userData];
   }
 
-  init(): void {
-    this.getData()
-      .then((data: any[]) => {
-        Filter.filterProducts('all');
-        Shopping.showShoppingList(data[1].shoppingList);
-        Shopping.showWishlist(data[1].wishlist);
-        return data;
-      })
-      .then((data) => lazy(20, 100, data[1], data[0], new Item()));
+  async updateUserData(id: string) {
+    const userData = await UserAPI.getUserByID(id);
+    localStorage.setItem('user', JSON.stringify(userData));
+    return userData;
+  }
+
+  async sendUserData(id: string){
+    let userData = LocalStorage.getLocalData('user') as IUser | null;
+    if(userData){
+      const data = await UserAPI.changeUserData(userData)
+    }
+  }
+
+  async updateProductDataByFilter(filter: TFilter | 'All') {
+    const productDataByFilter = await ProductAPI.getProductsByFilter(filter);
+    localStorage.setItem(filter, JSON.stringify(productDataByFilter));
+    return productDataByFilter;
+  }
+
+  async getProductDataByFilter(filter: TFilter | 'All') {
+    let productDataByFilter = LocalStorage.getLocalData(filter);
+    if (!productDataByFilter) productDataByFilter = await this.updateProductDataByFilter(filter);
+    return productDataByFilter;
+  }
+
+  async getUserData(id: string) {
+    let userData = LocalStorage.getLocalData('user') as IUser | null;
+    if (!userData) userData = await this.updateUserData(id);
+    this.#userData = userData;
+    return userData;
+  }
+
+
+  async init(): Promise<any> {
+    const data = await this.getAllData() as any[];
+    Filter.filterProducts('all');
     Filter.addEvent();
+    Shopping.showShoppingList(data[1].shoppingList);
+    Shopping.showWishlist(data[1].wishlist);
+    lazy(20, 100, data[1], data[0], new Item());
+
+
+    //вынести в отдельный класс
+    const $headerLogo: HTMLElement | null =
+      document.getElementById('headerLogo');
+    $headerLogo?.addEventListener('click', () => {
+      Item.showMainNavContainer();
+      Filter.addEvent();
+      Filter.filterProducts('all');
+    });
     const $wishlistButton: HTMLElement | null =
       document.getElementById('wishlistId');
     $wishlistButton?.addEventListener('click', () => {
       Wishlist.createWishlist();
     });
-    MainPage.updateLocalData();
+
+    setTimeout(()=>{
+      this.updateUserData("61a6286353b5dad92e57b4c0")
+      this.updateProductDataByFilter("All")
+    })
+
   }
 }
 
-const main: MainPage = new MainPage();
+export const main: MainPage = new MainPage();
 main.init();

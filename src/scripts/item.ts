@@ -19,18 +19,11 @@ class Item {
     productData: IProduct[],
   ): HTMLElement {
     const $item = document.createElement('div');
-    let $buttonLike = `<button class="main-container-description_button-like"></button>`;
     $item.classList.add('main-container-product');
-    if (userData.wishlist.find((item: string) => item === product.data.id)) {
-      $buttonLike = `<button class="main-container-description_button-like button-like_active"></button>`;
-    }
-    const filter = 'filter' in product.data ? product.data.filter : '';
 
+    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
-    let $buttonPurchase = `<button class="main-container-description_button-purchase">purchase</button>`;
-    if (isAddedToPurchase) {
-      $buttonPurchase = `<button class="main-container-description_button-purchase button-purchase-added">purchase</button>`;
-    }
+    const filter = 'filter' in product.data ? product.data.filter : '';
 
     $item.innerHTML = `
         <a class="main-container-link ${
@@ -51,9 +44,11 @@ class Item {
                             <span class="main-container-description_price">${
                               product.data.price.basic.cost
                             }${product.data.price.basic.currency}</span>
-                            ${$buttonPurchase}
+                            <button class="main-container-description_button-purchase ${isAddedToPurchase? "button-purchase-added":""}">
+                                    purchase
+                            </button>                            
                  </div>
-                ${$buttonLike}
+                 <button class="main-container-description_button-like ${isAddedToWishlist? "button-like_active":" "}"></button>
     `;
     if (product.span === 2) {
       $item.classList.add('span-two');
@@ -145,22 +140,6 @@ class Item {
     return $item;
   }
 
-  static addEvent(
-    event: string,
-    $element: HTMLElement,
-    eventFunction: (...args: any[]) => void,
-    once: boolean,
-    params: any[],
-  ): void {
-    $element.addEventListener(
-      `${event}`,
-      () => {
-        eventFunction(...params);
-      },
-      { once: once },
-    );
-  }
-
   static showSelectedItem(
     itemId: string,
     productDataList: IProduct[],
@@ -187,6 +166,56 @@ class Item {
       $visualContainer.appendChild($item);
     }
   }
+  static createMainNavContainer(): HTMLElement {
+    const $mainNavContainer = document.createElement('div');
+    $mainNavContainer.classList.add('main-nav-container');
+    $mainNavContainer.innerHTML = `       
+            <a class="main-nav-logo"></a>
+            <nav class="main-nav-links">
+                <button class="main-nav-link" type="submit">all</button>
+                <button class="main-nav-link" type="submit">vehicles</button>
+                <button class="main-nav-link" type="submit">gold</button>
+                <button class="main-nav-link" type="submit">premium account</button>
+            </nav>       
+    `;
+    return $mainNavContainer;
+  }
+
+  static showMainNavContainer() {
+    const $mainContainer: HTMLElement | null = document.getElementById(
+      'main-container-id',
+    );
+    const $mainVisualContainer = document.createElement('div');
+    $mainVisualContainer.innerHTML='<div id="main-visual-container"></div>'
+
+    if($mainContainer){
+      $mainContainer.innerHTML=''
+      $mainContainer.append(this.createMainNavContainer())
+      $mainContainer.append($mainVisualContainer)
+    }
+  }
+
+  static addEvent(
+    event: string,
+    $element: HTMLElement,
+    eventFunction: (...args: any[]) => void,
+    once: boolean,
+    params: any[],
+  ): void {
+    $element.addEventListener(
+      `${event}`,
+      () => {
+        eventFunction(...params);
+      },
+      { once: once },
+    );
+  }
+
+
+
+
+
+
 }
 
 export default Item;
