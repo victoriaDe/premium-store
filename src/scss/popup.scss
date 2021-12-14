@@ -81,6 +81,7 @@
     font-size: s.$fzPopupH2;
     text-align: center;
     text-transform: capitalize;
+    color: c.$fColorHeaders;
   }
 
   .popup-form {
@@ -99,6 +100,9 @@
   label {
     font-size: s.$fzPopupContent;
     width: 100%;
+    text-transform: capitalize;
+    color: c.$fColorHeaders;
+
   }
 
   input {
@@ -122,14 +126,18 @@
       border-bottom: 2px solid c.$fColorLink;
       color: c.$fColorGray;
     }
+
+    &:last-of-type {
+      font-size: s.$fzPopupContent;
+      color: c.$fColorHeaders;
+
+    }
   }
 
   button {
     width: 20%;
     height: 35px;
     font-size: s.$fzPopupContent;
-
-    font-weight: 800;
 
     background: c.$bgColorButton;
     color: c.$fColorGray;
@@ -146,12 +154,6 @@
   @media screen and (max-device-width: s.$max-width-resp) {
     width: 100%;
     right: 0;
-    h2 {
-      font-size: s.$fzPopupH2Responsive;
-    }
-    label, input {
-      font-size: s.$fzPopupContentResponsive;
-    }
     button {
       width: 45%;
     }
