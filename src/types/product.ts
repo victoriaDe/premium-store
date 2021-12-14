@@ -20,6 +20,7 @@ type TTechnique = 'AT-SPG' | 'heavyTank' | 'lightTank' | 'mediumTank' | 'SPG';
 type TTier = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
 
 export type TFilter = 'Technique' | 'Premium' | 'Gold' | 'Provisions';
+export type TFilterHtml = 'Technique' | 'Premium' | 'Gold' | 'Provisions';
 
 export interface IProductData {
   id: string;

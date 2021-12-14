@@ -32,6 +32,7 @@ class MainPage {
   }
 
   async getAllData() {
+
     const productData = await this.getProductDataByFilter('All');
     const userData = await this.getUserData('61a6286353b5dad92e57b4c0');
     return [productData, userData];
@@ -53,11 +54,12 @@ class MainPage {
   async updateProductDataByFilter(filter: TFilter | 'All') {
     const productDataByFilter = await ProductAPI.getProductsByFilter(filter);
     localStorage.setItem(filter, JSON.stringify(productDataByFilter));
+    /*console.log(productDataByFilter)*/
     return productDataByFilter;
   }
 
   async getProductDataByFilter(filter: TFilter | 'All') {
-    let productDataByFilter = LocalStorage.getLocalData(filter);
+    let productDataByFilter = LocalStorage.getLocalData(filter) as IProduct[] |null;
     if (!productDataByFilter) productDataByFilter = await this.updateProductDataByFilter(filter);
     return productDataByFilter;
   }
@@ -72,11 +74,12 @@ class MainPage {
 
   async init(): Promise<any> {
     const data = await this.getAllData() as any[];
-    Filter.filterProducts('all');
+
+    await Filter.filterProducts('all');
     Filter.addEvent();
     Shopping.showShoppingList(data[1].shoppingList);
     Shopping.showWishlist(data[1].wishlist);
-    lazy(20, 100, data[1], data[0], new Item());
+    await lazy(20, 100, data[1], data[0], new Item());
 
 
     //вынести в отдельный класс
@@ -94,10 +97,10 @@ class MainPage {
     });
 
     setTimeout(()=>{
+      console.log("setTimeout")
       this.updateUserData("61a6286353b5dad92e57b4c0")
-      this.updateProductDataByFilter("All")
+      /*this.updateProductDataByFilter("All")*/
     })
-
   }
 }
 
