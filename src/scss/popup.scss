@@ -2,12 +2,13 @@
 @use '~@scss/variables/sizes.scss' as s;
 
 .pop-up-wrapper.opened-popup {
+  width: 100%;
   transform: translateX(0%);
   transition: transform 0.5s ease-in;
 }
 
 .pop-up-wrapper {
-  width: 100%;
+  width: 0;
   height: 100%;
   box-sizing: border-box;
   position: absolute;
