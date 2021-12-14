@@ -15,9 +15,11 @@ import '@scss/popup.scss';
 import '@scss/main-content.scss';
 import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
+import '@scss/filters.scss';
 import Filter from '@scripts/filter';
 import Wishlist from '@scripts/wishlist';
 import LocalStorage from '@scripts/localStorage';
+import ShoppingList from '@scripts/shoppingList';
 
 class MainPage {
   #productData: IProduct[] | null = [];
@@ -25,8 +27,6 @@ class MainPage {
   #userData: IUser | null = null;
 
   #userId = '61a6286353b5dad92e57b4c0';
-
-  // Я НЕ РЕФАКТОРИЛ ЭТОТ КОД
 
   static updateLocalData() {
     UserAPI.getUserByID('61a6286353b5dad92e57b4c0').then((data) => {
@@ -81,8 +81,8 @@ class MainPage {
   async getListData(property: 'shoppingList' | 'wishlist') {
     const userData = await this.getUserData();
     if (userData) {
-      if(userData[property].length > 0){
-        return await ProductAPI.getProductsByList(userData[property]);
+      if (userData[property].length > 0) {
+        return ProductAPI.getProductsByList(userData[property]);
       }
     }
     return null;
@@ -97,8 +97,7 @@ class MainPage {
     Shopping.showWishlist(data[1].wishlist);
     await lazy(20, 100, data[1], data[0], new Item());
 
-
-    //вынести в отдельные классы
+    // вынести в отдельные классы
     const $headerLogo: HTMLElement | null =
       document.getElementById('headerLogo');
     $headerLogo?.addEventListener('click', () => {
@@ -114,7 +113,7 @@ class MainPage {
     const $shoppingListButton: HTMLElement | null =
       document.getElementById('shoppingId');
     $shoppingListButton?.addEventListener('click', () => {
-      Wishlist.createShoppingList();
+      ShoppingList.createShoppingList();
     });
 
     setTimeout(() => {
