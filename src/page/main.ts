@@ -70,6 +70,12 @@ const $create: HTMLElement | null = document.getElementById('create-account');
 const $body: HTMLBodyElement | null = document.querySelector('body');
 
 
+window.addEventListener('resize', function () {
+    if (window.screen.width <= 720) {
+        $login?.classList.add('login');
+    }
+})
+
 $login?.addEventListener('click', openPopup);
 $create?.addEventListener('click', openPopup);
 $wrapper?.addEventListener('click', closePopup);
@@ -145,7 +151,13 @@ class Popup {
         }
 
         $form.appendChild(this.createButton());
-        if (this.hasLink) $form.appendChild(this.createLink());
+        if (this.hasLink) {
+            $form.appendChild(this.createLink('forget your password?', "reset-password"));
+
+            if (window.screen.width <= 720) {
+                $form.appendChild(this.createLink('Create account', 'create-account'));
+            }
+        }
 
         return $form;
     }
@@ -157,12 +169,12 @@ class Popup {
         return $btn;
     }
 
-    createLink() {
+    createLink(str: string, id: string) {
         let $link = document.createElement('a');
-        $link.id = "reset-password";
+        $link.id = id;
         $link.href = "#";
         $link.classList.add('popup-form-link');
-        $link.innerText = 'forgot your password?';
+        $link.innerText = str;
         $link.addEventListener('click', openPopup)
         return $link;
     }
