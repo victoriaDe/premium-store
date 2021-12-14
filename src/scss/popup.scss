@@ -25,6 +25,18 @@
 
   overflow: scroll;
 
+  scrollbar-base-color: c.$bgColorPopup;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &-ms-overflow-style {
+    display: none; /* IE and Edge */
+  }
+
+  //scrollbar-width: none; /* Firefox */
+
 }
 
 .pop-up-container {
@@ -68,6 +80,7 @@
   h2 {
     font-size: s.$fzPopupH2;
     text-align: center;
+    text-transform: capitalize;
   }
 
   .popup-form {
