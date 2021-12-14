@@ -1,6 +1,10 @@
 @use '~@scss/variables/colors' as c;
 @use '~@scss/variables/sizes' as s;
 
+@font-face {
+  font-family: 'WarHelios', sans-serif;
+  src: url("~@font/Helios-Cond.ttf");
+}
 
 .item-filters {
   padding-top: 30px;
@@ -45,7 +49,7 @@
 
 
 .filter-container-checkedBtn {
-  // font-family: 'War Helios Cond C';
+  font-family: 'WarHelios', sans-serif;
   color: c.$fontColorFilterButton;
   font-size: 17px;
   line-height: 0.9;
