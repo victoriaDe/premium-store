@@ -6,6 +6,7 @@ import Item from '@scripts/item';
 import Shopping from '@scripts/changeUserLists';
 import ProductAPI from '@api/product';
 import lazy from '@scripts/lazy';
+import Router from '@scripts/router';
 
 import '@scss/main.scss';
 import '@scss/variables/colors.scss';
@@ -123,6 +124,19 @@ class MainPage {
 
 export const main: MainPage = new MainPage();
 main.init();
+
+const router = new Router();
+
+router
+  .addRoute('wishlist', () => Wishlist.createWishlist())
+  .addRoute('shoppingcart', () => Wishlist.createShoppingList())
+  .addRoute('', () => {
+    Item.showMainNavContainer();
+    Filter.addEvent();
+    Filter.filterProducts('all');
+  });
+
+router.init();
 
 const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
 
