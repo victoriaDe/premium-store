@@ -97,25 +97,6 @@ class MainPage {
     Shopping.showWishlist(data[1].wishlist);
     await lazy(20, 100, data[1], data[0], new Item());
 
-    // вынести в отдельные классы
-    const $headerLogo: HTMLElement | null =
-      document.getElementById('headerLogo');
-    $headerLogo?.addEventListener('click', () => {
-      Item.showMainNavContainer();
-      Filter.addEvent();
-      Filter.filterProducts('all');
-    });
-    const $wishlistButton: HTMLElement | null =
-      document.getElementById('wishlistId');
-    $wishlistButton?.addEventListener('click', () => {
-      Wishlist.createWishlist();
-    });
-    const $shoppingListButton: HTMLElement | null =
-      document.getElementById('shoppingId');
-    $shoppingListButton?.addEventListener('click', () => {
-      ShoppingList.createShoppingList();
-    });
-
     setTimeout(() => {
       this.updateUserData();
     });
@@ -129,7 +110,7 @@ const router = new Router();
 
 router
   .addRoute('wishlist', () => Wishlist.createWishlist())
-  .addRoute('shoppingcart', () => Wishlist.createShoppingList())
+  .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
   .addRoute('', () => {
     Item.showMainNavContainer();
     Filter.addEvent();
@@ -149,6 +130,8 @@ window.addEventListener('resize', function () {
   // для логина, который клеит картинку на место текста
   if (window.screen.width <= 720) {
     $login?.classList.add('login');
+  } else {
+    $login?.classList.remove('login');
   }
 });
 
