@@ -24,6 +24,7 @@ module.exports = {
       '@page': resolve(src, 'page'), // short path to page folder
       '@api': resolve(src, 'api'), // short path to api folder
       '@scripts': resolve(src, 'scripts'), // short path to scripts folder
+      '@classes': resolve(src, 'classes'), // short path to classes folder
       '@scss': resolve(src, 'scss'), // short path to scss folder
       '@images': resolve(src, 'assets/images'), // short path to images folder
       '@font': resolve(src, 'assets/fonts'), // short path to font folder
