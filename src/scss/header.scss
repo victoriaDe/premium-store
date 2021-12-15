@@ -152,16 +152,6 @@
     }
     @media screen and (max-device-width: s.$max-device-width) {
       width: 15%;
-      span.wishlist-span-container {
-        &:after {
-          transform: translate(0%, -50%);
-        }
-      }
-      span.cart-span-container {
-        &:before {
-          left: -50%;
-        }
-      }
     }
   }
 
