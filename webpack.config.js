@@ -24,6 +24,7 @@ module.exports = {
       '@page': resolve(src, 'page'), // short path to page folder
       '@api': resolve(src, 'api'), // short path to api folder
       '@scripts': resolve(src, 'scripts'), // short path to scripts folder
+      '@classes': resolve(src, 'classes'), // short path to classes folder
       '@scss': resolve(src, 'scss'), // short path to scss folder
       '@images': resolve(src, 'assets/images'), // short path to images folder
       '@font': resolve(src, 'assets/fonts'), // short path to font folder
@@ -75,10 +76,16 @@ module.exports = {
       {
         test: /\.(svg|jpg|png|webp)$/, // search graphic files
         type: 'asset/resource', // use default webpack resource loader
+        generator: {
+          filename: 'assets/images/[name][ext]',
+        },
       },
       {
         test: /\.(ttf|woff|woff2)$/, // search fonts files
         type: 'asset/resource', // use default webpack resource loader
+        generator: {
+          filename: 'assets/fonts/[name][ext]',
+        },
       },
     ],
   },
