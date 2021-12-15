@@ -32,7 +32,9 @@ class Item {
     $item.innerHTML = `
                      <a class="main-container-link ${
                        isAddedToPurchase ? 'main-container-link-added' : ''
-                     }">
+                     }" href="/${product.type.toLowerCase()}/${
+      product.data.id
+    }" onclick="return false">
                           <img class="main-container-link_img" src=${
                             product.data.images.span_2x1
                           } alt="Танк">
