@@ -76,10 +76,16 @@ module.exports = {
       {
         test: /\.(svg|jpg|png|webp)$/, // search graphic files
         type: 'asset/resource', // use default webpack resource loader
+        generator: {
+          filename: 'assets/images/[name][ext]',
+        },
       },
       {
         test: /\.(ttf|woff|woff2)$/, // search fonts files
         type: 'asset/resource', // use default webpack resource loader
+        generator: {
+          filename: 'assets/fonts/[name][ext]',
+        },
       },
     ],
   },
