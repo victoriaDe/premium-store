@@ -1,5 +1,5 @@
-import {IUser} from '@type/user';
-import {IProduct, TFilter} from '@type/product';
+import { IUser } from '@type/user';
+import { IProduct, TFilter } from '@type/product';
 
 import UserAPI from '@api/user';
 import Item from '@scripts/item';
@@ -22,7 +22,6 @@ import LocalStorage from '@scripts/localStorage';
 import ShoppingList from '@scripts/shoppingList';
 
 class MainPage {
-
   #productData: IProduct[] | null = [];
 
   #userData: IUser | null = null;
@@ -98,25 +97,6 @@ class MainPage {
     Shopping.showWishlist(data[1].wishlist);
     await lazy(20, 100, data[1], data[0], new Item());
 
-    // вынести в отдельные классы
-    const $headerLogo: HTMLElement | null =
-      document.getElementById('headerLogo');
-    $headerLogo?.addEventListener('click', () => {
-      Item.showMainNavContainer();
-      Filter.addEvent();
-      Filter.filterProducts('all');
-    });
-    const $wishlistButton: HTMLElement | null =
-      document.getElementById('wishlistId');
-    $wishlistButton?.addEventListener('click', () => {
-      Wishlist.createWishlist();
-    });
-    const $shoppingListButton: HTMLElement | null =
-      document.getElementById('shoppingId');
-    $shoppingListButton?.addEventListener('click', () => {
-      ShoppingList.createShoppingList();
-    });
-
     setTimeout(() => {
       this.updateUserData();
     });
@@ -130,7 +110,7 @@ const router = new Router();
 
 router
   .addRoute('wishlist', () => Wishlist.createWishlist())
-  .addRoute('shoppingcart', () => Wishlist.createShoppingList())
+  .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
   .addRoute('', () => {
     Item.showMainNavContainer();
     Filter.addEvent();
@@ -146,14 +126,14 @@ const $create: HTMLElement | null = document.getElementById('create-account'); /
 const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
 
 window.addEventListener('resize', function () {
-    //отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
-    //для логина, который клеит картинку на место текста
-    if (window.screen.width <= 720) {
-        $login?.classList.add('login');
-    } else {
-        $login?.classList.remove('login');
-    }
-})
+  // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
+  // для логина, который клеит картинку на место текста
+  if (window.screen.width <= 720) {
+    $login?.classList.add('login');
+  } else {
+    $login?.classList.remove('login');
+  }
+});
 
 $login?.addEventListener('click', openPopup);
 $create?.addEventListener('click', openPopup);
