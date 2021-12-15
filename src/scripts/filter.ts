@@ -164,7 +164,9 @@ class Filter {
       const filterTypes = document.querySelectorAll('.filter-btn');
       filterTypes.forEach((item) => {
         item.addEventListener('click', (e: any) => {
-          e.currentTarget.parentElement.parentElement.firstElementChild.classList.add(e.currentTarget.children[0].classList[0]);
+          e.currentTarget.parentElement.parentElement.firstElementChild.classList.add(
+            e.currentTarget.children[0].classList[0],
+          );
           e.currentTarget.parentElement.parentElement.firstElementChild.textContent = `${e.currentTarget.children[0].textContent}`;
         });
       });

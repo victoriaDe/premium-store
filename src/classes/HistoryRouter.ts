@@ -36,13 +36,13 @@ class HistoryRouter {
     fragment = HistoryRouter.clearSlashes(
       decodeURI(window.location.pathname + window.location.search),
     );
-    fragment = fragment.replace(/\?(.*)$/, '');
+    // fragment = fragment.replace(/\?(.*)$/, '');
     fragment = this.#root !== '/' ? fragment.replace(this.#root, '') : fragment;
 
     return HistoryRouter.clearSlashes(fragment);
   }
 
-  navigate(path: string) {
+  changeURI(path: string): void {
     if (path !== this.currentPath) {
       window.history.pushState(
         null,
@@ -53,8 +53,6 @@ class HistoryRouter {
       const route = this.findRoute(this.currentPath);
       route!.cb();
     }
-
-    return this;
   }
 
   findRoute(path: string): THRoute | undefined {
@@ -71,35 +69,15 @@ class HistoryRouter {
     const route = this.findRoute(this.currentPath);
 
     if (!route) {
-      throw new Error('This path is undefined');
+      throw new Error(`Path ${this.currentPath} is undefined`);
     } else {
-      this.navigate(route.path);
       route.cb();
     }
-
-    // if (this.#currentPath === this.getFragment()) return;
-    // this.#currentPath = this.getFragment();
-    //
-    // this.#routes.some((route) => {
-    //   const match = this.#currentPath.match(route.path);
-    //
-    //   if (match) {
-    //     match.shift();
-    //     route.cb.apply({}, match);
-    //     return match;
-    //   }
-    //   return false;
-    // });
   }
 
   init(): void {
     setInterval(this.interval.bind(this), 50);
   }
-
-  // listen() {
-  //   clearInterval(this.interval);
-  //   this.interval = setInterval(this.interval, 50);
-  // }
 }
 
 export default HistoryRouter;

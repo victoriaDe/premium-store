@@ -107,31 +107,25 @@ class MainPage {
 }
 
 export const main: MainPage = new MainPage();
-main.init();
 
-// const router = new Router();
-//
-// router
-//   .addRoute('wishlist', () => Wishlist.createWishlist())
-//   .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
-//   .addRoute('', () => {
-//     Item.showMainNavContainer();
-//     Filter.addEvent();
-//     Filter.filterProducts('all');
-//   });
-//
-// router.init();
+main.init();
 
 const router = new HistoryRouter();
 
 router
-  .addRoute('wishlist', () => Wishlist.createWishlist())
+  .addRoute('wishlist', () => {
+    Wishlist.createWishlist();
+  })
   .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
   .addRoute('', () => {
     Item.showMainNavContainer();
     Filter.addEvent();
     Filter.filterProducts('all');
-  });
+  })
+  .addRoute('?filter=all', () => console.log('all'))
+  .addRoute('?filter=vehicles', () => console.log('vehicles'))
+  .addRoute('?filter=gold', () => console.log('gold'))
+  .addRoute('?filter=premium', () => console.log('premium'));
 
 router.init();
 
@@ -139,22 +133,39 @@ const $wishlistLink = document.getElementById('wishlistId') as HTMLElement;
 
 $wishlistLink.addEventListener('click', (event) => {
   event.preventDefault();
-  router.navigate('wishlist');
+  router.changeURI('wishlist');
 });
 
 const $shoppingCartLink = document.getElementById('shoppingId') as HTMLElement;
 
 $shoppingCartLink.addEventListener('click', (event) => {
   event.preventDefault();
-  router.navigate('shoppingcart');
+  router.changeURI('shoppingcart');
 });
 
 const $headerLogoLink = document.getElementById('headerLogo') as HTMLElement;
 
 $headerLogoLink.addEventListener('click', (event) => {
   event.preventDefault();
-  router.navigate('');
+  router.changeURI('');
 });
+
+const $filterLinkList = document.querySelectorAll('.main-nav-link');
+
+$filterLinkList.forEach(($filterLink) => {
+  $filterLink.addEventListener('click', (event) => {
+    const $target = event.target as HTMLElement;
+    router.changeURI(`?filter=${$target.dataset.filter}`);
+  });
+});
+
+// const $productsLinkList = document.querySelectorAll('.main-container-link');
+//
+// $productsLinkList.forEach(($productLink) => {
+//   $productLink.addEventListener('click', (event) => {
+//     event.preventDefault();
+//   });
+// });
 
 /// /////////////////////////////////////////////////////////////////////
 

@@ -182,10 +182,10 @@ class Item {
     $mainNavContainer.innerHTML = `       
             <a class="main-nav-logo"></a>
             <nav class="main-nav-links">
-                <button class="main-nav-link" type="submit">all</button>
-                <button class="main-nav-link" type="submit">vehicles</button>
-                <button class="main-nav-link" type="submit">gold</button>
-                <button class="main-nav-link" type="submit">premium account</button>
+                <button class="main-nav-link" type="submit" data-filter="all">all</button>
+                <button class="main-nav-link" type="submit" data-filter="vehicles">vehicles</button>
+                <button class="main-nav-link" type="submit" data-filter="gold">gold</button>
+                <button class="main-nav-link" type="submit" data-filter="premium">premium account</button>
             </nav>       
     `;
     return $mainNavContainer;
