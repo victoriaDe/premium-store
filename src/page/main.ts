@@ -5,12 +5,13 @@ import UserAPI from '@api/user';
 import Item from '@scripts/item';
 import Shopping from '@scripts/changeUserLists';
 import ProductAPI from '@api/product';
-import Router from '@scripts/router';
+// import Router from '@scripts/router';
 import Filter from '@scripts/filter';
 import Wishlist from '@scripts/wishlist';
 import LocalStorage from '@scripts/localStorage';
 import ShoppingList from '@scripts/shoppingList';
 import Popup from '@classes/Popup';
+import HistoryRouter from '@classes/HistoryRouter';
 
 import lazy from '@scripts/lazy';
 
@@ -108,7 +109,20 @@ class MainPage {
 export const main: MainPage = new MainPage();
 main.init();
 
-const router = new Router();
+// const router = new Router();
+//
+// router
+//   .addRoute('wishlist', () => Wishlist.createWishlist())
+//   .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
+//   .addRoute('', () => {
+//     Item.showMainNavContainer();
+//     Filter.addEvent();
+//     Filter.filterProducts('all');
+//   });
+//
+// router.init();
+
+const router = new HistoryRouter();
 
 router
   .addRoute('wishlist', () => Wishlist.createWishlist())
@@ -120,6 +134,27 @@ router
   });
 
 router.init();
+
+const $wishlistLink = document.getElementById('wishlistId') as HTMLElement;
+
+$wishlistLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  router.navigate('wishlist');
+});
+
+const $shoppingCartLink = document.getElementById('shoppingId') as HTMLElement;
+
+$shoppingCartLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  router.navigate('shoppingcart');
+});
+
+const $headerLogoLink = document.getElementById('headerLogo') as HTMLElement;
+
+$headerLogoLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  router.navigate('');
+});
 
 /// /////////////////////////////////////////////////////////////////////
 
@@ -209,95 +244,3 @@ window.addEventListener('resize', () => {
 $login?.addEventListener('click', (event) => openPopup(event));
 $create?.addEventListener('click', (event) => openPopup(event));
 $wrapper?.addEventListener('click', (event) => closePopup(event));
-
-// class Popup {
-//   target: HTMLElement;
-//
-//   inputs: any; // хз, какой тут должен быть тип, он на все ругается. Передаются данные для инпутов: [0] - текст,[1] - тип инпута
-//
-//   hasLink: boolean; // есть ли в попапе ссылка, по-хорошему, нужно было бы отпочковаться в другой класс с расширением, но ради одной ссылки не знаю, стоит ли
-//
-//   constructor(target: HTMLElement, inputs: any, hasLink: boolean) {
-//     this.target = target;
-//     this.inputs = inputs;
-//     this.hasLink = hasLink;
-//   }
-//
-//   // каждый метод возвращает заполненный элемент HTML
-//   createHeader() {
-//     const title = this.target.id.split('-').join(' '); // айдишник элемента, по которому кликнули переходит в читабельную форму
-//     const $header = document.createElement('h2'); // создать Н2
-//     $header.innerText = title; // записать
-//     return $header;
-//   }
-//
-//   createForm() {
-//     const $form = document.createElement('form'); // создать форму
-//     $form.classList.add('popup-form'); // только стили
-//
-//     for (let i = 0; i < this.inputs.length; i++) {
-//       // пробегает по каждому input [0] - текст для лейбла и плейсхолдера,[1] - тип инпута
-//       $form.innerHTML += `<label>${this.inputs[i][0]} <input type='${this.inputs[i][1]}' placeholder='Enter your ${this.inputs[i][0]}'></label>`;
-//     }
-//     // после генерации инпутов заталкиваем кнопу в форму
-//     $form.appendChild(this.createButton());
-//     if (this.hasLink) {
-//       // ссылка на восстановление пароля
-//       // передавать аргументы наверняка можно и человеческим способом)
-//
-//       $form.appendChild(
-//         this.createLink('forget your password?', 'reset-password'),
-//       );
-//
-//       if (window.screen.width <= 720) {
-//         // ссылка на создание аккаунта для мал разрешения
-//         $form.appendChild(this.createLink('Create account', 'create-account'));
-//       }
-//     }
-//
-//     return $form;
-//   }
-//
-//   createButton() {
-//     // единственный адекватный метод без черни
-//     const $btn = document.createElement('button');
-//     $btn.type = 'submit';
-//     $btn.innerText = 'OK';
-//     return $btn;
-//   }
-//
-//   createLink(str: string, id: string) {
-//     // принимает str - для текста самой ссылки, id - нужен, чтобы генерить попап новый по клику
-//     const $link = document.createElement('a');
-//     $link.id = id;
-//     $link.href = '#';
-//     $link.classList.add('popup-form-link');
-//     $link.innerText = str;
-//     // не знаю, как по-другому повесить листенер, думала через нодлист как-то, он ведь должен обновляться сам, по идее
-//     // но у меня не вышло
-//     $link.addEventListener('click', openPopup);
-//     return $link;
-//   }
-//
-//   createSpan() {
-//     // это крестик
-//     // можно по- идее сразу на него повесить лисенер на закрытие, как на линках, сейчас он вешается в функции closePopup,
-//     // но там диким образом вытягиваю элемент
-//
-//     const $cross = document.createElement('span');
-//     $cross.innerText = 'X';
-//     return $cross;
-//   }
-//
-//   renderHTML() {
-//     const $container = document.createElement('div'); // контейнер в обертке, оранжевый
-//     $container.classList.add('pop-up-container'); // только стили
-//
-//     $container.append(
-//       this.createHeader(),
-//       this.createSpan(),
-//       this.createForm(),
-//     ); // аппендаются все сгенеренные элементы
-//     return $container;
-//   }
-// }

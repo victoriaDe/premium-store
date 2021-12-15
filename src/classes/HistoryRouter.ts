@@ -43,11 +43,17 @@ class HistoryRouter {
   }
 
   navigate(path: string) {
-    window.history.pushState(
-      null,
-      '',
-      this.#root + HistoryRouter.clearSlashes(path),
-    );
+    if (path !== this.currentPath) {
+      window.history.pushState(
+        null,
+        '',
+        this.#root + HistoryRouter.clearSlashes(path),
+      );
+    } else {
+      const route = this.findRoute(this.currentPath);
+      route!.cb();
+    }
+
     return this;
   }
 
@@ -67,6 +73,7 @@ class HistoryRouter {
     if (!route) {
       throw new Error('This path is undefined');
     } else {
+      this.navigate(route.path);
       route.cb();
     }
 
@@ -86,7 +93,7 @@ class HistoryRouter {
   }
 
   init(): void {
-    setInterval(this.interval.bind(this), 1000);
+    setInterval(this.interval.bind(this), 50);
   }
 
   // listen() {
