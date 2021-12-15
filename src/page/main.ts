@@ -1,5 +1,5 @@
-import { IUser } from '@type/user';
-import { IProduct, TFilter } from '@type/product';
+import {IUser} from '@type/user';
+import {IProduct, TFilter} from '@type/product';
 
 import UserAPI from '@api/user';
 import Item from '@scripts/item';
@@ -22,6 +22,7 @@ import LocalStorage from '@scripts/localStorage';
 import ShoppingList from '@scripts/shoppingList';
 
 class MainPage {
+
   #productData: IProduct[] | null = [];
 
   #userData: IUser | null = null;
@@ -145,12 +146,14 @@ const $create: HTMLElement | null = document.getElementById('create-account'); /
 const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
 
 window.addEventListener('resize', function () {
-  // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
-  // для логина, который клеит картинку на место текста
-  if (window.screen.width <= 720) {
-    $login?.classList.add('login');
-  }
-});
+    //отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
+    //для логина, который клеит картинку на место текста
+    if (window.screen.width <= 720) {
+        $login?.classList.add('login');
+    } else {
+        $login?.classList.remove('login');
+    }
+})
 
 $login?.addEventListener('click', openPopup);
 $create?.addEventListener('click', openPopup);

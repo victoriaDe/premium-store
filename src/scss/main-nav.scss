@@ -8,7 +8,7 @@
   background-size: contain;
 
   @media screen and (max-device-width: s.$max-device-width) {
-    padding: 40px 0 120px 0;
+    padding: 40px 0;
     background: #232323;
   }
 }
@@ -19,6 +19,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  overflow-x: hidden;
 
   .main-nav-container {
     width: 100%;
