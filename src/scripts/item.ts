@@ -1,5 +1,5 @@
 import ChangeUserLists from '@scripts/changeUserLists';
-import { IProduct, ITechniqueData } from '@type/product';
+import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
 
 interface AddEvent {
@@ -23,22 +23,36 @@ class Item {
 
     const isAddedToWishlist = userData.wishlist.includes(product.data.id);
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
-    const filter = 'filter' in product.data ? product.data.filter : '';
-
+    let nation = '';
+    let type = '';
+    if ('filter' in product.data) {
+      nation = `<span class="main-container-description_flag" data-country="${product.data.filter.nation}"></span>`;
+      type = `<span class="main-container-description_type" data-type="${product.data.filter.type}"></span>`;
+    }
     $item.innerHTML = `
-                     <a class="main-container-link ${isAddedToPurchase ? 'main-container-link-added' : ''}">
-                          <img class="main-container-link_img" src=${product.data.images.span_2x1} alt="Танк">
+                     <a class="main-container-link ${
+                       isAddedToPurchase ? 'main-container-link-added' : ''
+                     }">
+                          <img class="main-container-link_img" src=${
+                            product.data.images.span_2x1
+                          } alt="Танк">
                      </a>
                      <div class="main-container-description">
-                            <span class="main-container-description_flag" data-country="${typeof filter !== 'string' ? filter.nation : ''}"></span>
-                            <span class="main-container-description_type" data-type="${typeof filter !== 'string' ? filter.type : ''}"></span>
+                            ${nation}
+                            ${type}
                             <h2>${product.data.name}</h2>
-                            <span class="main-container-description_price">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
-                            <button class="main-container-description_button-purchase ${isAddedToPurchase ? 'button-purchase-added' : ''}">
+                            <span class="main-container-description_price">${
+                              product.data.price.basic.cost
+                            }${product.data.price.basic.currency}</span>
+                            <button class="main-container-description_button-purchase ${
+                              isAddedToPurchase ? 'button-purchase-added' : ''
+                            }">
                                     purchase
                             </button>                            
                       </div>
-                     <button class="main-container-description_button-like ${isAddedToWishlist ? 'button-like_active' : ' '}"></button>
+                     <button class="main-container-description_button-like ${
+                       isAddedToWishlist ? 'button-like_active' : ' '
+                     }"></button>
     `;
     if (product.span === 2) {
       $item.classList.add('span-two');
@@ -109,8 +123,8 @@ class Item {
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
               <span class="item-purchase-price">${
-        product.data.price.basic.cost
-      }${product.data.price.basic.currency}</span>
+                product.data.price.basic.cost
+              }${product.data.price.basic.currency}</span>
               <button class="item-purchase-button">purchase</button>
           </div>
           <div class="item-container-description">
@@ -122,9 +136,13 @@ class Item {
       '.item-purchase-button',
     );
     if ($purchaseButton) {
-      addEvent('click', $purchaseButton, ChangeUserLists.changeShoppingList, true, [
-        [product, userData.shoppingList, ChangeUserLists.showShoppingList],
-      ]);
+      addEvent(
+        'click',
+        $purchaseButton,
+        ChangeUserLists.changeShoppingList,
+        true,
+        [[product, userData.shoppingList, ChangeUserLists.showShoppingList]],
+      );
     }
     return $item;
   }
@@ -172,9 +190,8 @@ class Item {
   }
 
   static showMainNavContainer() {
-    const $mainContainer: HTMLElement | null = document.getElementById(
-      'main-container-id',
-    );
+    const $mainContainer: HTMLElement | null =
+      document.getElementById('main-container-id');
     const $mainVisualContainer = document.createElement('div');
     $mainVisualContainer.innerHTML = '<div id="main-visual-container"></div>';
 
@@ -197,11 +214,9 @@ class Item {
       () => {
         eventFunction(...params);
       },
-      { once: once },
+      { once },
     );
   }
-
-
 }
 
 export default Item;
