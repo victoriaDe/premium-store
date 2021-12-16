@@ -23,7 +23,7 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 
-const router = new HistoryRouter();
+const router = new Router(process.env.DEPLOY_PATH!);
 
 router
   .addRoute('wishlist', () => {
