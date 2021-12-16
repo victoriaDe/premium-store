@@ -146,7 +146,7 @@ class MainPage {
 
   async init(): Promise<any> {
     const data = (await this.getAllData()) as any[];
-
+    console.log(data[0]);
     await Filter.filterProducts('all', router);
     Filter.addEvent(router);
     Shopping.showShoppingList(data[1].shoppingList);
