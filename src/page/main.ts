@@ -5,7 +5,6 @@ import UserAPI from '@api/user';
 import Item from '@scripts/item';
 import Shopping from '@scripts/changeUserLists';
 import ProductAPI from '@api/product';
-// import Router from '@scripts/router';
 import Filter from '@scripts/filter';
 import Wishlist from '@scripts/wishlist';
 import LocalStorage from '@scripts/localStorage';
