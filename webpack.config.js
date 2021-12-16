@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const { DefinePlugin } = require('webpack');
 
 // plugins
 const HTMLWebpackPlugin = require('html-webpack-plugin'); // plugin for generate html file
@@ -43,6 +44,11 @@ module.exports = {
     }),
     new MiniCSSExtractPlugin({
       filename: 'style.css', // filename for output css file
+    }),
+    new DefinePlugin({
+      'process.env.DEPLOY_PATH': isDevMode
+        ? JSON.stringify('http://localhost:8080/')
+        : JSON.stringify('https://askorag.github.io/test2/'),
     }),
   ],
   module: {

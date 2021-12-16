@@ -3,6 +3,7 @@ import Item from '@scripts/item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
+import Router from '@classes/Router';
 
 export type SetActiveFilterType =
   | 'all'
@@ -12,7 +13,7 @@ export type SetActiveFilterType =
   | 'provisions';
 
 class Filter {
-  static addEvent(): void {
+  static addEvent(router: Router): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
     $filterButtons.forEach((item: Node) => {
@@ -20,18 +21,20 @@ class Filter {
         const $eventTarget: HTMLElement = e.target as HTMLElement;
         const $prevFilter = document.querySelector('.active-link');
 
+        router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
+
         if ($prevFilter && $prevFilter !== $eventTarget) {
           $prevFilter.classList.remove('active-link');
         }
 
         $eventTarget.classList.add('active-link');
 
-        Filter.filterProducts($eventTarget.textContent);
+        // Filter.filterProducts($eventTarget.textContent);
       });
     });
   }
 
-  static filterProducts(filter: string | null) {
+  static filterProducts(filter: string | null, router: Router) {
     main.getUserData().then((userData) => {
       if (userData) {
         let actualFilter: TFilter | 'All';
@@ -46,7 +49,8 @@ class Filter {
         } else actualFilter = 'All';
 
         main.getProductDataByFilter(actualFilter).then((data) => {
-          if (data) this.showFilterProducts(data, userData, data, actualFilter);
+          if (data)
+            this.showFilterProducts(data, userData, data, actualFilter, router);
         });
         setTimeout(() => {
           main.updateProductDataByFilter(actualFilter).then(() => {});
@@ -60,6 +64,7 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
     filter: string,
+    router: Router,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -164,7 +169,9 @@ class Filter {
       const filterTypes = document.querySelectorAll('.filter-btn');
       filterTypes.forEach((item) => {
         item.addEventListener('click', (e: any) => {
-          e.currentTarget.parentElement.parentElement.firstElementChild.classList.add(e.currentTarget.children[0].classList[0]);
+          e.currentTarget.parentElement.parentElement.firstElementChild.classList.add(
+            e.currentTarget.children[0].classList[0],
+          );
           e.currentTarget.parentElement.parentElement.firstElementChild.textContent = `${e.currentTarget.children[0].textContent}`;
         });
       });
@@ -185,12 +192,14 @@ class Filter {
       let itemCounter = 0;
       products.forEach((value: IProduct) => {
         if (itemCounter < 20) {
-          $container.appendChild(Item.createItem(value, userData, productData));
+          $container.appendChild(
+            Item.createItem(value, userData, productData, router),
+          );
           itemCounter += value.span;
         }
       });
     }
-    lazy(20, 100, userData, products, new Item());
+    lazy(20, 100, userData, products, new Item(), router);
   }
 }
 

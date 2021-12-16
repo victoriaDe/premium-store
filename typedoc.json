@@ -3,10 +3,6 @@
   "tsconfig": "./tsconfig.json",
   "emit": "docs",
   "entryPointStrategy": "Expand",
-  "entryPoints": [
-    "src/api",
-    "src/scripts",
-    "src/types"
-  ],
+  "entryPoints": "src",
   "mergeModulesMergeMode": "module"
 }

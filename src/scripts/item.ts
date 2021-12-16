@@ -1,6 +1,7 @@
 import ChangeUserLists from '@scripts/changeUserLists';
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
+import Router from '@classes/Router';
 
 interface AddEvent {
   (
@@ -17,6 +18,7 @@ class Item {
     product: IProduct,
     userData: IUser,
     productData: IProduct[],
+    router: Router,
   ): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');
@@ -32,7 +34,9 @@ class Item {
     $item.innerHTML = `
                      <a class="main-container-link ${
                        isAddedToPurchase ? 'main-container-link-added' : ''
-                     }">
+                     }" href="/${product.type.toLowerCase()}/${
+      product.data.id
+    }" onclick="return false">
                           <img class="main-container-link_img" src=${
                             product.data.images.span_2x1
                           } alt="Танк">
@@ -90,15 +94,42 @@ class Item {
         [product, ChangeUserLists.showWishlist, $likeButton],
       );
     }
+
+    // слушатель для добавления роута в роутер
+    // почему-то срабатывал не 1 раз, поэтому внутри условие, нужен фикс
+    $item.addEventListener(
+      'click',
+      (event) => {
+        if (
+          !router.findRoute(`${product.type.toLowerCase()}/${product.data.id}`)
+        ) {
+          console.log('Once');
+          router.addRoute(
+            `${product.type.toLowerCase()}/${product.data.id}`,
+            () =>
+              Item.showSelectedItem(
+                product.data.id,
+                productData,
+                userData,
+                Item.createSelectedItem,
+              ),
+          );
+        }
+      },
+      { once: true },
+    );
+
     $item.addEventListener('click', (event: UIEvent) => {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
-        Item.showSelectedItem(
-          product.data.id,
-          productData,
-          userData,
-          Item.createSelectedItem,
-        );
+        console.log('Product');
+        router.changeURI(`${product.type.toLowerCase()}/${product.data.id}`);
+        // Item.showSelectedItem(
+        //   product.data.id,
+        //   productData,
+        //   userData,
+        //   Item.createSelectedItem,
+        // );
       }
     });
 
@@ -180,10 +211,10 @@ class Item {
     $mainNavContainer.innerHTML = `       
             <a class="main-nav-logo"></a>
             <nav class="main-nav-links">
-                <button class="main-nav-link" type="submit">all</button>
-                <button class="main-nav-link" type="submit">vehicles</button>
-                <button class="main-nav-link" type="submit">gold</button>
-                <button class="main-nav-link" type="submit">premium account</button>
+                <button class="main-nav-link" type="submit" data-filter="all">all</button>
+                <button class="main-nav-link" type="submit" data-filter="vehicles">vehicles</button>
+                <button class="main-nav-link" type="submit" data-filter="gold">gold</button>
+                <button class="main-nav-link" type="submit" data-filter="premium">premium account</button>
             </nav>       
     `;
     return $mainNavContainer;
