@@ -1,6 +1,7 @@
 import ChangeUserLists from '@scripts/changeUserLists';
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
+import HistoryRouter from '@classes/HistoryRouter';
 
 interface AddEvent {
   (
@@ -17,6 +18,7 @@ class Item {
     product: IProduct,
     userData: IUser,
     productData: IProduct[],
+    router: HistoryRouter,
   ): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');
@@ -92,15 +94,42 @@ class Item {
         [product, ChangeUserLists.showWishlist, $likeButton],
       );
     }
+
+    // слушатель для добавления роута в роутер
+    // почему-то срабатывал не 1 раз, поэтому внутри условие, нужен фикс
+    $item.addEventListener(
+      'click',
+      (event) => {
+        if (
+          !router.findRoute(`${product.type.toLowerCase()}/${product.data.id}`)
+        ) {
+          console.log('Once');
+          router.addRoute(
+            `${product.type.toLowerCase()}/${product.data.id}`,
+            () =>
+              Item.showSelectedItem(
+                product.data.id,
+                productData,
+                userData,
+                Item.createSelectedItem,
+              ),
+          );
+        }
+      },
+      { once: true },
+    );
+
     $item.addEventListener('click', (event: UIEvent) => {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
-        Item.showSelectedItem(
-          product.data.id,
-          productData,
-          userData,
-          Item.createSelectedItem,
-        );
+        console.log('Product');
+        router.changeURI(`${product.type.toLowerCase()}/${product.data.id}`);
+        // Item.showSelectedItem(
+        //   product.data.id,
+        //   productData,
+        //   userData,
+        //   Item.createSelectedItem,
+        // );
       }
     });
 

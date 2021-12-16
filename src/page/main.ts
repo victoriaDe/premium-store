@@ -34,13 +34,17 @@ router
   .addRoute('', () => {
     Item.showMainNavContainer();
     Filter.addEvent(router);
-    Filter.filterProducts('all');
+    Filter.filterProducts('all', router);
   })
-  .addRoute('?filter=all', () => Filter.filterProducts('all'))
-  .addRoute('?filter=vehicles', () => Filter.filterProducts('vehicles'))
-  .addRoute('?filter=gold', () => Filter.filterProducts('gold'))
-  .addRoute('?filter=premium', () => Filter.filterProducts('premium account'))
-  .addRoute('?filter=provisions', () => Filter.filterProducts('provisions'));
+  .addRoute('?filter=all', () => Filter.filterProducts('all', router))
+  .addRoute('?filter=vehicles', () => Filter.filterProducts('vehicles', router))
+  .addRoute('?filter=gold', () => Filter.filterProducts('gold', router))
+  .addRoute('?filter=premium', () =>
+    Filter.filterProducts('premium account', router),
+  )
+  .addRoute('?filter=provisions', () =>
+    Filter.filterProducts('provisions', router),
+  );
 
 router.init();
 
@@ -144,11 +148,11 @@ class MainPage {
   async init(): Promise<any> {
     const data = (await this.getAllData()) as any[];
 
-    await Filter.filterProducts('all');
+    await Filter.filterProducts('all', router);
     Filter.addEvent(router);
     Shopping.showShoppingList(data[1].shoppingList);
     Shopping.showWishlist(data[1].wishlist);
-    await lazy(20, 100, data[1], data[0], new Item());
+    await lazy(20, 100, data[1], data[0], new Item(), router);
 
     setTimeout(() => {
       this.updateUserData();

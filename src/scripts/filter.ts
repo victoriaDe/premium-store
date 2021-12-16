@@ -34,7 +34,7 @@ class Filter {
     });
   }
 
-  static filterProducts(filter: string | null) {
+  static filterProducts(filter: string | null, router: HistoryRouter) {
     main.getUserData().then((userData) => {
       if (userData) {
         let actualFilter: TFilter | 'All';
@@ -49,7 +49,8 @@ class Filter {
         } else actualFilter = 'All';
 
         main.getProductDataByFilter(actualFilter).then((data) => {
-          if (data) this.showFilterProducts(data, userData, data, actualFilter);
+          if (data)
+            this.showFilterProducts(data, userData, data, actualFilter, router);
         });
         setTimeout(() => {
           main.updateProductDataByFilter(actualFilter).then(() => {});
@@ -63,6 +64,7 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
     filter: string,
+    router: HistoryRouter,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -190,12 +192,14 @@ class Filter {
       let itemCounter = 0;
       products.forEach((value: IProduct) => {
         if (itemCounter < 20) {
-          $container.appendChild(Item.createItem(value, userData, productData));
+          $container.appendChild(
+            Item.createItem(value, userData, productData, router),
+          );
           itemCounter += value.span;
         }
       });
     }
-    lazy(20, 100, userData, products, new Item());
+    lazy(20, 100, userData, products, new Item(), router);
   }
 }
 
