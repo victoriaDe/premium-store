@@ -36,6 +36,7 @@ class Router {
     this.#routes.push({
       path,
       callback,
+      isCalled: false,
     });
     return this;
   }
@@ -47,6 +48,16 @@ class Router {
 
   findRoute(path: string): TRoute | undefined {
     return this.#routes.find((r) => r.path === path);
+  }
+
+  /**
+   * Method whether the given route was called
+   * @param path relative path route
+   */
+
+  checkRoute(path: string): boolean | undefined {
+    const route = this.findRoute(path);
+    return route?.isCalled;
   }
 
   /**
@@ -64,6 +75,7 @@ class Router {
         throw new Error(`Path '${this.#currentPath}' is undefined`);
       } else {
         route.callback();
+        route.isCalled = true;
       }
     }
   }
