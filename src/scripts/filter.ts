@@ -1,10 +1,10 @@
 import { IProduct, TFilter } from '@type/product';
-import Item from '@scripts/item';
+import Item from '@classes/Item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
 import Router from '@classes/Router';
-import LocalStorage from '@scripts/localStorage';
+import LocalStorage from '@classes/LocalStorage';
 
 export type SetActiveFilterType =
   | 'all'
@@ -35,8 +35,6 @@ class Filter {
         }
 
         $eventTarget.classList.add('active-link');
-
-        // Filter.filterProducts($eventTarget.textContent);
       });
     });
   }

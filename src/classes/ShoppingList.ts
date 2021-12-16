@@ -1,9 +1,9 @@
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import Item from '@scripts/item';
-import ChangeUserLists from '@scripts/changeUserLists';
+import Item from '@classes/Item';
 import { main } from '@page/main';
-import Wishlist from '@scripts/wishlist';
+import Wishlist from '@classes/Wishlist';
+import LocalStorage from '@classes/LocalStorage';
 
 class ShoppingList {
   static createShoppingListItem(product: IProduct, userData: IUser) {
@@ -24,7 +24,7 @@ class ShoppingList {
                         <span class="item-purchase-prise">${
                           product.data.price.basic.cost
                         }${product.data.price.basic.currency}</span>
-                        <button>Purchase</button>
+                        <button class="button-purchase-added">Purchase</button>
                     </div>
     `;
     const $likeButton: any = $item.querySelector('.item-description-likeBtn');
@@ -32,9 +32,9 @@ class ShoppingList {
       Item.addEvent(
         'click',
         $likeButton,
-        ChangeUserLists.changeWishlist,
+        Wishlist.changeWishlistCounter,
         false,
-        [product, ChangeUserLists.showWishlist, $likeButton],
+        [product, Wishlist.showWishlistCounter, $likeButton],
       );
     }
     return $item;
@@ -60,6 +60,37 @@ class ShoppingList {
         $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
       }
     }
+  }
+
+  // show number of shopping list
+  static showShoppingListCounter(shopping: string[]): void {
+    const $shoppingCounter: HTMLElement | null = document.querySelector(
+      '.cart-span-container',
+    );
+    if ($shoppingCounter) {
+      $shoppingCounter.textContent = `(${shopping.length})`;
+    }
+  }
+
+  // change product in shoppingList
+  static changeShoppingListCounter(
+    product: IProduct,
+    showShopping: (shopping: string[]) => void,
+    $purchaseButton: HTMLElement,
+    // $containerLink: HTMLElement,
+  ): void {
+    LocalStorage.changeLocalShoppingList('user', product.data.id);
+    main.getUserData().then((data) => {
+      if (data) {
+        console.log($purchaseButton);
+        ShoppingList.showShoppingListCounter(data.shoppingList);
+        $purchaseButton.classList.add('button-purchase-added');
+        // $containerLink?.classList.add('main-container-link-added');
+      }
+    });
+    setTimeout(() => {
+      main.sendUserData().then(() => {});
+    });
   }
 }
 

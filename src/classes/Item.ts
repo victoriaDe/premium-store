@@ -1,7 +1,8 @@
-import ChangeUserLists from '@scripts/changeUserLists';
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
 import Router from '@classes/Router';
+import ShoppingList from '@classes/ShoppingList';
+import Wishlist from '@classes/Wishlist';
 
 interface AddEvent {
   (
@@ -67,31 +68,23 @@ class Item {
     const $purchaseButton: HTMLElement | null = $item.querySelector(
       '.main-container-description_button-purchase',
     );
-    const $containerLink: HTMLElement | null = $item.querySelector(
-      '.main-container-link',
-    );
 
     if ($purchaseButton && !isAddedToPurchase) {
       Item.addEvent(
         'click',
         $purchaseButton,
-        ChangeUserLists.changeShoppingList,
+        ShoppingList.changeShoppingListCounter,
         true,
-        [
-          product,
-          ChangeUserLists.showShoppingList,
-          $purchaseButton,
-          $containerLink,
-        ],
+        [product, ShoppingList.showShoppingListCounter, $purchaseButton],
       );
     }
     if ($likeButton) {
       Item.addEvent(
         'click',
         $likeButton,
-        ChangeUserLists.changeWishlist,
+        Wishlist.changeWishlistCounter,
         false,
-        [product, ChangeUserLists.showWishlist, $likeButton],
+        [product, Wishlist.showWishlistCounter, $likeButton],
       );
     }
 
@@ -124,12 +117,6 @@ class Item {
       if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
         console.log('Product');
         router.changeURI(`${product.type.toLowerCase()}/${product.data.id}`);
-        // Item.showSelectedItem(
-        //   product.data.id,
-        //   productData,
-        //   userData,
-        //   Item.createSelectedItem,
-        // );
       }
     });
 
@@ -145,6 +132,7 @@ class Item {
     const product: IProduct | undefined = productData.find(
       (element: IProduct) => element.data.id === itemId,
     );
+    const isAddedToPurchase = userData.shoppingList.includes(itemId);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
@@ -156,7 +144,9 @@ class Item {
               <span class="item-purchase-price">${
                 product.data.price.basic.cost
               }${product.data.price.basic.currency}</span>
-              <button class="item-purchase-button">purchase</button>
+              <button class="item-purchase-button ${
+                isAddedToPurchase ? 'button-purchase-added' : ''
+              }">purchase</button>
           </div>
           <div class="item-container-description">
                 <h3>Details</h3>
@@ -166,13 +156,13 @@ class Item {
     const $purchaseButton: HTMLElement | null = $item.querySelector(
       '.item-purchase-button',
     );
-    if ($purchaseButton) {
+    if ($purchaseButton && !isAddedToPurchase) {
       addEvent(
         'click',
         $purchaseButton,
-        ChangeUserLists.changeShoppingList,
+        ShoppingList.changeShoppingListCounter,
         true,
-        [[product, userData.shoppingList, ChangeUserLists.showShoppingList]],
+        [product, ShoppingList.showShoppingListCounter, $purchaseButton],
       );
     }
     return $item;
@@ -193,8 +183,16 @@ class Item {
       'main-visual-container',
     );
     const $container: HTMLElement | null = document.getElementById('main');
+    const $itemFilter: HTMLElement | null =
+      document.querySelector('.item-filters');
     if ($visualContainer && $container) {
       $visualContainer?.removeChild($container);
+      if (
+        $visualContainer?.parentElement?.children.length === 3 &&
+        $itemFilter
+      ) {
+        $visualContainer?.parentElement?.removeChild($itemFilter);
+      }
       const $item: HTMLElement = createItem(
         itemId,
         productDataList,
@@ -202,34 +200,6 @@ class Item {
         Item.addEvent,
       );
       $visualContainer.appendChild($item);
-    }
-  }
-
-  static createMainNavContainer(): HTMLElement {
-    const $mainNavContainer = document.createElement('div');
-    $mainNavContainer.classList.add('main-nav-container');
-    $mainNavContainer.innerHTML = `       
-            <a class="main-nav-logo"></a>
-            <nav class="main-nav-links">
-                <button class="main-nav-link" type="submit" data-filter="all">all</button>
-                <button class="main-nav-link" type="submit" data-filter="vehicles">vehicles</button>
-                <button class="main-nav-link" type="submit" data-filter="gold">gold</button>
-                <button class="main-nav-link" type="submit" data-filter="premium">premium account</button>
-            </nav>       
-    `;
-    return $mainNavContainer;
-  }
-
-  static showMainNavContainer() {
-    const $mainContainer: HTMLElement | null =
-      document.getElementById('main-container-id');
-    const $mainVisualContainer = document.createElement('div');
-    $mainVisualContainer.innerHTML = '<div id="main-visual-container"></div>';
-
-    if ($mainContainer) {
-      $mainContainer.innerHTML = '';
-      $mainContainer.append(this.createMainNavContainer());
-      $mainContainer.append($mainVisualContainer);
     }
   }
 

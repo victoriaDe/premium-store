@@ -5,7 +5,7 @@
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
-import Item from '@scripts/item';
+import Item from '@classes/Item';
 import Router from '@classes/Router';
 
 /**

@@ -2,16 +2,15 @@ import { IUser } from '@type/user';
 import { IProduct, TFilter } from '@type/product';
 
 import UserAPI from '@api/user';
-import Item from '@scripts/item';
-import Shopping from '@scripts/changeUserLists';
+import Item from '@classes/Item';
 import ProductAPI from '@api/product';
 import Filter from '@scripts/filter';
-import Wishlist from '@scripts/wishlist';
-import LocalStorage from '@scripts/localStorage';
-import ShoppingList from '@scripts/shoppingList';
+import Wishlist from '@classes/Wishlist';
+import LocalStorage from '@classes/LocalStorage';
+import ShoppingList from '@classes/ShoppingList';
 import Popup from '@classes/Popup';
 import Router from '@classes/Router';
-
+import Navigation from '@classes/Navigation';
 import lazy from '@scripts/lazy';
 
 import '@scss/main.scss';
@@ -31,7 +30,7 @@ router
   })
   .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
   .addRoute('', () => {
-    Item.showMainNavContainer();
+    Navigation.showMainNavContainer();
     Filter.addEvent(router);
     Filter.filterProducts('all', router);
   })
@@ -83,15 +82,6 @@ class MainPage {
   #userData: IUser | null = null;
 
   #userId = '61a6286353b5dad92e57b4c0';
-
-  static updateLocalData() {
-    UserAPI.getUserByID('61a6286353b5dad92e57b4c0').then((data) => {
-      localStorage.setItem('user', JSON.stringify(data));
-    });
-    ProductAPI.getProductsByFilter('All').then((data) => {
-      localStorage.setItem('productData', JSON.stringify(data));
-    });
-  }
 
   async getAllData() {
     const productData = await this.getProductDataByFilter('All');
@@ -146,11 +136,10 @@ class MainPage {
 
   async init(): Promise<any> {
     const data = (await this.getAllData()) as any[];
-    console.log(data[0]);
     await Filter.filterProducts('all', router);
     Filter.addEvent(router);
-    Shopping.showShoppingList(data[1].shoppingList);
-    Shopping.showWishlist(data[1].wishlist);
+    ShoppingList.showShoppingListCounter(data[1].shoppingList);
+    Wishlist.showWishlistCounter(data[1].wishlist);
     await lazy(20, 100, data[1], data[0], new Item(), router);
 
     setTimeout(() => {

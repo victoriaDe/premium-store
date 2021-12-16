@@ -15,7 +15,7 @@ class LocalStorage {
   // update shoppingList in localstorage
   static changeLocalShoppingList(id: string, idProduct: string): void {
     const user: IUser | IProduct[] | null = LocalStorage.getLocalData(id);
-    if(user){
+    if (user) {
       if ('shoppingList' in user) {
         user.shoppingList.push(idProduct);
       }
@@ -24,7 +24,7 @@ class LocalStorage {
   }
 
   // update wishlist in localstorage
-  static changeLocalWishlist(id: string, productId:string): void {
+  static changeLocalWishlist(id: string, productId: string): void {
     const user: IUser | IProduct[] | null = LocalStorage.getLocalData(id);
     if (user) {
       if ('wishlist' in user) {
@@ -35,10 +35,8 @@ class LocalStorage {
           user.wishlist.push(productId);
         }
         localStorage.setItem('user', JSON.stringify(user));
-
       }
     }
-
   }
 }
 
