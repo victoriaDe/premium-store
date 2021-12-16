@@ -11,19 +11,19 @@
 <body id="bodyId">
 <header class="header">
     <div class="header-container wrapper">
-        <a id = "headerLogo"  class="header-container-logo">
+        <a id = "headerLogo"  class="header-container-logo" href='/'>
             <span></span>
             <h1>premium shop</h1>
         </a>
         <nav class="header-container-nav">
-            <a id="wishlistId" class="header-nav-link" href="#">Wishlist <span
+            <a id="wishlistId" class="header-nav-link" href="wishlist">Wishlist <span
                     class="wishlist-span-container">(0)</span></a>
-            <a id="shoppingId" class="shopping header-nav-link" href="#">Shopping cart <span
+            <a id="shoppingId" class="shopping header-nav-link" href="shoppingcart">Shopping cart <span
                     class=" cart-span-container">(0)</span></a>
             <div class="header-nav-account">
-                <a class="login header-nav-link" href="#">Login</a>
+                <a class="header-nav-link" id="login" href="#">Login</a>
                 <span>or</span>
-                <a class="create header-nav-link" href="#">Create account</a>
+                <a class="header-nav-link" id="create-account" href="#">Create account</a>
             </div>
         </nav>
     </div>
@@ -33,14 +33,16 @@
         <div class="main-nav-container">
             <a class="main-nav-logo"></a>
             <nav class="main-nav-links">
-                <button class="main-nav-link active-link" type="submit">all</button>
-                <button class="main-nav-link" type="submit">vehicles</button>
-                <button class="main-nav-link" type="submit">gold</button>
-                <button class="main-nav-link" type="submit">premium account</button>
+                <button class="main-nav-link active-link" type="submit" data-filter="all">all</button>
+                <button class="main-nav-link" type="submit" data-filter="vehicles">vehicles</button>
+                <button class="main-nav-link" type="submit" data-filter="gold">gold</button>
+                <button class="main-nav-link" type="submit" data-filter="premium">premium account</button>
+                <button class="main-nav-link" type="submit" data-filter="provisions">Шляпа</button>
             </nav>
         </div>
         <div id="main-visual-container"></div>
     </div>
 </main>
+<div id="popupWrapper" class="pop-up-wrapper"></div>
 </body>
 </html>

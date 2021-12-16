@@ -9,6 +9,7 @@
   grid-gap: 1px;
 
   padding-bottom: 5em;
+  padding-top: 1.5em;
 
   @media screen and (max-device-width: s.$max-width-tab) {
     grid-template-columns: repeat(3, 1fr);
@@ -48,10 +49,6 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.2);
   }
-  .main-container-link-added {
-    background-color: rgba(255, 131, 0, 0.2);
-  }
-
 
   .main-container-link_img {
     height: 100%;
@@ -74,6 +71,10 @@
     align-items: flex-end;
     flex-wrap: wrap;
     gap: 15px 10px;
+
+    @media screen and (max-device-width: s.$max-device-width) {
+      padding: 10px;
+    }
 
 
     .main-container-description_flag {
@@ -214,14 +215,22 @@
       background: rgba(233, 81, 4, 0.8);
     }
 
-  }
-  .button-purchase-added{
-    background: c.$bgColorButton_purchase_added;
-    &:hover {
-      background: c.$bgColorButton_purchase_added;
+    @media screen and (max-device-width: s.$max-device-width) {
+      height: 30px;
+      width: 80px;
+      font-size: 10px;
     }
   }
 
+  .main-container-description_button-purchase.button-purchase-added {
+    transition: none;
+    text-align: left;
+    background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 
 
   .main-container-description_button-like {

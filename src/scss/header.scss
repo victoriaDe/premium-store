@@ -88,7 +88,7 @@
     gap: 35px;
   }
   @media screen and (max-device-width: s.$max-device-width) {
-    gap: 10px;
+    gap: 15px;
   }
 
   .header-nav-link {
@@ -132,7 +132,7 @@
           position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(35%, -45%);
+          transform: translate(50%, -50%);
         }
       }
       span.cart-span-container {
@@ -151,17 +151,12 @@
       }
     }
     @media screen and (max-device-width: s.$max-device-width) {
-      span.wishlist-span-container {
-        &:after {
-          transform: translate(0%, -45%);
-        }
-      }
-      span.cart-span-container {
-        &:before {
-          left: -25%;
-        }
-      }
+      width: 15%;
     }
+  }
+
+  .nav-link-active {
+    color: c.$fColorHeader_active;
   }
 
   .header-nav-account {
@@ -171,19 +166,25 @@
     align-items: center;
     gap: 10px;
 
+
+    @media screen and (max-device-width: s.$min-width) {
+      position: relative;
+    }
+
+    .login {
+      background: url("~@images/buttons/ico.png") no-repeat center/contain;
+      width: 16px;
+      height: 14px;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
     span {
       @media screen and (max-device-width: s.$min-width) {
         font-size: 0;
-        &:before {
-          content: url("~@images/buttons/ico.png");
-          width: 20px;
-          height: 17px;
-
-          position: absolute;
-          top: 50%;
-          right: 4%;
-          transform: translate(0%, -45%);
-        }
       }
     }
   }

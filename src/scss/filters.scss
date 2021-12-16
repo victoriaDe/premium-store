@@ -1,6 +1,10 @@
 @use '~@scss/variables/colors' as c;
 @use '~@scss/variables/sizes' as s;
 
+@font-face {
+  font-family: 'WarHelios', sans-serif;
+  src: url("~@font/Helios-Cond.ttf");
+}
 
 .item-filters {
   padding-top: 30px;
@@ -10,7 +14,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 0 5%;
+  gap: 20px 5%;
 
   .filter-container {
     position: relative;
@@ -18,34 +22,27 @@
 
   @media screen and (max-device-width: s.$min-width) {
     justify-content: space-between;
-    gap: 20px 5%;
-    .filter-container, .item-filters-btn {
-      width: 45%;
-      border: none;
 
-      &:nth-child(even) {
-        text-align: end;
+    .filter-container, .item-filters-btn {
+      justify-content: center;
+      width: 100%;
+
+      ul {
+        text-align: left;
       }
     }
 
   }
   @media screen and (max-device-width: s.$max-device-width) {
     padding-top: 15px;
-
-    .filter-container, .item-filters-btn {
-      justify-content: center;
-      width: 100%;
-
-      &:nth-child(n) {
-        text-align: center;
-      }
-    }
   }
 }
 
 
 .filter-container-checkedBtn {
-  // font-family: 'War Helios Cond C';
+  width: 170px;
+  text-align: left;
+  font-family: 'WarHelios', sans-serif;
   color: c.$fontColorFilterButton;
   font-size: 17px;
   line-height: 0.9;
@@ -54,7 +51,7 @@
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.33);
 
   margin: 0 20px;
-  padding: 5px;
+  padding: 5px 18px;
   border-bottom: 1px dashed c.$fontColorFilterButton;
 
   position: relative;
@@ -97,12 +94,31 @@
   }
 }
 
+.filter-container-checkedBtn.tiers {
+  width: 110px;
+  @media screen and (max-device-width: s.$min-width) {
+    width: 170px;
+    text-align: left;
+  }
+
+}
+
 .nations-list {
   width: 150px;
 }
 
 .type-list {
   width: 166px;
+
+  .type-btn {
+    padding: 10px 0 10px 30px;
+
+    button {
+      &:before {
+        left: -25px;
+      }
+    }
+  }
 }
 
 .tiers-list {
@@ -140,6 +156,7 @@
 
 .filter-list.opened-list {
   display: block;
+  width: 100%;
 }
 
 .filter-btn { //li
@@ -192,6 +209,14 @@
   content: url("~@images/country/filter-france.png");
 }
 
+.poland_btn:before {
+  content: url("~@images/country/filter-poland.png");
+}
+
+.czech_btn:before {
+  content: url("~@images/country/filter-czech.png");
+}
+
 .germany_btn:before {
   content: url("~@images/country/filter-germany.png");
 }
@@ -210,6 +235,14 @@
 
 .ussr_btn:before {
   content: url("~@images/country/filter-ussr.png");
+}
+
+.czech_btn:before {
+  content: url("~@images/country/filter-czech.png");
+}
+
+.germany_btn:before {
+  content: url("~@images/country/filter-germany.png");
 }
 
 ///////////////////////////////////
@@ -247,6 +280,8 @@
 
 //////////////////////////////////      tiers
 .tiers {
+  text-align: center;
+
   &:before {
     content: 'II-X';
     width: 30px;
@@ -272,6 +307,7 @@
 .item-filters-btn {
   display: inline-block;
   min-width: 15%;
+  width: 170px;
   padding: 5px;
 
   font-size: 17px;
@@ -290,4 +326,11 @@
     border-bottom-color: c.$fontColorFilterButtonActive;
 
   }
+}
+
+.opened-list.nations,
+.opened-list.tires,
+.opened-list.types {
+  font-size: 15px;
+  text-align: left;
 }
