@@ -1,7 +1,7 @@
 import ChangeUserLists from '@scripts/changeUserLists';
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import HistoryRouter from '@classes/HistoryRouter';
+import Router from '@classes/Router';
 
 interface AddEvent {
   (
@@ -18,7 +18,7 @@ class Item {
     product: IProduct,
     userData: IUser,
     productData: IProduct[],
-    router: HistoryRouter,
+    router: Router,
   ): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');

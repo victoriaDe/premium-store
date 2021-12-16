@@ -6,7 +6,7 @@ import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
 import Item from '@scripts/item';
-import HistoryRouter from '@classes/HistoryRouter';
+import Router from '@classes/Router';
 
 /**
  * Function for lazy loading of products on the main page
@@ -23,7 +23,7 @@ function lazy(
   user: IUser,
   products: IProduct[],
   item: Item,
-  router: HistoryRouter,
+  router: Router,
 ) {
   const $productsContainer = document.querySelector('.main-container-content');
 

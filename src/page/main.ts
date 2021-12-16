@@ -10,7 +10,7 @@ import Wishlist from '@scripts/wishlist';
 import LocalStorage from '@scripts/localStorage';
 import ShoppingList from '@scripts/shoppingList';
 import Popup from '@classes/Popup';
-import HistoryRouter from '@classes/HistoryRouter';
+import Router from '@classes/Router';
 
 import lazy from '@scripts/lazy';
 

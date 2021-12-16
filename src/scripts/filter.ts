@@ -3,7 +3,7 @@ import Item from '@scripts/item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
-import HistoryRouter from '@classes/HistoryRouter';
+import Router from '@classes/Router';
 
 export type SetActiveFilterType =
   | 'all'
@@ -13,7 +13,7 @@ export type SetActiveFilterType =
   | 'provisions';
 
 class Filter {
-  static addEvent(router: HistoryRouter): void {
+  static addEvent(router: Router): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
     $filterButtons.forEach((item: Node) => {
@@ -34,7 +34,7 @@ class Filter {
     });
   }
 
-  static filterProducts(filter: string | null, router: HistoryRouter) {
+  static filterProducts(filter: string | null, router: Router) {
     main.getUserData().then((userData) => {
       if (userData) {
         let actualFilter: TFilter | 'All';
@@ -64,7 +64,7 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
     filter: string,
-    router: HistoryRouter,
+    router: Router,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
