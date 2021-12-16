@@ -3,6 +3,7 @@ import Item from '@scripts/item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
+import HistoryRouter from '@classes/HistoryRouter';
 
 export type SetActiveFilterType =
   | 'all'
@@ -12,7 +13,7 @@ export type SetActiveFilterType =
   | 'provisions';
 
 class Filter {
-  static addEvent(): void {
+  static addEvent(router: HistoryRouter): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
     $filterButtons.forEach((item: Node) => {
@@ -20,13 +21,15 @@ class Filter {
         const $eventTarget: HTMLElement = e.target as HTMLElement;
         const $prevFilter = document.querySelector('.active-link');
 
+        router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
+
         if ($prevFilter && $prevFilter !== $eventTarget) {
           $prevFilter.classList.remove('active-link');
         }
 
         $eventTarget.classList.add('active-link');
 
-        Filter.filterProducts($eventTarget.textContent);
+        // Filter.filterProducts($eventTarget.textContent);
       });
     });
   }

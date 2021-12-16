@@ -24,6 +24,56 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 
+const router = new HistoryRouter();
+
+router
+  .addRoute('wishlist', () => {
+    Wishlist.createWishlist();
+  })
+  .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
+  .addRoute('', () => {
+    Item.showMainNavContainer();
+    Filter.addEvent(router);
+    Filter.filterProducts('all');
+  })
+  .addRoute('?filter=all', () => Filter.filterProducts('all'))
+  .addRoute('?filter=vehicles', () => Filter.filterProducts('vehicles'))
+  .addRoute('?filter=gold', () => Filter.filterProducts('gold'))
+  .addRoute('?filter=premium', () => Filter.filterProducts('premium account'))
+  .addRoute('?filter=provisions', () => Filter.filterProducts('provisions'));
+
+router.init();
+
+const $wishlistLink = document.getElementById('wishlistId') as HTMLElement;
+
+$wishlistLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  router.changeURI('wishlist');
+});
+
+const $shoppingCartLink = document.getElementById('shoppingId') as HTMLElement;
+
+$shoppingCartLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  router.changeURI('shoppingcart');
+});
+
+const $headerLogoLink = document.getElementById('headerLogo') as HTMLElement;
+
+$headerLogoLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  router.changeURI('');
+});
+
+// const $filterLinkList = document.querySelectorAll('.main-nav-link');
+//
+// $filterLinkList.forEach(($filterLink) => {
+//   $filterLink.addEventListener('click', (event) => {
+//     const $target = event.target as HTMLElement;
+//     router.changeURI(`?filter=${$target.dataset.filter}`);
+//   });
+// });
+
 class MainPage {
   #productData: IProduct[] | null = [];
 
@@ -95,7 +145,7 @@ class MainPage {
     const data = (await this.getAllData()) as any[];
 
     await Filter.filterProducts('all');
-    Filter.addEvent();
+    Filter.addEvent(router);
     Shopping.showShoppingList(data[1].shoppingList);
     Shopping.showWishlist(data[1].wishlist);
     await lazy(20, 100, data[1], data[0], new Item());
@@ -109,63 +159,6 @@ class MainPage {
 export const main: MainPage = new MainPage();
 
 main.init();
-
-const router = new HistoryRouter();
-
-router
-  .addRoute('wishlist', () => {
-    Wishlist.createWishlist();
-  })
-  .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
-  .addRoute('', () => {
-    Item.showMainNavContainer();
-    Filter.addEvent();
-    Filter.filterProducts('all');
-  })
-  .addRoute('?filter=all', () => console.log('all'))
-  .addRoute('?filter=vehicles', () => console.log('vehicles'))
-  .addRoute('?filter=gold', () => console.log('gold'))
-  .addRoute('?filter=premium', () => console.log('premium'));
-
-router.init();
-
-const $wishlistLink = document.getElementById('wishlistId') as HTMLElement;
-
-$wishlistLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('wishlist');
-});
-
-const $shoppingCartLink = document.getElementById('shoppingId') as HTMLElement;
-
-$shoppingCartLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('shoppingcart');
-});
-
-const $headerLogoLink = document.getElementById('headerLogo') as HTMLElement;
-
-$headerLogoLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('');
-});
-
-const $filterLinkList = document.querySelectorAll('.main-nav-link');
-
-$filterLinkList.forEach(($filterLink) => {
-  $filterLink.addEventListener('click', (event) => {
-    const $target = event.target as HTMLElement;
-    router.changeURI(`?filter=${$target.dataset.filter}`);
-  });
-});
-
-// const $productsLinkList = document.querySelectorAll('.main-container-link');
-//
-// $productsLinkList.forEach(($productLink) => {
-//   $productLink.addEventListener('click', (event) => {
-//     event.preventDefault();
-//   });
-// });
 
 /// /////////////////////////////////////////////////////////////////////
 
