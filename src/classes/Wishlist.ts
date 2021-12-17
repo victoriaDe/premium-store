@@ -61,8 +61,8 @@ class Wishlist {
   }
 
   static async createWishlist() {
-    const wishlistData = await main.getListData('wishlist');
-    const userData = await main.getUserData();
+    const wishlistData = await LocalStorage.getListData('wishlist');
+    const userData = await LocalStorage.getUserData();
     const $container: HTMLElement = document.createElement('div');
     $container.classList.add('items-filtered');
     $container.id = 'items-filtered';
@@ -98,14 +98,14 @@ class Wishlist {
     $element: HTMLElement,
   ): void {
     LocalStorage.changeLocalWishlist('user', product.data.id);
-    main.getUserData().then((data) => {
+    LocalStorage.getUserData().then((data) => {
       if (data) {
         showWishList(data.wishlist);
         $element.classList.toggle('button-like_active');
       }
     });
     setTimeout(() => {
-      main.sendUserData();
+      LocalStorage.sendUserData();
     });
   }
 }

@@ -41,8 +41,8 @@ class ShoppingList {
   }
 
   static async createShoppingList() {
-    const shoppingListData = await main.getListData('shoppingList');
-    const userData = await main.getUserData();
+    const shoppingListData = await LocalStorage.getListData('shoppingList');
+    const userData = await LocalStorage.getUserData();
     const $container: HTMLElement = document.createElement('div');
     $container.classList.add('items-filtered');
     $container.id = 'items-filtered';
@@ -80,7 +80,7 @@ class ShoppingList {
     // $containerLink: HTMLElement,
   ): void {
     LocalStorage.changeLocalShoppingList('user', product.data.id);
-    main.getUserData().then((data) => {
+    LocalStorage.getUserData().then((data) => {
       if (data) {
         console.log($purchaseButton);
         ShoppingList.showShoppingListCounter(data.shoppingList);
@@ -89,7 +89,7 @@ class ShoppingList {
       }
     });
     setTimeout(() => {
-      main.sendUserData().then(() => {});
+      LocalStorage.sendUserData().then(() => {});
     });
   }
 }
