@@ -40,20 +40,31 @@ class Filter {
   }
 
   static filterProducts(filter: string | null, router: Router) {
+    let $target: HTMLElement | null;
     main.getUserData().then((userData) => {
       if (userData) {
         let actualFilter: TFilter | 'All';
         if (filter === 'all') {
           actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
         } else if (filter === 'vehicles') {
           actualFilter = 'Technique';
+          $target = document.querySelector('[data-filter=vehicles]');
         } else if (filter === 'gold') {
           actualFilter = 'Gold';
+          $target = document.querySelector('[data-filter=gold]');
         } else if (filter === 'provisions') {
           actualFilter = 'Provisions';
+          $target = document.querySelector('[data-filter=provisions]');
         } else if (filter === 'premium account') {
           actualFilter = 'Premium';
-        } else actualFilter = 'All';
+          $target = document.querySelector('[data-filter=premium]');
+        } else {
+          actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
+        }
+
+        $target?.classList.add('active-link');
 
         main.getProductDataByFilter(actualFilter).then((data) => {
           if (data)
