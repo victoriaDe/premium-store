@@ -3,8 +3,8 @@ import Item from '@classes/Item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
-import Router from '@classes/Router';
 import LocalStorage from '@classes/LocalStorage';
+import HashRouter from '@classes/HashRouter';
 
 export type SetActiveFilterType =
   | 'all'
@@ -20,7 +20,7 @@ class Filter {
 
   static #tier: string | undefined;
 
-  static addEvent(router: Router): void {
+  static addEvent(router: HashRouter): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
     $filterButtons.forEach((item: Node) => {
@@ -28,7 +28,7 @@ class Filter {
         const $eventTarget: HTMLElement = e.target as HTMLElement;
         const $prevFilter = document.querySelector('.active-link');
 
-        router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
+        // router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
 
         if ($prevFilter && $prevFilter !== $eventTarget) {
           $prevFilter.classList.remove('active-link');
@@ -39,7 +39,7 @@ class Filter {
     });
   }
 
-  static filterProducts(filter: string | null, router: Router) {
+  static filterProducts(filter: string | null, router: HashRouter) {
     let $target: HTMLElement | null;
     main.getUserData().then((userData) => {
       if (userData) {
@@ -86,7 +86,7 @@ class Filter {
   static filterTechniqueProducts(
     userData: IUser,
     productData: IProduct[],
-    router: Router,
+    router: HashRouter,
   ) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
@@ -115,7 +115,7 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
     filter: string,
-    router: Router,
+    router: HashRouter,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -310,7 +310,7 @@ class Filter {
     filteredProducts: IProduct[],
     userData: IUser,
     productData: IProduct[],
-    router: Router,
+    router: HashRouter,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
