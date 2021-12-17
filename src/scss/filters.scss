@@ -70,19 +70,19 @@
     transform: translateY(-50%);
   }
 
-  &:after {
-    content: '';
-    width: 8px;
-    height: 8px;
-
-    position: absolute;
-    top: 50%;
-    right: -15px;
-
-    border-bottom: 1px solid c.$fontColorFilterButton;
-    border-right: 1px solid c.$fontColorFilterButton;
-    transform: translateY(-50%) rotate(45deg);
-  }
+  //&:after {
+  //  content: '';
+  //  width: 8px;
+  //  height: 8px;
+  //
+  //  position: absolute;
+  //  top: 50%;
+  //  right: -15px;
+  //
+  //  border-bottom: 1px solid c.$fontColorFilterButton;
+  //  border-right: 1px solid c.$fontColorFilterButton;
+  //  transform: translateY(-50%) rotate(45deg);
+  //}
 
   &:hover {
     border-bottom-color: c.$fontColorFilterButtonActive;
@@ -333,4 +333,20 @@
 .opened-list.types {
   font-size: 15px;
   text-align: left;
+}
+
+.arrow {
+  &:after {
+    content: '';
+    width: 8px;
+    height: 8px;
+
+    position: absolute;
+    top: 50%;
+    right: -15px;
+
+    border-bottom: 1px solid c.$fontColorFilterButton;
+    border-right: 1px solid c.$fontColorFilterButton;
+    transform: translateY(-50%) rotate(45deg);
+  }
 }
