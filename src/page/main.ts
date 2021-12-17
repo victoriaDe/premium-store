@@ -85,7 +85,13 @@ export { router };
 // для работы перезагрузки по кликам
 document.addEventListener('click', (event) => {
   const $target = event.target as HTMLElement;
-  const fullHash = window.location.hash;
+  let fullHash = window.location.hash;
+
+  // фикс для главной страницы
+  if (fullHash === '') {
+    fullHash = `#`;
+  }
+
   if (
     $target.classList.contains('hash-link') &&
     $target.getAttribute('href') === fullHash
@@ -151,33 +157,33 @@ function openPopup(event: MouseEvent) {
 }
 
 function closePopup(event: MouseEvent) {
-    const eventTarget = event.target as HTMLElement; // куда кликнули
-    $body?.classList.remove('lock'); // удалить запрет на скролл body
+  const eventTarget = event.target as HTMLElement; // куда кликнули
+  $body?.classList.remove('lock'); // удалить запрет на скролл body
 
-    // если кликнули, чтобы закрыть попап по
-    if (
-        eventTarget === $wrapper || // врапперу (серому фону)
-        eventTarget === document.querySelector('.pop-up-container span') || // крестику
-        eventTarget === document.querySelector('.pop-up-container button')
-    ) {
-        // кнопке ОК
+  // если кликнули, чтобы закрыть попап по
+  if (
+    eventTarget === $wrapper || // врапперу (серому фону)
+    eventTarget === document.querySelector('.pop-up-container span') || // крестику
+    eventTarget === document.querySelector('.pop-up-container button')
+  ) {
+    // кнопке ОК
 
-        $wrapper?.classList.remove('opened-popup'); // сворачивает фраппер
-        if ($wrapper) $wrapper.innerHTML = ''; // снести все, что осталось в обертке
-    }
+    $wrapper?.classList.remove('opened-popup'); // сворачивает фраппер
+    if ($wrapper) $wrapper.innerHTML = ''; // снести все, что осталось в обертке
+  }
 }
 
 const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
 const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
 
 window.addEventListener('resize', () => {
-    // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
-    // для логина, который клеит картинку на место текста
-    if (window.screen.width <= 720) {
-        $login?.classList.add('login');
-    } else {
-        $login?.classList.remove('login');
-    }
+  // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
+  // для логина, который клеит картинку на место текста
+  if (window.screen.width <= 720) {
+    $login?.classList.add('login');
+  } else {
+    $login?.classList.remove('login');
+  }
 });
 
 $login?.addEventListener('click', (event) => openPopup(event));
