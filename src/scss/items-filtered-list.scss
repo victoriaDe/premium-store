@@ -136,18 +136,22 @@
     }
 
     button {
-      font-size: s.$fzButton_content_purchase;
+      font-size: s.$fzButton_list_purchase;
       background: c.$bgColorButton_purchase;
       color: c.$fColorWhite;
-      padding: 10px 15px;
+      width: 100px;
+      height: 39px;
+
 
       &:hover {
         opacity: 0.7;
       }
     }
+
     .button-purchase-added {
       transition: none;
       text-align: left;
+      font-size: s.$fzButton_content_purchase;
       background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
 
       &:hover {
