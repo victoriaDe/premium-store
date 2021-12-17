@@ -46,15 +46,25 @@ class Filter {
         let actualFilter: TFilter | 'All';
         if (filter === 'all') {
           actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
         } else if (filter === 'vehicles') {
           actualFilter = 'Technique';
+          $target = document.querySelector('[data-filter=vehicles]');
         } else if (filter === 'gold') {
           actualFilter = 'Gold';
+          $target = document.querySelector('[data-filter=gold]');
         } else if (filter === 'provisions') {
           actualFilter = 'Provisions';
+          $target = document.querySelector('[data-filter=provisions]');
         } else if (filter === 'premium account') {
           actualFilter = 'Premium';
-        } else actualFilter = 'All';
+          $target = document.querySelector('[data-filter=premium]');
+        } else {
+          actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
+        }
+
+        $target?.classList.add('active-link');
 
         LocalStorage.getProductDataByFilter(actualFilter).then((data) => {
           if (data)
@@ -81,7 +91,7 @@ class Filter {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
     ) as IProductLocalStorageData | null;
-    if(techniqueProduct){
+    if (techniqueProduct) {
       let check = false;
       const filteredProducts = techniqueProduct.data.filter((item) => {
         if ('filter' in item.data) {
