@@ -1,4 +1,5 @@
 const $login=document.getElementById('login');
+const $popup=document.getElementById('popupWrapper');
 
 window.addEventListener('load', countPadding);
 window.addEventListener('resize', countPadding);
@@ -9,6 +10,7 @@ function countPadding() {
     if ($main) {
         $main.style.paddingTop = `${$headerHeight}px`;
     }
+    $popup?.classList.toggle('hidden')
 }
 
 if (window.innerWidth<720){
