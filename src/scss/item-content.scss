@@ -13,7 +13,8 @@
 
 
   @media screen and (max-device-width: s.$min-width) {
-    grid-template-rows: 5% 1fr auto;
+
+    grid-template-rows: 1fr;
     grid-template-columns: 100%;
   }
 
@@ -24,8 +25,10 @@
     font-weight: 400;
     letter-spacing: -0.025em;
     padding-bottom: 40px;
+    word-break: break-word;
 
     color: c.$fColorWhite;
+
     text-transform: uppercase;
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     @media screen and (max-device-width: s.$min-width) {
