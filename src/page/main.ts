@@ -3,7 +3,7 @@ import Filter from '@scripts/filter';
 import Wishlist from '@classes/Wishlist';
 import ShoppingList from '@classes/ShoppingList';
 import Popup from '@classes/Popup';
-import Router from '@classes/Router';
+import HashRouter from '@classes/HashRouter';
 import Navigation from '@classes/Navigation';
 
 import '@scss/main.scss';
@@ -15,9 +15,9 @@ import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 import '@scss/main-content.scss';
 
-console.log('eueueu');
+export const main: MainPage = new MainPage();
 
-const router = new Router(process.env.DEPLOY_PATH!);
+const router = new HashRouter();
 
 router
   .addRoute('wishlist', 'Wishlist', () => {
@@ -31,55 +31,36 @@ router
     Filter.addEvent(router);
     Filter.filterProducts('all', router);
   })
-  .addRoute('?filter=all', 'All products', () => {
+  .addRoute('all', 'All products', () => {
     Filter.filterProducts('all', router);
     Filter.addEvent(router);
   })
-  .addRoute('?filter=vehicles', 'Vehicles', () => {
+  .addRoute('vehicles', 'Vehicles', () => {
     Filter.filterProducts('vehicles', router);
     Filter.addEvent(router);
   })
-  .addRoute('?filter=gold', 'Gold', () => {
+  .addRoute('gold', 'Gold', () => {
     Filter.filterProducts('gold', router);
     Filter.addEvent(router);
   })
-  .addRoute('?filter=premium', 'Premium', () => {
+  .addRoute('premium', 'Premium', () => {
     Filter.filterProducts('premium account', router);
     Filter.addEvent(router);
   })
-  .addRoute('?filter=provisions', 'Provisions', () => {
+  .addRoute('provisions', 'Provisions', () => {
     Filter.filterProducts('provisions', router);
     Filter.addEvent(router);
   });
 
 router.init();
+if (window.location.hash !== '') {
+  main.init();
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
+} else {
+  main.init();
+}
 
 export { router };
-
-const $wishlistLink = document.getElementById('wishlistId') as HTMLElement;
-
-$wishlistLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('wishlist');
-});
-
-const $shoppingCartLink = document.getElementById('shoppingId') as HTMLElement;
-
-$shoppingCartLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('shoppingcart');
-});
-
-const $headerLogoLink = document.getElementById('headerLogo') as HTMLElement;
-
-$headerLogoLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('');
-});
-
-export const main: MainPage = new MainPage();
-
-main.init();
 
 /// /////////////////////////////////////////////////////////////////////
 

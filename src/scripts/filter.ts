@@ -3,7 +3,7 @@ import Item from '@classes/Item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
-import Router from '@classes/Router';
+import HashRouter from '@classes/HashRouter';
 import LocalStorage, { IProductLocalStorageData } from '@classes/LocalStorage';
 
 export type SetActiveFilterType =
@@ -20,7 +20,7 @@ class Filter {
 
   static #tier: string | undefined;
 
-  static addEvent(router: Router): void {
+  static addEvent(router: HashRouter): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
     $filterButtons.forEach((item: Node) => {
@@ -28,7 +28,7 @@ class Filter {
         const $eventTarget: HTMLElement = e.target as HTMLElement;
         const $prevFilter = document.querySelector('.active-link');
 
-        router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
+        // router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
 
         if ($prevFilter && $prevFilter !== $eventTarget) {
           $prevFilter.classList.remove('active-link');
@@ -39,21 +39,32 @@ class Filter {
     });
   }
 
-  static filterProducts(filter: string | null, router: Router) {
+  static filterProducts(filter: string | null, router: HashRouter) {
+    let $target: HTMLElement | null;
     LocalStorage.getUserData().then((userData) => {
       if (userData) {
         let actualFilter: TFilter | 'All';
         if (filter === 'all') {
           actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
         } else if (filter === 'vehicles') {
           actualFilter = 'Technique';
+          $target = document.querySelector('[data-filter=vehicles]');
         } else if (filter === 'gold') {
           actualFilter = 'Gold';
+          $target = document.querySelector('[data-filter=gold]');
         } else if (filter === 'provisions') {
           actualFilter = 'Provisions';
+          $target = document.querySelector('[data-filter=provisions]');
         } else if (filter === 'premium account') {
           actualFilter = 'Premium';
-        } else actualFilter = 'All';
+          $target = document.querySelector('[data-filter=premium]');
+        } else {
+          actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
+        }
+
+        $target?.classList.add('active-link');
 
         LocalStorage.getProductDataByFilter(actualFilter).then((data) => {
           if (data)
@@ -75,12 +86,12 @@ class Filter {
   static filterTechniqueProducts(
     userData: IUser,
     productData: IProduct[],
-    router: Router,
+    router: HashRouter,
   ) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
     ) as IProductLocalStorageData | null;
-    if(techniqueProduct){
+    if (techniqueProduct) {
       let check = false;
       const filteredProducts = techniqueProduct.data.filter((item) => {
         if ('filter' in item.data) {
@@ -106,7 +117,7 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
     filter: string,
-    router: Router,
+    router: HashRouter,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -301,7 +312,7 @@ class Filter {
     filteredProducts: IProduct[],
     userData: IUser,
     productData: IProduct[],
-    router: Router,
+    router: HashRouter,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
