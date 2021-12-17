@@ -15,6 +15,8 @@ import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 import '@scss/main-content.scss';
 
+console.log('eueueu');
+
 const router = new Router(process.env.DEPLOY_PATH!);
 
 router
@@ -29,19 +31,26 @@ router
     Filter.addEvent(router);
     Filter.filterProducts('all', router);
   })
-  .addRoute('?filter=all', 'All products', () =>
-    Filter.filterProducts('all', router),
-  )
-  .addRoute('?filter=vehicles', 'Vehicles', () =>
-    Filter.filterProducts('vehicles', router),
-  )
-  .addRoute('?filter=gold', 'Gold', () => Filter.filterProducts('gold', router))
-  .addRoute('?filter=premium', 'Premium', () =>
-    Filter.filterProducts('premium account', router),
-  )
-  .addRoute('?filter=provisions', 'Provisions', () =>
-    Filter.filterProducts('provisions', router),
-  );
+  .addRoute('?filter=all', 'All products', () => {
+    Filter.filterProducts('all', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('?filter=vehicles', 'Vehicles', () => {
+    Filter.filterProducts('vehicles', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('?filter=gold', 'Gold', () => {
+    Filter.filterProducts('gold', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('?filter=premium', 'Premium', () => {
+    Filter.filterProducts('premium account', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('?filter=provisions', 'Provisions', () => {
+    Filter.filterProducts('provisions', router);
+    Filter.addEvent(router);
+  });
 
 router.init();
 
