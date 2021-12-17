@@ -1,8 +1,8 @@
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import Router from '@classes/Router';
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
+import HashRouter from '@classes/HashRouter';
 
 interface AddEvent {
   (
@@ -19,7 +19,7 @@ class Item {
     product: IProduct,
     userData: IUser,
     productData: IProduct[],
-    router: Router,
+    router: HashRouter,
   ): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');
@@ -35,9 +35,7 @@ class Item {
     $item.innerHTML = `
                      <a class="main-container-link ${
                        isAddedToPurchase ? 'main-container-link-added' : ''
-                     }" href="/${product.type.toLowerCase()}/${
-      product.data.id
-    }" onclick="return false">
+                     }" href="#${product.data.id}">
                           <img class="main-container-link_img" src=${
                             product.data.images.span_2x1
                           } alt="Танк">
@@ -93,20 +91,15 @@ class Item {
     $item.addEventListener(
       'click',
       (event) => {
-        if (
-          !router.findRoute(`${product.type.toLowerCase()}/${product.data.id}`)
-        ) {
+        if (!router.findRoute(`${product.data.id}`)) {
           console.log('Once');
-          router.addRoute(
-            `${product.type.toLowerCase()}/${product.data.id}`,
-            `${product.data.name}`,
-            () =>
-              Item.showSelectedItem(
-                product.data.id,
-                productData,
-                userData,
-                Item.createSelectedItem,
-              ),
+          router.addRoute(`${product.data.id}`, `${product.data.name}`, () =>
+            Item.showSelectedItem(
+              product.data.id,
+              productData,
+              userData,
+              Item.createSelectedItem,
+            ),
           );
         }
       },
@@ -117,7 +110,7 @@ class Item {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
         console.log('Product');
-        router.changeURI(`${product.type.toLowerCase()}/${product.data.id}`);
+        // router.changeURI(`${product.type.toLowerCase()}/${product.data.id}`);
       }
     });
 
