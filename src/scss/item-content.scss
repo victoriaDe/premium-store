@@ -28,9 +28,10 @@
     color: c.$fColorWhite;
     text-transform: uppercase;
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-
-    @media screen and (max-device-width: s.$max-device-width) {
+    @media screen and (max-device-width: s.$min-width) {
       font-size: s.$fzItem_H2_adapt;
+    }
+    @media screen and (max-device-width: s.$max-device-width) {
       padding-top: 15px;
       padding-bottom: 15px;
     }
@@ -118,6 +119,7 @@
     width: 50%;
   }
 }
+
 .button-purchase-added {
   transition: none;
   text-align: left;
