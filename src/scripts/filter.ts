@@ -4,7 +4,7 @@ import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
 import Router from '@classes/Router';
-import LocalStorage from '@classes/LocalStorage';
+import LocalStorage, { IProductLocalStorageData } from '@classes/LocalStorage';
 
 export type SetActiveFilterType =
   | 'all'
@@ -40,33 +40,22 @@ class Filter {
   }
 
   static filterProducts(filter: string | null, router: Router) {
-    let $target: HTMLElement | null;
-    main.getUserData().then((userData) => {
+    LocalStorage.getUserData().then((userData) => {
       if (userData) {
         let actualFilter: TFilter | 'All';
         if (filter === 'all') {
           actualFilter = 'All';
-          $target = document.querySelector('[data-filter=all]');
         } else if (filter === 'vehicles') {
           actualFilter = 'Technique';
-          $target = document.querySelector('[data-filter=vehicles]');
         } else if (filter === 'gold') {
           actualFilter = 'Gold';
-          $target = document.querySelector('[data-filter=gold]');
         } else if (filter === 'provisions') {
           actualFilter = 'Provisions';
-          $target = document.querySelector('[data-filter=provisions]');
         } else if (filter === 'premium account') {
           actualFilter = 'Premium';
-          $target = document.querySelector('[data-filter=premium]');
-        } else {
-          actualFilter = 'All';
-          $target = document.querySelector('[data-filter=all]');
-        }
+        } else actualFilter = 'All';
 
-        $target?.classList.add('active-link');
-
-        main.getProductDataByFilter(actualFilter).then((data) => {
+        LocalStorage.getProductDataByFilter(actualFilter).then((data) => {
           if (data)
             this.createFilterProducts(
               data,
@@ -77,7 +66,7 @@ class Filter {
             );
         });
         setTimeout(() => {
-          main.updateProductDataByFilter(actualFilter).then(() => {});
+          LocalStorage.updateProductDataByFilter(actualFilter).then(() => {});
         });
       }
     });
@@ -90,24 +79,26 @@ class Filter {
   ) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
-    ) as IProduct[];
-    let check = false;
-    const filteredProducts = techniqueProduct.filter((item) => {
-      if ('filter' in item.data) {
-        check = true;
-        if (this.#nation && this.#nation !== 'all') {
-          check = item.data.filter.nation === this.#nation;
+    ) as IProductLocalStorageData | null;
+    if(techniqueProduct){
+      let check = false;
+      const filteredProducts = techniqueProduct.data.filter((item) => {
+        if ('filter' in item.data) {
+          check = true;
+          if (this.#nation && this.#nation !== 'all') {
+            check = item.data.filter.nation === this.#nation;
+          }
+          if (this.#tier && this.#tier !== 'all') {
+            check = check && item.data.filter.tier === this.#tier;
+          }
+          if (this.#type && this.#type !== 'all') {
+            check = check && item.data.filter.type === this.#type;
+          }
         }
-        if (this.#tier && this.#tier !== 'all') {
-          check = check && item.data.filter.tier === this.#tier;
-        }
-        if (this.#type && this.#type !== 'all') {
-          check = check && item.data.filter.type === this.#type;
-        }
-      }
-      return check;
-    });
-    Filter.showFilterProduct(filteredProducts, userData, productData, router);
+        return check;
+      });
+      Filter.showFilterProduct(filteredProducts, userData, productData, router);
+    }
   }
 
   static createFilterProducts(
