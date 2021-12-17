@@ -1,3 +1,5 @@
+const $login=document.getElementById('login');
+
 window.addEventListener('load', countPadding);
 window.addEventListener('resize', countPadding);
 
@@ -7,4 +9,8 @@ function countPadding() {
     if ($main) {
         $main.style.paddingTop = `${$headerHeight}px`;
     }
+}
+
+if (window.innerWidth<720){
+    $login?.classList.add('login');
 }
