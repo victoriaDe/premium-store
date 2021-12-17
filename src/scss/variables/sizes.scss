@@ -11,31 +11,31 @@ $max-width: 1260px;
 
 //font-size
 
-$fzHeaderH1: 16px;
-$fzHeaderH1_adapt: 12px;
-$fzHeader_nav: 15px;
+$fzHeaderH1: 1rem;
+$fzHeaderH1_adapt: 0.75rem;
+$fzHeader_nav: 0.94rem;
 
-$fzNav_content: 17px;
-$fzNav_content_adapt: 15px;
+$fzNav_content: 1rem;
+$fzNav_content_adapt: 0.94rem;
 
-$fzDescription_product: 15px;
-$fzDescription_product_adapt: 13px;
-$fzDescription_H3: 30px;
-$fzDescription_price: 15px;
-$fzDescription_price_adapt: 15px;
-$fzButton_content_purchase: 12px;
+$fzDescription_product: 0.94rem;
+$fzDescription_product_adapt: 0.8rem;
+$fzDescription_H3: 1.87rem;
+$fzDescription_price: 0.94rem;
+$fzDescription_price_adapt: 0.94rem;
+$fzButton_content_purchase: 0.9rem;
 
-$fzItem_button_purchase: 17px;
-$fzItem_price: 24px;
-$fzItem_description_p: 17px;
-$fzDescription_H3_adapt: 18px;
-$fzItem_H2: 40px;
-$fzItem_H2_adapt: 24px;
-$fzDiscount: 15px;
+$fzItem_button_purchase: 1rem;
+$fzItem_price: 1.5rem;
+$fzItem_description_p: 1rem;
+$fzDescription_H3_adapt: 1.1rem;
+$fzItem_H2: 2.5rem;
+$fzItem_H2_adapt: 1.5rem;
+$fzDiscount: 0.94rem;
 
-$fontSizeLoginHeader: 24px;
-$fontSizeLogin: 18px;
-$fzButton_popup: 12px;
+$fontSizeLoginHeader: 1.5rem;
+$fontSizeLogin: 1.1rem;
+$fzButton_popup: 0.75rem;
 
 //popup
 
@@ -44,3 +44,7 @@ $fzPopupContentResponsive: 1rem;
 $fzPopupH2: 2rem;
 $fzPopupH2Responsive: 1.5rem;
 $fzPopupLink: 1rem;
+
+
+//lists
+$fzButton_list_purchase: 0.9rem;

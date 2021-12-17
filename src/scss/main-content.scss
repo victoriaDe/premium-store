@@ -9,7 +9,6 @@
   grid-gap: 1px;
 
   padding-bottom: 5em;
-  padding-top: 1.5em;
 
   @media screen and (max-device-width: s.$max-width-tab) {
     grid-template-columns: repeat(3, 1fr);
@@ -71,6 +70,8 @@
     align-items: flex-end;
     flex-wrap: wrap;
     gap: 15px 10px;
+
+    cursor: pointer;
 
     @media screen and (max-device-width: s.$max-device-width) {
       padding: 10px;
