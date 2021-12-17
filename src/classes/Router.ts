@@ -12,8 +12,8 @@ class Router {
   /** array of saved routes */
   #routes: TRoute[] = [];
 
-  /** current route */
-  #currentRoute: TRoute | undefined;
+  /** current relative path */
+  #currentPath = '';
 
   /** site root URI */
   readonly #root;
@@ -31,9 +31,8 @@ class Router {
    */
 
   changeTitle(): void {
-    if (this.#currentRoute) {
-      document.title = this.#currentRoute.title;
-    }
+    const route = this.findRoute(this.#currentPath);
+    document.title = route ? route.title : '';
   }
 
   /**
@@ -80,14 +79,16 @@ class Router {
   #changeRoute(force?: boolean): void {
     const newPath = this.#getPath();
 
-    if (this.#currentRoute?.path !== newPath || force === true) {
-      this.#currentRoute = this.findRoute(newPath);
+    if (this.#currentPath !== newPath || force === true) {
+      this.#currentPath = newPath;
 
-      if (!this.#currentRoute) {
+      const route = this.findRoute(newPath);
+
+      if (!route) {
         throw new Error(`Path '${newPath}' is undefined`);
       } else {
-        this.#currentRoute.callback();
-        this.#currentRoute.isCalled = true;
+        route.callback();
+        route.isCalled = true;
         this.changeTitle();
       }
     }
@@ -108,7 +109,7 @@ class Router {
    */
 
   changeURI(path: string): void {
-    if (path !== this.#currentRoute?.path) {
+    if (path !== this.#currentPath) {
       window.history.pushState(null, '', this.#root + path);
     } else {
       this.#changeRoute(true);
