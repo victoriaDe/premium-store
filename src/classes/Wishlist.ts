@@ -1,11 +1,17 @@
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import { main } from '@page/main';
 import LocalStorage from '@classes/LocalStorage';
 import ShoppingList from '@classes/ShoppingList';
 import Item from '@classes/Item';
 
+
 class Wishlist {
+  static createHeaderList(name:string){
+    const $header = document.createElement('div');
+    $header.innerHTML=`${name}`
+     $header.classList.add("list-header-container")
+    return $header
+  }
   static createWishlistItem(product: IProduct, userData: IUser) {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
@@ -75,8 +81,10 @@ class Wishlist {
           $container.append(this.createWishlistItem(product, userData));
         });
         $wrapper.append($container);
+        $wrapper.append(this.createHeaderList("Wishlist"))
       } else {
         $wrapper.append(this.createEmptyListItems('Wishlist is empty'));
+        $wrapper.append(this.createHeaderList("Wishlist"))
       }
     }
   }
