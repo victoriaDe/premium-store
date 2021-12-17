@@ -72,6 +72,8 @@
     flex-wrap: wrap;
     gap: 15px 10px;
 
+    cursor: pointer;
+
     @media screen and (max-device-width: s.$max-device-width) {
       padding: 10px;
     }
