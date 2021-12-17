@@ -13,8 +13,12 @@ $headerHeight: 60px;
   position: fixed;
   top: $headerHeight - 5px;
   width: 50vw;
-  height: 30px;
-  padding-top: 10px;
-  background-color: #323030;
+  height: 35px;
+  padding-top: 5px;
+ // background-color: c.$bgColor_main;
+
+  background: radial-gradient(ellipse at top, c.$bgColor_main, transparent);
+ // background-color: #323030;
   border-radius: 0 0 50% 50% /0 0 100% 100% ;
+//  box-shadow: 0px 10px 10px #323030;
 }
