@@ -1,4 +1,5 @@
-const $login = document.getElementById('login');
+const $login=document.getElementById('login');
+const $popup=document.getElementById('popupWrapper');
 
 window.addEventListener('load', countPadding);
 window.addEventListener('resize', countPadding);

@@ -4,6 +4,7 @@
 @import '~@scss/animations.scss';
 @import "~@scss/popup.scss";
 @import "~@scss/suggestions.scss";
+@import "~@scss/description.scss";
 
 
 @font-face {
@@ -41,10 +42,6 @@ a {
   margin: 0;
   padding: 0;
   color: #cccccc;
-}
-
-p {
-  margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
