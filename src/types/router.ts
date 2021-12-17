@@ -12,3 +12,10 @@ export type TRoute = {
   callback: TRouteCallback;
   isCalled: boolean;
 };
+
+export type THRoute = {
+  hash: string;
+  title: string;
+  callback: TRouteCallback;
+  isCalled: boolean;
+};
