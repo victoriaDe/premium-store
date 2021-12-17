@@ -122,7 +122,7 @@ class Filter {
       $itemFilter.classList.add('item-filters');
       $itemFilter.innerHTML = `
         <div class="filter-container">
-                <button class="filter-container-checkedBtn nations" id="allNations" type="button">All nations</button>
+                <button class="filter-container-checkedBtn nations arrow" id="allNations" type="button">All nations</button>
                 <ul class="filter-list nations-list">
                     <li class="nations-btn filter-btn" data-nation="all">
                         <button class="nations">All nations</button>
@@ -151,7 +151,7 @@ class Filter {
                 </ul>
             </div>
             <div class="filter-container">
-                <button class="filter-container-checkedBtn types" id="allTypes" type="button">All types</button>
+                <button class="filter-container-checkedBtn types arrow" id="allTypes" type="button">All types</button>
                 <ul class="filter-list type-list">
                     <li class="type-btn filter-btn" data-type="all">
                         <button class="types">All types</button>
@@ -177,7 +177,7 @@ class Filter {
                 </ul>
             </div>
             <div class="filter-container">
-                <button class="filter-container-checkedBtn tiers" id="allTiers" type="button">All Tiers</button>
+                <button class="filter-container-checkedBtn tiers arrow" id="allTiers" type="button">All Tiers</button>
                 <ul class="filter-list tiers-list">
                   <li class="tires-btn filter-btn" data-tier="all">
                         <button>&#8545;-&#8553;</button>
@@ -212,7 +212,22 @@ class Filter {
       const tierList = $itemFilter.querySelectorAll('.tires-btn');
       const nationList = $itemFilter.querySelectorAll('.nations-btn');
       const allVehicles = $itemFilter.querySelector('.item-filters-btn');
+      const allFilterButtons = $itemFilter.querySelectorAll(
+        '.filter-container-checkedBtn',
+      );
       allVehicles?.addEventListener('click', () => {
+        allFilterButtons.forEach((item, index) => {
+          if (index === 0) {
+            item.textContent = 'All nations';
+          }
+          if (index === 1) {
+            item.textContent = 'All types';
+          }
+          if (index === 2) {
+            item.textContent = 'All tiers';
+          }
+          item.classList.remove(item.classList[3]);
+        });
         this.#type = 'all';
         this.#tier = 'all';
         this.#nation = 'all';
@@ -223,6 +238,16 @@ class Filter {
           e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
             'opened-list',
           );
+          const elem = e.currentTarget.parentElement.parentElement
+            ?.firstElementChild as HTMLElement;
+          if (elem.classList.length > 3) {
+            elem.classList.remove(elem.classList[3]);
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          } else {
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          }
           this.#type = e.currentTarget.dataset.type;
           this.filterTechniqueProducts(userData, productData, router);
         });
@@ -232,6 +257,9 @@ class Filter {
           e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
             'opened-list',
           );
+          const elem = e.currentTarget.parentElement.parentElement
+            ?.firstElementChild as HTMLElement;
+          elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
           this.#tier = e.currentTarget.dataset.tier;
           this.filterTechniqueProducts(userData, productData, router);
         });
@@ -241,6 +269,16 @@ class Filter {
           e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
             'opened-list',
           );
+          const elem = e.currentTarget.parentElement.parentElement
+            ?.firstElementChild as HTMLElement;
+          if (elem.classList.length > 3) {
+            elem.classList.remove(elem.classList[3]);
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          } else {
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          }
           this.#nation = e.currentTarget.dataset.nation;
           this.filterTechniqueProducts(userData, productData, router);
         });

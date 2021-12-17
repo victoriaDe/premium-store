@@ -19,13 +19,11 @@ class Wishlist {
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
                     <div>
-                        <button class="item-description-likeBtn ${
-                          isAddedToPurchase ? 'button-like_active' : ' '
-                        }"></button>
+                        <button class="item-description-likeBtn button-like_active"></button>
                         <span class="item-purchase-prise">${
                           product.data.price.basic.cost
                         }${product.data.price.basic.currency}</span>
-                        <button id="button-purchase-5000 ${
+                        <button class="button-purchase-5000 ${
                           isAddedToPurchase ? 'button-purchase-added' : ''
                         }">Purchase</button>
                     </div>
