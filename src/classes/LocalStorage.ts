@@ -102,16 +102,24 @@ class LocalStorage {
 
 
   // update shoppingList in localstorage
-  changeLocalShoppingList(id: string, idProduct: string): void {
+  changeLocalShoppingList(id: string, productId: string): IUserLocalStorageData | null {
     const user = this.getLocalData('user') as IUserLocalStorageData | null;
     if (user) {
-      user.data.shoppingList.push(idProduct);
+      const index: number = user.data.shoppingList.indexOf(productId);
+      if (index !== -1) {
+        user.data.shoppingList.splice(index, 1);
+      } else {
+        user.data.shoppingList.push(productId);
+      }
+     /* user.data.shoppingList.push(idProduct);*/
       localStorage.setItem('user', JSON.stringify(user));
+      return user
     }
+    return null
   }
 
   // update wishlist in localstorage
-  changeLocalWishlist(id: string, productId: string): void {
+  changeLocalWishlist(id: string, productId: string): IUserLocalStorageData | null {
     const user = this.getLocalData('user') as IUserLocalStorageData | null;
     if (user) {
       const index: number = user.data.wishlist.indexOf(productId);
@@ -121,7 +129,9 @@ class LocalStorage {
         user.data.wishlist.push(productId);
       }
       localStorage.setItem('user', JSON.stringify(user));
+      return user
     }
+    return null
   }
 }
 
