@@ -14,6 +14,9 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 import '@scss/main-content.scss';
+import LocalStorage from '@classes/LocalStorage';
+import lazy from '@scripts/lazy';
+import Item from '@classes/Item';
 
 export const main: MainPage = new MainPage();
 
@@ -32,35 +35,64 @@ router
     Filter.filterProducts('all', router);
   })
   .addRoute('all', 'All products', () => {
+    Navigation.showMainNavContainer();
     Filter.filterProducts('all', router);
     Filter.addEvent(router);
   })
   .addRoute('vehicles', 'Vehicles', () => {
+    Navigation.showMainNavContainer();
     Filter.filterProducts('vehicles', router);
     Filter.addEvent(router);
   })
   .addRoute('gold', 'Gold', () => {
+    Navigation.showMainNavContainer();
     Filter.filterProducts('gold', router);
     Filter.addEvent(router);
   })
   .addRoute('premium', 'Premium', () => {
+    Navigation.showMainNavContainer();
     Filter.filterProducts('premium account', router);
     Filter.addEvent(router);
   })
   .addRoute('provisions', 'Provisions', () => {
+    Navigation.showMainNavContainer();
     Filter.filterProducts('provisions', router);
     Filter.addEvent(router);
   });
 
 router.init();
-if (window.location.hash !== '') {
-  main.init();
-  window.dispatchEvent(new HashChangeEvent('hashchange'));
-} else {
-  main.init();
-}
+
+// инициализация стора
+document.addEventListener(
+  'DOMContentLoaded',
+  async () => {
+    const data = (await LocalStorage.getAllData()) as any[];
+    ShoppingList.showShoppingListCounter(data[1].shoppingList);
+    Wishlist.showWishlistCounter(data[1].wishlist);
+    lazy(20, 100, data[1], data[0], new Item(), router);
+    setTimeout(() => {
+      LocalStorage.updateUserData();
+    });
+    // принудительно рендерим по хэшу
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  },
+  { once: true },
+);
 
 export { router };
+
+// для работы перезагрузки по кликам
+document.addEventListener('click', (event) => {
+  const $target = event.target as HTMLElement;
+  const fullHash = window.location.hash;
+
+  if (
+    $target.classList.contains('hash-link') &&
+    $target.getAttribute('href') === fullHash
+  ) {
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  }
+});
 
 /// /////////////////////////////////////////////////////////////////////
 

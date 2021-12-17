@@ -5,11 +5,11 @@ class Navigation {
     $mainNavContainer.innerHTML = `       
             <a class="main-nav-logo"></a>
             <nav class="main-nav-links">
-                <a class="main-nav-link" href="#all" data-filter="all">all</a>
-                <a class="main-nav-link" href="#vehicles" data-filter="vehicles">vehicles</a>
-                <a class="main-nav-link" href="#gold" data-filter="gold">gold</a>
-                <a class="main-nav-link" href="#premium" data-filter="premium">premium account</a>
-                <a class="main-nav-link" href="#provisions" data-filter="provisions">Шляпа</a>
+                <a class="main-nav-link hash-link" href="#all" data-filter="all">all</a>
+                <a class="main-nav-link hash-link" href="#vehicles" data-filter="vehicles">vehicles</a>
+                <a class="main-nav-link hash-link" href="#gold" data-filter="gold">gold</a>
+                <a class="main-nav-link hash-link" href="#premium" data-filter="premium">premium account</a>
+                <a class="main-nav-link hash-link" href="#provisions" data-filter="provisions">Шляпа</a>
             </nav>       
     `;
     return $mainNavContainer;
