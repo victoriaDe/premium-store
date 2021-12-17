@@ -6,32 +6,35 @@ import Item from '@classes/Item';
 
 
 class Wishlist {
-  static createHeaderList(name:string){
+  static createHeaderList(name: string) {
     const $header = document.createElement('div');
-    $header.innerHTML=`${name}`
-     $header.classList.add("list-header-container")
-    return $header
+    $header.innerHTML = `${name}`;
+    $header.classList.add('list-header-container');
+    return $header;
   }
+
   static createWishlistItem(product: IProduct, userData: IUser) {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
+    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
+
     const $item: HTMLElement = document.createElement('div');
 
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
       <a class="item-filtered-img" href="#"><img src=${
-        product.data.images.span_2x1
-      } alt="image"></a>
+      product.data.images.span_2x1
+    } alt="image"></a>
                 <div class="item-filtered-description">
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
                     <div>
                         <button class="item-description-likeBtn button-like_active"></button>
                         <span class="item-purchase-prise">${
-                          product.data.price.basic.cost
-                        }${product.data.price.basic.currency}</span>
+      product.data.price.basic.cost
+    }${product.data.price.basic.currency}</span>
                         <button class="button-purchase-5000 ${
-                          isAddedToPurchase ? 'button-purchase-added' : ''
-                        }">Purchase</button>
+      isAddedToPurchase ? 'button-purchase-added' : ''
+    }">Purchase</button>
                     </div>
     `;
 
@@ -62,7 +65,7 @@ class Wishlist {
   static createEmptyListItems(text: string) {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
-    $item.innerHTML = `<div>${text}</div>`;
+    $item.innerHTML = `<div class="empty-list">${text}</div>`;
     return $item;
   }
 
@@ -81,10 +84,10 @@ class Wishlist {
           $container.append(this.createWishlistItem(product, userData));
         });
         $wrapper.append($container);
-        $wrapper.append(this.createHeaderList("Wishlist"))
+        $wrapper.append(this.createHeaderList('Wishlist'));
       } else {
         $wrapper.append(this.createEmptyListItems('Wishlist is empty'));
-        $wrapper.append(this.createHeaderList("Wishlist"))
+        $wrapper.append(this.createHeaderList('Wishlist'));
       }
     }
   }
@@ -103,18 +106,16 @@ class Wishlist {
   static changeWishlistCounter(
     product: IProduct,
     showWishList: (wishlist: string[]) => void,
-    $element: HTMLElement,
+    $buttonElement: HTMLElement,
   ): void {
-    LocalStorage.changeLocalWishlist('user', product.data.id);
-    LocalStorage.getUserData().then((data) => {
-      if (data) {
-        showWishList(data.wishlist);
-        $element.classList.toggle('button-like_active');
-      }
-    });
-    setTimeout(() => {
-      LocalStorage.sendUserData();
-    });
+    const data = LocalStorage.changeLocalWishlist('user', product.data.id);
+    if (data) {
+      showWishList(data.data.wishlist);
+      $buttonElement.classList.toggle('button-like_active');
+      setTimeout(() => {
+        LocalStorage.sendUserData();
+      });
+    }
   }
 }
 

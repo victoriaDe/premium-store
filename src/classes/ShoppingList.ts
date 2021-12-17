@@ -15,6 +15,7 @@ class ShoppingList {
 
   static createShoppingListItem(product: IProduct, userData: IUser) {
     const isAddedToWishlist = userData.wishlist.includes(product.data.id);
+    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
@@ -31,8 +32,9 @@ class ShoppingList {
                         <span class="item-purchase-prise">${
       product.data.price.basic.cost
     }${product.data.price.basic.currency}</span>
-                        <button class="button-purchase-added">Purchase</button>
-                    </div>
+                        <button class="button-purchase-5000 ${
+      isAddedToPurchase ? 'button-purchase-added' : ''
+    }">Purchase</button>
     `;
     const $likeButton: any = $item.querySelector('.item-description-likeBtn');
     if ($likeButton) {
@@ -44,6 +46,18 @@ class ShoppingList {
         [product, Wishlist.showWishlistCounter, $likeButton],
       );
     }
+    const $buttonPurchase: any = $item.querySelector('.button-purchase-5000');
+    if ($buttonPurchase) {
+      Item.addEvent(
+        'click',
+        $buttonPurchase,
+        ShoppingList.changeShoppingListCounter,
+        false,
+        [product, ShoppingList.showShoppingListCounter, $buttonPurchase],
+      );
+    }
+
+
     return $item;
   }
 
@@ -85,22 +99,17 @@ class ShoppingList {
   static changeShoppingListCounter(
     product: IProduct,
     showShopping: (shopping: string[]) => void,
-    $purchaseButton: HTMLElement,
-    // $containerLink: HTMLElement,
+    $buttonElement: HTMLElement,
   ): void {
-    LocalStorage.changeLocalShoppingList('user', product.data.id);
-    LocalStorage.getUserData().then((data) => {
-      if (data) {
-        console.log($purchaseButton);
-        ShoppingList.showShoppingListCounter(data.shoppingList);
-        $purchaseButton.classList.add('button-purchase-added');
-        // $containerLink?.classList.add('main-container-link-added');
-      }
-    });
-    setTimeout(() => {
-      LocalStorage.sendUserData().then(() => {
+    console.log("changeShoppingListCounter")
+    const data = LocalStorage.changeLocalShoppingList('user', product.data.id);
+    if (data) {
+      ShoppingList.showShoppingListCounter(data.data.shoppingList);
+      $buttonElement.classList.toggle('button-purchase-added');
+      setTimeout(() => {
+        LocalStorage.sendUserData()
       });
-    });
+    }
   }
 }
 
