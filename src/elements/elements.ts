@@ -10,7 +10,6 @@ function countPadding() {
     if ($main) {
         $main.style.paddingTop = `${$headerHeight}px`;
     }
-    $popup?.classList.toggle('hidden')
 }
 
 if (window.innerWidth<720){

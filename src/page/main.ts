@@ -105,6 +105,7 @@ function openPopup(event: MouseEvent) {
     const eventTarget = event.target as HTMLElement; // куда кликнули
     if ($wrapper?.children) $wrapper.innerHTML = ''; // если в обертке что-то есть, то нужно это обнулить, чтобы не плодить попапы
     $body?.classList.add('lock'); // класс запрещает body скроллиться
+    $wrapper?.classList.add('visible')
     // описание аргументов класса ниже
     switch (
         eventTarget.id // определяем id элемента, каждому айдишнику соответствуют поля для класса

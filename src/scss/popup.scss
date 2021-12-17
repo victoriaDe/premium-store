@@ -6,12 +6,12 @@
   transform: translateX(0%);
   transition: transform 0.5s ease-in;
 }
-.pop-up-wrapper.hidden{
-  width: 0;
+.pop-up-wrapper.visible{
+  width: 100%;
 }
 .pop-up-wrapper {
   height: 100%;
-  width: 100%;
+  width: 0;
   box-sizing: border-box;
   position: absolute;
   top: 0;
