@@ -1,0 +1,20 @@
+//ваши предложения, если добавляете/удаляете класс через скрипты - помечайте название файла(ов) и метода(ов)
+@use '~@scss/variables/colors' as c;
+@use '~@scss/variables/sizes' as s;
+
+
+
+
+//ShoppingList.createHeaderList()    Wishlist.createHeaderList()
+$headerHeight: 60px;
+.list-header-container{
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: $headerHeight - 5px;
+  width: 50vw;
+  height: 30px;
+  padding-top: 10px;
+  background-color: #323030;
+  border-radius: 0 0 50% 50% /0 0 100% 100% ;
+}

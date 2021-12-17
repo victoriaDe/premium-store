@@ -1,11 +1,17 @@
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import { main } from '@page/main';
 import LocalStorage from '@classes/LocalStorage';
 import ShoppingList from '@classes/ShoppingList';
 import Item from '@classes/Item';
 
+
 class Wishlist {
+  static createHeaderList(name:string){
+    const $header = document.createElement('div');
+    $header.innerHTML=`${name}`
+     $header.classList.add("list-header-container")
+    return $header
+  }
   static createWishlistItem(product: IProduct, userData: IUser) {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
@@ -61,8 +67,8 @@ class Wishlist {
   }
 
   static async createWishlist() {
-    const wishlistData = await main.getListData('wishlist');
-    const userData = await main.getUserData();
+    const wishlistData = await LocalStorage.getListData('wishlist');
+    const userData = await LocalStorage.getUserData();
     const $container: HTMLElement = document.createElement('div');
     $container.classList.add('items-filtered');
     $container.id = 'items-filtered';
@@ -75,8 +81,10 @@ class Wishlist {
           $container.append(this.createWishlistItem(product, userData));
         });
         $wrapper.append($container);
+        $wrapper.append(this.createHeaderList("Wishlist"))
       } else {
         $wrapper.append(this.createEmptyListItems('Wishlist is empty'));
+        $wrapper.append(this.createHeaderList("Wishlist"))
       }
     }
   }
@@ -98,14 +106,14 @@ class Wishlist {
     $element: HTMLElement,
   ): void {
     LocalStorage.changeLocalWishlist('user', product.data.id);
-    main.getUserData().then((data) => {
+    LocalStorage.getUserData().then((data) => {
       if (data) {
         showWishList(data.wishlist);
         $element.classList.toggle('button-like_active');
       }
     });
     setTimeout(() => {
-      main.sendUserData();
+      LocalStorage.sendUserData();
     });
   }
 }
