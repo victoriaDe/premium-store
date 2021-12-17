@@ -44,6 +44,7 @@
   span {
     height: 23px;
     width: 23px;
+    pointer-events: none;
 
     background-image: url('~@images/logo/VectorSmartObject.svg');
     background-repeat: no-repeat;
@@ -57,6 +58,7 @@
 
   h1 {
     margin-left: 12px;
+    pointer-events: none;
 
     font-size: s.$fzHeaderH1;
     font-weight: normal;

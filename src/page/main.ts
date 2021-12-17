@@ -85,7 +85,13 @@ export { router };
 // для работы перезагрузки по кликам
 document.addEventListener('click', (event) => {
   const $target = event.target as HTMLElement;
-  const fullHash = window.location.hash;
+  let fullHash = window.location.hash;
+
+  // фикс для главной страницы
+  if (fullHash === '') {
+    fullHash = `#`;
+  }
+
   if (
     $target.classList.contains('hash-link') &&
     $target.getAttribute('href') === fullHash
