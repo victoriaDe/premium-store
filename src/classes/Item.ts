@@ -50,7 +50,7 @@ class Item {
                             <button class="main-container-description_button-purchase ${
                               isAddedToPurchase ? 'button-purchase-added' : ''
                             }">
-                                    purchase
+                                   ${isAddedToPurchase ? 'added' : 'purchase'}
                             </button>                            
                       </div>
                      <button class="main-container-description_button-like ${
@@ -92,7 +92,6 @@ class Item {
       'click',
       (event) => {
         if (!router.findRoute(`${product.data.id}`)) {
-          console.log('Once');
           router.addRoute(`${product.data.id}`, `${product.data.name}`, () =>
             Item.showSelectedItem(
               product.data.id,
@@ -109,8 +108,6 @@ class Item {
     $item.addEventListener('click', (event: UIEvent) => {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
-        console.log('Product');
-        // router.changeURI(`${product.type.toLowerCase()}/${product.data.id}`);
       }
     });
 
