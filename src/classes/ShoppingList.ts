@@ -4,7 +4,6 @@ import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
 import LocalStorage from '@classes/LocalStorage';
 
-
 class ShoppingList {
   static createHeaderList(name: string) {
     const $header = document.createElement('div');
@@ -20,21 +19,21 @@ class ShoppingList {
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
       <a class="item-filtered-img" href="#"><img src=${
-      product.data.images.span_2x1
-    } alt="image"></a>
+        product.data.images.span_2x1
+      } alt="image"></a>
                 <div class="item-filtered-description">
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
                     <div>
                         <button class="item-description-likeBtn ${
-      isAddedToWishlist ? 'button-like_active' : ' '
-    }"></button>
+                          isAddedToWishlist ? 'button-like_active' : ' '
+                        }"></button>
                         <span class="item-purchase-prise">${
-      product.data.price.basic.cost
-    }${product.data.price.basic.currency}</span>
+                          product.data.price.basic.cost
+                        }${product.data.price.basic.currency}</span>
                         <button class="button-purchase-5000 ${
-      isAddedToPurchase ? 'button-purchase-added' : ''
-    }">Purchase</button>
+                          isAddedToPurchase ? 'button-purchase-added' : ''
+                        }">added</button>
     `;
     const $likeButton: any = $item.querySelector('.item-description-likeBtn');
     if ($likeButton) {
@@ -56,7 +55,6 @@ class ShoppingList {
         [product, ShoppingList.showShoppingListCounter, $buttonPurchase],
       );
     }
-
 
     return $item;
   }
@@ -101,13 +99,22 @@ class ShoppingList {
     showShopping: (shopping: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    console.log("changeShoppingListCounter")
     const data = LocalStorage.changeLocalShoppingList('user', product.data.id);
     if (data) {
       ShoppingList.showShoppingListCounter(data.data.shoppingList);
+
+      const isProductInShoppingList = $buttonElement.classList.contains(
+        'button-purchase-added',
+      );
+
+      // change button text and class
+      $buttonElement.textContent = isProductInShoppingList
+        ? 'purchase'
+        : 'added';
       $buttonElement.classList.toggle('button-purchase-added');
+
       setTimeout(() => {
-        LocalStorage.sendUserData()
+        LocalStorage.sendUserData();
       });
     }
   }
