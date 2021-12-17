@@ -1,16 +1,15 @@
-import ProductAPI from '@api/product';
 import { IProduct } from '@type/product';
-import ChangeUserLists from '@scripts/changeUserLists';
-import Item from '@scripts/item';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
+import LocalStorage from '@classes/LocalStorage';
+import ShoppingList from '@classes/ShoppingList';
+import Item from '@classes/Item';
 
 class Wishlist {
   static createWishlistItem(product: IProduct, userData: IUser) {
-    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
-
     const $item: HTMLElement = document.createElement('div');
+
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
       <a class="item-filtered-img" href="#"><img src=${
@@ -20,13 +19,13 @@ class Wishlist {
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
                     <div>
-                        <button class="item-description-likeBtn ${
-                          isAddedToWishlist ? 'button-like_active' : ' '
-                        }"></button>
+                        <button class="item-description-likeBtn button-like_active"></button>
                         <span class="item-purchase-prise">${
                           product.data.price.basic.cost
                         }${product.data.price.basic.currency}</span>
-                        <button id="button-purchase">Purchase</button>
+                        <button class="button-purchase-5000 ${
+                          isAddedToPurchase ? 'button-purchase-added' : ''
+                        }">Purchase</button>
                     </div>
     `;
 
@@ -35,19 +34,20 @@ class Wishlist {
       Item.addEvent(
         'click',
         $likeButton,
-        ChangeUserLists.changeWishlist,
+        Wishlist.changeWishlistCounter,
         false,
-        [product, ChangeUserLists.showWishlist, $likeButton],
+        [product, Wishlist.showWishlistCounter, $likeButton],
       );
     }
-    const $buttonPurchase: any = $item.querySelectorAll('button')[1];
+
+    const $buttonPurchase: any = $item.querySelector('.button-purchase-5000');
     if ($buttonPurchase && !isAddedToPurchase) {
       Item.addEvent(
         'click',
         $buttonPurchase,
-        ChangeUserLists.changeShoppingList,
+        ShoppingList.changeShoppingListCounter,
         true,
-        [product, ChangeUserLists.showShoppingList, $buttonPurchase, null],
+        [product, ShoppingList.showShoppingListCounter, $buttonPurchase],
       );
     }
     return $item;
@@ -79,6 +79,34 @@ class Wishlist {
         $wrapper.append(this.createEmptyListItems('Wishlist is empty'));
       }
     }
+  }
+
+  // show number of wishlist
+  static showWishlistCounter(wishList: string[]): void {
+    const $wishListCounter: HTMLElement | null = document.querySelector(
+      '.wishlist-span-container',
+    );
+    if ($wishListCounter) {
+      $wishListCounter.textContent = `(${wishList.length})`;
+    }
+  }
+
+  // change product in wishlist
+  static changeWishlistCounter(
+    product: IProduct,
+    showWishList: (wishlist: string[]) => void,
+    $element: HTMLElement,
+  ): void {
+    LocalStorage.changeLocalWishlist('user', product.data.id);
+    main.getUserData().then((data) => {
+      if (data) {
+        showWishList(data.wishlist);
+        $element.classList.toggle('button-like_active');
+      }
+    });
+    setTimeout(() => {
+      main.sendUserData();
+    });
   }
 }
 
