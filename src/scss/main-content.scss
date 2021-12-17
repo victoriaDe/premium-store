@@ -173,7 +173,8 @@
       word-break: break-word;
 
       text-transform: uppercase;
-      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.33);
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.1);
       color: c.$fColorDescription_product;
 
       @media screen and (max-device-width: s.$max-device-width) {
@@ -220,6 +221,8 @@
     }
 
     @media screen and (max-device-width: s.$max-device-width) {
+      display: block;
+      pointer-events: auto;
       height: 30px;
       width: 80px;
       font-size: 10px;
@@ -261,6 +264,14 @@
     &:hover {
       animation: heartRemove 1.5s ease-in-out;
       transform-origin: center bottom;
+    }
+  }
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    .main-container-description_button-like:hover,
+    .button-like_active:hover {
+      animation: none;
+      transform: scale(1);
     }
   }
 }
