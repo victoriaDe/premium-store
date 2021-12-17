@@ -112,12 +112,22 @@
     background: rgba(233, 81, 4, 0.8);
   }
 
+
   @media screen and (max-device-width: s.$max-device-width) {
     height: 100%;
     width: 50%;
   }
 }
+.button-purchase-added {
+  transition: none;
+  text-align: left;
+  background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
 
+  &:hover {
+    background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
+    opacity: 0.8;
+  }
+}
 
 .item-container-description {
   grid-column-start: 1;
