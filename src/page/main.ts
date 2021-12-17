@@ -3,7 +3,7 @@ import Filter from '@scripts/filter';
 import Wishlist from '@classes/Wishlist';
 import ShoppingList from '@classes/ShoppingList';
 import Popup from '@classes/Popup';
-import Router from '@classes/Router';
+import HashRouter from '@classes/HashRouter';
 import Navigation from '@classes/Navigation';
 import '../elements/elements';
 
@@ -15,72 +15,84 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 import '@scss/main-content.scss';
-
-console.log('eueueu');
-
-const router = new Router(process.env.DEPLOY_PATH!);
-
-router
-    .addRoute('wishlist', 'Wishlist', () => {
-        Wishlist.createWishlist();
-    })
-    .addRoute('shoppingcart', 'Shopping cart', () =>
-        ShoppingList.createShoppingList(),
-    )
-    .addRoute('', 'Premium Store', () => {
-        Navigation.showMainNavContainer();
-        Filter.addEvent(router);
-        Filter.filterProducts('all', router);
-    })
-    .addRoute('?filter=all', 'All products', () => {
-        Filter.filterProducts('all', router);
-        Filter.addEvent(router);
-    })
-    .addRoute('?filter=vehicles', 'Vehicles', () => {
-        Filter.filterProducts('vehicles', router);
-        Filter.addEvent(router);
-    })
-    .addRoute('?filter=gold', 'Gold', () => {
-        Filter.filterProducts('gold', router);
-        Filter.addEvent(router);
-    })
-    .addRoute('?filter=premium', 'Premium', () => {
-        Filter.filterProducts('premium account', router);
-        Filter.addEvent(router);
-    })
-    .addRoute('?filter=provisions', 'Provisions', () => {
-        Filter.filterProducts('provisions', router);
-        Filter.addEvent(router);
-    });
-
-router.init();
-
-export {router};
-
-const $wishlistLink = document.getElementById('wishlistId') as HTMLElement;
-
-$wishlistLink.addEventListener('click', (event) => {
-    event.preventDefault();
-    router.changeURI('wishlist');
-});
-
-const $shoppingCartLink = document.getElementById('shoppingId') as HTMLElement;
-
-$shoppingCartLink.addEventListener('click', (event) => {
-    event.preventDefault();
-    router.changeURI('shoppingcart');
-});
-
-const $headerLogoLink = document.getElementById('headerLogo') as HTMLElement;
-
-$headerLogoLink.addEventListener('click', (event) => {
-    event.preventDefault();
-    router.changeURI('');
-});
+import LocalStorage from '@classes/LocalStorage';
+import lazy from '@scripts/lazy';
+import Item from '@classes/Item';
 
 export const main: MainPage = new MainPage();
 
-main.init();
+const router = new HashRouter();
+
+router
+  .addRoute('wishlist', 'Wishlist', () => {
+    Wishlist.createWishlist();
+  })
+  .addRoute('shoppingcart', 'Shopping cart', () =>
+    ShoppingList.createShoppingList(),
+  )
+  .addRoute('', 'Premium Store', () => {
+    Navigation.showMainNavContainer();
+    Filter.addEvent(router);
+    Filter.filterProducts('all', router);
+  })
+  .addRoute('all', 'All products', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('all', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('vehicles', 'Vehicles', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('vehicles', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('gold', 'Gold', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('gold', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('premium', 'Premium', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('premium account', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('provisions', 'Provisions', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('provisions', router);
+    Filter.addEvent(router);
+  });
+
+router.init();
+
+// инициализация стора
+document.addEventListener(
+  'DOMContentLoaded',
+  async () => {
+    const data = (await LocalStorage.getAllData()) as any[];
+    ShoppingList.showShoppingListCounter(data[1].shoppingList);
+    Wishlist.showWishlistCounter(data[1].wishlist);
+    lazy(20, 100, data[1], data[0], new Item(), router);
+    setTimeout(() => {
+      LocalStorage.updateUserData();
+    });
+    // принудительно рендерим по хэшу
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  },
+  { once: true },
+);
+
+export { router };
+
+// для работы перезагрузки по кликам
+document.addEventListener('click', (event) => {
+  const $target = event.target as HTMLElement;
+  const fullHash = window.location.hash;
+  if (
+    $target.classList.contains('hash-link') &&
+    $target.getAttribute('href') === fullHash
+  ) {
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  }
+});
 
 /// /////////////////////////////////////////////////////////////////////
 
