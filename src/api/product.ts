@@ -45,6 +45,26 @@ class ProductAPI {
       throw new Error('Ooops!');
     }
   }
+  /**
+   * Method for getting an array of objects by filter
+   * @param pageNumber
+   * @param pageSize
+   * @param currency
+   */
+
+  static async getAllProductsByLazy(pageNumber=1, pageSize=20, currency = "$") {
+    try {
+      const response = await instance.get<IResponse<{
+        countProducts:number,
+        products:IProduct[]
+      }>>(
+        `allProducts?pageNumber=${pageNumber}&pageSize=${pageSize}&currency=${currency}`,
+      );
+      return response.data.data;
+    } catch (err) {
+      throw new Error('Ooops!');
+    }
+  }
 
   /**
    * Method for getting an array of products by array of product ID

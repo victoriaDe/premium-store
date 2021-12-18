@@ -18,6 +18,7 @@ import '@scss/main-content.scss';
 import LocalStorage from '@classes/LocalStorage';
 import lazy from '@scripts/lazy';
 import Item from '@classes/Item';
+import lazyBD from '@scripts/lazyBD';
 
 export const main: MainPage = new MainPage();
 
@@ -67,15 +68,22 @@ router.init();
 document.addEventListener(
   'DOMContentLoaded',
   async () => {
-    const data = (await LocalStorage.getAllData()) as any[];
-    ShoppingList.showShoppingListCounter(data[1].shoppingList);
-    Wishlist.showWishlistCounter(data[1].wishlist);
-    lazy(20, 100, data[1], data[0], new Item(), router);
-    setTimeout(() => {
-      LocalStorage.updateUserData();
-    });
-    // принудительно рендерим по хэшу
-    window.dispatchEvent(new HashChangeEvent('hashchange'));
+
+   /* const data = (await LocalStorage.getAllData()) as any[];*/
+    const userData = await LocalStorage.getUserData()
+    if(userData){
+     /* ShoppingList.showShoppingListCounter(data[1].shoppingList);
+      Wishlist.showWishlistCounter(data[1].wishlist);*/
+      ShoppingList.showShoppingListCounter(userData.shoppingList);
+      Wishlist.showWishlistCounter(userData.wishlist);
+      // lazy(20, 100, data[1], data[0], new Item(), router);
+      lazyBD(20, 100, userData,  new Item(), router);
+      /* setTimeout(() => {
+         LocalStorage.updateUserData();
+       });*/
+      // принудительно рендерим по хэшу
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    }
   },
   { once: true },
 );
