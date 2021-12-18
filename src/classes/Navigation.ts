@@ -3,13 +3,13 @@ class Navigation {
     const $mainNavContainer = document.createElement('div');
     $mainNavContainer.classList.add('main-nav-container');
     $mainNavContainer.innerHTML = `       
-            <a class="main-nav-logo" href="https://worldoftanks.com/"></a>
+            <a class="main-nav-logo"></a>
             <nav class="main-nav-links">
-                <a class="main-nav-link hash-link" href="#all" data-filter="all">all</a>
-                <a class="main-nav-link hash-link" href="#vehicles" data-filter="vehicles">vehicles</a>
-                <a class="main-nav-link hash-link" href="#gold" data-filter="gold">gold</a>
-                <a class="main-nav-link hash-link" href="#premium" data-filter="premium">premium account</a>
-                <a class="main-nav-link hash-link" href="#provisions" data-filter="provisions">Шляпа</a>
+                <a class="main-nav-link hash-link" href="#all" data-filter="All">all</a>
+                <a class="main-nav-link hash-link" href="#vehicles" data-filter="Technique">vehicles</a>
+                <a class="main-nav-link hash-link" href="#gold" data-filter="Gold">gold</a>
+                <a class="main-nav-link hash-link" href="#premium" data-filter="Premium">premium account</a>
+                <a class="main-nav-link hash-link" href="#provisions" data-filter="Provisions">Шляпа</a>
             </nav>       
     `;
     return $mainNavContainer;

@@ -117,7 +117,6 @@ class Item {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
-    console.log(product.data.price);
     let actualPrice = ``;
     let sale = ``;
     if (product.data.price.basic.cost !== product.data.price.actual.cost) {
@@ -131,7 +130,7 @@ class Item {
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
               <div class="item-price">
-                        <span class="item-price-amount price-sale">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
+                        <span class="item-price price-sale">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
                         ${sale}
                         ${actualPrice}
               </div>

@@ -11,7 +11,7 @@ import { router } from '@page/main';
 class MainPage {
   async init(): Promise<any> {
     const data = (await LocalStorage.getAllData()) as any[];
-    await Filter.filterProducts('all', router);
+    await Filter.filterProducts('All', router);
     Filter.addEvent(router);
     ShoppingList.showShoppingListCounter(data[1].shoppingList);
     Wishlist.showWishlistCounter(data[1].wishlist);
