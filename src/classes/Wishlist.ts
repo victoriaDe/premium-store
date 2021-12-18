@@ -49,12 +49,12 @@ class Wishlist {
     }
 
     const $buttonPurchase: any = $item.querySelector('.button-purchase-5000');
-    if ($buttonPurchase && !isAddedToPurchase) {
+    if ($buttonPurchase) {
       Item.addEvent(
         'click',
         $buttonPurchase,
         ShoppingList.changeShoppingListCounter,
-        true,
+        false,
         [product, ShoppingList.showShoppingListCounter, $buttonPurchase],
       );
     }

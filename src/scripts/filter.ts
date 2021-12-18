@@ -328,7 +328,7 @@ class Filter {
       filteredProducts.forEach((value: IProduct) => {
         if (itemCounter < 20) {
           $container.appendChild(
-            Item.createItem(value, userData, productData, router),
+            Item.createItem(value, userData, router),
           );
           itemCounter += value.span;
         }
