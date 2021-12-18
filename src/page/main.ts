@@ -22,6 +22,7 @@ import '@scss/filters.scss';
 import '@scss/main-content.scss';
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
+import PopupContainer from '@classes/PopupContainer';
 
 export const main: MainPage = new MainPage();
 
@@ -74,20 +75,10 @@ router.init(localUser, localProducts);
 document.addEventListener(
   'DOMContentLoaded',
   async () => {
-
-   /* const data = (await LocalStorage.getAllData()) as any[];*/
-    const userData = await LocalStorage.getUserData()
-    if(userData){
-     /* ShoppingList.showShoppingListCounter(data[1].shoppingList);
-      Wishlist.showWishlistCounter(data[1].wishlist);*/
+    const userData = await LocalStorage.getUserData();
+    if (userData) {
       ShoppingList.showShoppingListCounter(userData.shoppingList);
       Wishlist.showWishlistCounter(userData.wishlist);
-      // lazy(20, 100, data[1], data[0], new Item(), router);
-     /* lazyBD(20, 100, userData,  new Item(), router);*/
-      /* setTimeout(() => {
-         LocalStorage.updateUserData();
-       });*/
-      // принудительно рендерим по хэшу
       window.dispatchEvent(new HashChangeEvent('hashchange'));
     }
   },
@@ -102,10 +93,7 @@ document.addEventListener('click', (event) => {
   let fullHash = window.location.hash;
 
   // фикс для главной страницы
-  if (fullHash === '') {
-    fullHash = `#`;
-  }
-
+  if (fullHash === '') fullHash = `#`;
   if (
     $target.classList.contains('hash-link') &&
     $target.getAttribute('href') === fullHash
@@ -115,81 +103,6 @@ document.addEventListener('click', (event) => {
 });
 
 /// /////////////////////////////////////////////////////////////////////
-
-const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
-const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
-
-function openPopup(event: MouseEvent) {
-  let popup;
-
-  const eventTarget = event.target as HTMLElement; // куда кликнули
-  if ($wrapper?.children) $wrapper.innerHTML = ''; // если в обертке что-то есть, то нужно это обнулить, чтобы не плодить попапы
-  $body?.classList.add('lock'); // класс запрещает body скроллиться
-  $wrapper?.classList.add('visible');
-  // описание аргументов класса ниже
-  switch (
-    eventTarget.id // определяем id элемента, каждому айдишнику соответствуют поля для класса
-  ) {
-    case 'login': // попап для логина
-      popup = new Popup(
-        eventTarget,
-        [
-          ['nickname', 'text'],
-          ['password', 'password'],
-        ],
-        true,
-        openPopup,
-      );
-      break;
-
-    case 'create-account': // попап для создания
-      popup = new Popup(
-        eventTarget,
-        [
-          ['full name', 'text'],
-          ['nickname', 'text'],
-          ['email', 'email'],
-          ['password', 'password'],
-        ],
-        false,
-      );
-      break;
-
-    case 'reset-password': // попап для забыл пароль
-      popup = new Popup(eventTarget, [['email', 'email']], false);
-      if ($wrapper) $wrapper.innerHTML = '';
-      break;
-
-    default:
-      throw new Error('eventTarget has no ID');
-  }
-
-  if ($wrapper && popup) {
-    $wrapper.appendChild(popup.renderHTML()); // добавить попап в обертку
-    $wrapper.classList.add('opened-popup'); // добавить класс, который открывает попап
-  }
-}
-
-function closePopup(event: MouseEvent) {
-  const eventTarget = event.target as HTMLElement; // куда кликнули
-  $body?.classList.remove('lock'); // удалить запрет на скролл body
-
-  // если кликнули, чтобы закрыть попап по
-  if (
-    eventTarget === $wrapper || // врапперу (серому фону)
-    eventTarget === document.querySelector('.pop-up-container span') || // крестику
-    eventTarget === document.querySelector('.pop-up-container button')
-  ) {
-    // кнопке ОК
-
-    $wrapper?.classList.remove('opened-popup'); // сворачивает фраппер
-    if ($wrapper) $wrapper.innerHTML = ''; // снести все, что осталось в обертке
-  }
-}
-
-const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
-const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
-
 window.addEventListener('resize', () => {
   // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
   // для логина, который клеит картинку на место текста
@@ -200,6 +113,9 @@ window.addEventListener('resize', () => {
   }
 });
 
-$login?.addEventListener('click', (event) => openPopup(event));
-$create?.addEventListener('click', (event) => openPopup(event));
-$wrapper?.addEventListener('click', (event) => closePopup(event));
+const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
+const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
+const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
+$login?.addEventListener('click', (event) => PopupContainer.openPopup(event));
+$create?.addEventListener('click', (event) => PopupContainer.openPopup(event));
+$wrapper?.addEventListener('click', (event) => PopupContainer.closePopup(event));
