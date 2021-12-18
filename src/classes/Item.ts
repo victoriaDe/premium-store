@@ -142,12 +142,12 @@ class Item {
     const $purchaseButton: HTMLElement | null = $item.querySelector(
       '.item-purchase-button',
     );
-    if ($purchaseButton && !isAddedToPurchase) {
+    if ($purchaseButton) {
       addEvent(
         'click',
         $purchaseButton,
         ShoppingList.changeShoppingListCounter,
-        true,
+        false,
         [product, ShoppingList.showShoppingListCounter, $purchaseButton],
       );
     }
