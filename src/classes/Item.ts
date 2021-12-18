@@ -85,23 +85,14 @@ class Item {
       );
     }
 
-    // слушатель для добавления роута в роутер
-    // почему-то срабатывал не 1 раз, поэтому внутри условие, нужен фикс
-    $item.addEventListener(
-      'click',
-      (event) => {
-        if (!router.findRoute(`${product.data.id}`)) {
-          router.addRoute(`${product.data.id}`, `${product.data.name}`, () =>
-            Item.showSelectedItem(product, userData, Item.createSelectedItem),
-          );
-        }
-      },
-      { once: true },
-    );
-
     $item.addEventListener('click', (event: UIEvent) => {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
+      }
+      if (!router.findRoute(`${product.data.id}`)) {
+        router.addRoute(`${product.data.id}`, `${product.data.name}`, () =>
+          Item.showSelectedItem(product, userData, Item.createSelectedItem),
+        );
       }
     });
 
@@ -173,8 +164,12 @@ class Item {
     const $container: HTMLElement | null = document.getElementById('main');
     const $itemFilter: HTMLElement | null =
       document.querySelector('.item-filters');
-    if ($visualContainer && $container) {
-      $visualContainer?.removeChild($container);
+
+    if ($visualContainer) {
+      if ($container) {
+        $visualContainer?.removeChild($container!);
+      }
+
       if (
         $visualContainer?.parentElement?.children.length === 3 &&
         $itemFilter
