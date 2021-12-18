@@ -22,7 +22,7 @@ class Wishlist {
     $item.innerHTML = `
       <a class="item-filtered-img" href="#"><img src=${
         product.data.images.span_2x1
-      } alt="image"></a>
+      } alt="${product.data.name}"></a>
                 <div class="item-filtered-description">
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
