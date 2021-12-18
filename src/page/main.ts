@@ -2,15 +2,12 @@ import MainPage from '@classes/MainPage';
 import Filter from '@scripts/filter';
 import Wishlist from '@classes/Wishlist';
 import ShoppingList from '@classes/ShoppingList';
-import Popup from '@classes/Popup';
 import HashRouter from '@classes/HashRouter';
 import Navigation from '@classes/Navigation';
-import Item from '@classes/Item';
+import PopupContainer from '@classes/PopupContainer';
 
 import LocalStorage from '@classes/LocalStorage';
 import '../elements/elements';
-import lazy from '@scripts/lazy';
-import lazyBD from '@scripts/lazyBD';
 
 import '@scss/main.scss';
 import '@scss/variables/colors.scss';
@@ -20,9 +17,6 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 import '@scss/main-content.scss';
-import { IUser } from '@type/user';
-import { IProduct } from '@type/product';
-import PopupContainer from '@classes/PopupContainer';
 
 export const main: MainPage = new MainPage();
 
@@ -89,7 +83,10 @@ document.addEventListener('click', (event) => {
   let fullHash = window.location.hash;
 
   // фикс для главной страницы
-  if (fullHash === '') fullHash = `#`;
+  if (fullHash === '') {
+    fullHash = `#`;
+  }
+
   if (
     $target.classList.contains('hash-link') &&
     $target.getAttribute('href') === fullHash
@@ -99,6 +96,11 @@ document.addEventListener('click', (event) => {
 });
 
 /// /////////////////////////////////////////////////////////////////////
+
+const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
+const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
+const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
+
 window.addEventListener('resize', () => {
   // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
   // для логина, который клеит картинку на место текста
@@ -109,9 +111,8 @@ window.addEventListener('resize', () => {
   }
 });
 
-const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
-const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
-const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
 $login?.addEventListener('click', (event) => PopupContainer.openPopup(event));
 $create?.addEventListener('click', (event) => PopupContainer.openPopup(event));
-$wrapper?.addEventListener('click', (event) => PopupContainer.closePopup(event));
+$wrapper?.addEventListener('click', (event) =>
+  PopupContainer.closePopup(event),
+);
