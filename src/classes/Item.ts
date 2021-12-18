@@ -67,12 +67,12 @@ class Item {
       '.main-container-description_button-purchase',
     );
 
-    if ($purchaseButton && !isAddedToPurchase) {
+    if ($purchaseButton) {
       Item.addEvent(
         'click',
         $purchaseButton,
         ShoppingList.changeShoppingListCounter,
-        true,
+        false,
         [product, ShoppingList.showShoppingListCounter, $purchaseButton],
       );
     }
