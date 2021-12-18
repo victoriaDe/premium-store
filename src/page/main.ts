@@ -1,6 +1,3 @@
-import { IUser } from '@type/user';
-import { IProduct } from '@type/product';
-
 import MainPage from '@classes/MainPage';
 import Filter from '@scripts/filter';
 import Wishlist from '@classes/Wishlist';
@@ -13,6 +10,7 @@ import Item from '@classes/Item';
 import LocalStorage from '@classes/LocalStorage';
 import '../elements/elements';
 import lazy from '@scripts/lazy';
+import lazyBD from '@scripts/lazyBD';
 
 import '@scss/main.scss';
 import '@scss/variables/colors.scss';
@@ -74,15 +72,22 @@ router.init(localUser, localProducts);
 document.addEventListener(
   'DOMContentLoaded',
   async () => {
-    const data = (await LocalStorage.getAllData()) as any[];
-    ShoppingList.showShoppingListCounter(data[1].shoppingList);
-    Wishlist.showWishlistCounter(data[1].wishlist);
-    lazy(20, 100, data[1], data[0], new Item(), router);
-    setTimeout(() => {
-      LocalStorage.updateUserData();
-    });
-    // принудительно рендерим по хэшу
-    window.dispatchEvent(new HashChangeEvent('hashchange'));
+
+   /* const data = (await LocalStorage.getAllData()) as any[];*/
+    const userData = await LocalStorage.getUserData()
+    if(userData){
+     /* ShoppingList.showShoppingListCounter(data[1].shoppingList);
+      Wishlist.showWishlistCounter(data[1].wishlist);*/
+      ShoppingList.showShoppingListCounter(userData.shoppingList);
+      Wishlist.showWishlistCounter(userData.wishlist);
+      // lazy(20, 100, data[1], data[0], new Item(), router);
+      lazyBD(20, 100, userData,  new Item(), router);
+      /* setTimeout(() => {
+         LocalStorage.updateUserData();
+       });*/
+      // принудительно рендерим по хэшу
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    }
   },
   { once: true },
 );

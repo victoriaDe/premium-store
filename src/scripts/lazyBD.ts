@@ -8,6 +8,7 @@ import { IProduct } from '@type/product';
 import Item from '@classes/Item';
 // import Router from '@classes/Router';
 import HashRouter from '@classes/HashRouter';
+import ProductAPI from '@api/product';
 
 /**
  * Function for lazy loading of products on the main page
@@ -18,11 +19,11 @@ import HashRouter from '@classes/HashRouter';
  * @param item an instance of the Item class to create a product card
  */
 
-function lazy(
+function lazyBD(
   amount: number,
   margin: number,
   user: IUser,
-  products: IProduct[],
+  // products: IProduct[],
   item: Item,
   router: HashRouter,
 ) {
@@ -45,38 +46,38 @@ function lazy(
       ) {
         // find the number of displayed products
         const showedProductsAmount = $productsContainer.children.length;
+       /* console.log(`showedProductsAmount:${showedProductsAmount}`)*/
 
         entries.forEach((entry) => {
           // tracked element has reached the line of sight
           if (entry.isIntersecting) {
             // add a specified number of products if we do not reach the end of the list
-            for (
-              let i = showedProductsAmount;
-              i < showedProductsAmount + amount;
-              i += 1
-            ) {
-              if (i < products.length) {
-                $productsContainer.appendChild(
-                  Item.createItem(products[i], user, router),
-                );
-              } else {
-                break;
-              }
-            }
-            // remove tracking from the product
-            observer.unobserve(entry.target);
+            const page = ((+showedProductsAmount/+amount)+1)
+            ProductAPI.getAllProductsByLazy(page, +amount, '$').then(value => {
+              /*console.log(`number:${+(showedProductsAmount/amount)+1} amount:${+amount} `)*/
+              if (value && value.products) {
+                value.products.forEach((val) => {
+                 /* console.log(`${val.data.name}`)*/
+                  $productsContainer.appendChild(
+                    Item.createItem(val, user, router),
+                  );
+                });
 
-            // find the number of displayed products (after the loading of new products has been triggered)
-            const newShowedProductsAmount = $productsContainer.children.length;
-            // have not yet reached the end of the product list
-            if (newShowedProductsAmount < products.length) {
-              // find the last product (after the loading of new products has been triggered)
-              const $newLastProduct = $productsContainer.lastElementChild;
-              if ($newLastProduct) {
-                // add tracking from the product
-                observer.observe($newLastProduct);
+                observer.unobserve(entry.target);
+
+                // find the number of displayed products (after the loading of new products has been triggered)
+                const newShowedProductsAmount = $productsContainer.children.length;
+                // have not yet reached the end of the product list
+                if (newShowedProductsAmount < value.countProducts) {
+                  // find the last product (after the loading of new products has been triggered)
+                  const $newLastProduct = $productsContainer.lastElementChild;
+                  if ($newLastProduct) {
+                    // add tracking from the product
+                    observer.observe($newLastProduct);
+                  }
+                }
               }
-            }
+            });
           }
         });
       };
@@ -88,4 +89,4 @@ function lazy(
   }
 }
 
-export default lazy;
+export default lazyBD;

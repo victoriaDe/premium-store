@@ -55,3 +55,4 @@ export interface IProduct {
   span: number;
   data: IProductData | ITechniqueData;
 }
+

@@ -5,6 +5,8 @@ import { IUser } from '@type/user';
 import { main } from '@page/main';
 import HashRouter from '@classes/HashRouter';
 import LocalStorage, { IProductLocalStorageData } from '@classes/LocalStorage';
+import lazyBD from '@scripts/lazyBD';
+import ProductAPI from '@api/product';
 
 export type SetActiveFilterType =
   | 'all'
@@ -43,19 +45,24 @@ class Filter {
         $target = document.querySelector(`[data-filter=${filter}]`);
         $target?.classList.add('active-link');
 
-        LocalStorage.getProductDataByFilter(actualFilter).then((data) => {
-          if (data)
-            this.createFilterProducts(
-              data,
-              userData,
-              data,
-              actualFilter,
-              router,
-            );
-        });
-        setTimeout(() => {
-          LocalStorage.updateProductDataByFilter(actualFilter).then(() => {});
-        });
+        if (filter === 'all') {
+          this.createAllFilterProducts(userData,router)
+        } else {
+          LocalStorage.getProductDataByFilter(actualFilter).then((data) => {
+            if (data)
+              this.createFilterProducts(
+                data,
+                userData,
+                data,
+                actualFilter,
+                router,
+              );
+          });
+          setTimeout(() => {
+            LocalStorage.updateProductDataByFilter(actualFilter).then(() => {
+            });
+          });
+        }
       }
     });
   }
@@ -262,6 +269,7 @@ class Filter {
     Filter.showFilterProduct(filteredProducts, userData, productData, router);
   }
 
+
   static showFilterProduct(
     filteredProducts: IProduct[],
     userData: IUser,
@@ -286,7 +294,59 @@ class Filter {
         }
       });
     }
+
     lazy(20, 100, userData, filteredProducts, new Item(), router);
+
+  }
+
+
+  static createAllFilterProducts(
+    userData: IUser,
+    router: HashRouter,
+  ) {
+    const $visualContainer: HTMLElement | null = document.getElementById(
+      'main-visual-container',
+    );
+    const $wrapper: HTMLElement | null =
+      document.querySelector('.main-container');
+    if ($wrapper?.lastChild) {
+      if ($wrapper?.children.length === 3) {
+        $wrapper?.removeChild($wrapper?.lastChild);
+      }
+      $wrapper?.removeChild($wrapper?.lastChild);
+    }
+    if ($visualContainer) {
+      $wrapper?.append($visualContainer);
+    }
+    Filter.showAllFilterProduct(userData, router);
+  }
+
+
+  static showAllFilterProduct(
+    userData: IUser,
+    router: HashRouter,
+  ) {
+    const $visualContainer: HTMLElement | null = document.getElementById(
+      'main-visual-container',
+    );
+    if ($visualContainer) {
+      $visualContainer.innerText = '';
+      const $container = document.createElement('div');
+      $container.id = 'main';
+      $container.classList.add('main-container-content');
+      $visualContainer.appendChild($container);
+
+      ProductAPI.getAllProductsByLazy(1, 20, '$').then(value => {
+        if (value) {
+          value.products.forEach((value: IProduct) => {
+            $container.appendChild(
+              Item.createItem(value, userData, router),
+            );
+          });
+          lazyBD(40, 500, userData,  new Item(), router);
+        }
+      });
+    }
   }
 }
 
