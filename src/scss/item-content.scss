@@ -126,11 +126,10 @@
 .button-purchase-added {
   transition: none;
   text-align: left;
-  padding-left: 4%;
-  background: url("~@images/buttons/cart.png") no-repeat 80% 50%, c.$bgColorButton_purchase_added;
+  background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
 
   &:hover {
-    background: url("~@images/buttons/cart.png") no-repeat 80% 50%, c.$bgColorButton_purchase_added;
+    background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
     opacity: 0.8;
   }
 }
