@@ -232,13 +232,13 @@
   .main-container-description_button-purchase.button-purchase-added {
     transition: none;
     text-align: left;
+    padding-left: 7%;
     background: url('~@images/buttons/cart.png') no-repeat 90% 50%, c.$bgColorButton_purchase_added;
 
     &:hover {
       opacity: 0.8;
     }
   }
-
 
   .main-container-description_button-like {
     position: absolute;

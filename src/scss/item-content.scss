@@ -38,6 +38,20 @@
       padding-top: 15px;
       padding-bottom: 15px;
     }
+
+    position: relative;
+
+
+    span {
+      display: inline-block;
+      background: rgba(255, 0, 0, 0.7);
+      padding: 7px;
+      border-radius: 50%;
+
+      color: white;
+      font-size: 1.5rem;
+      margin-left: -20px;
+    }
   }
 
   img {
@@ -84,8 +98,7 @@
 
 
 .item-purchase-price {
-  font-size: s.$fzItem_price;
-  color: #d1b482;
+
 
   @media screen and (max-device-width: s.$max-device-width) {
     display: inline-block;
@@ -94,6 +107,35 @@
     text-align: center;
     background: c.$bgColorItem_price-adapt;
   }
+}
+
+.item-price {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 20px
+}
+
+.item-price-amount {
+  color: c.$gold;
+  font-size: s.$fzItem_price;
+
+}
+
+.item-price-amount.price-sale {
+  color: gray;
+  font-size: s.$fzSale;
+}
+
+.item-arrow {
+  color: c.$fColorWhite;
+  font-size: s.$fzSale;
+}
+
+.item-price-reduced {
+  font-size: s.$fzItem_price;
+  color: #d5b57a;
 }
 
 .item-purchase-button {
@@ -126,6 +168,7 @@
 .button-purchase-added {
   transition: none;
   text-align: left;
+  padding-left: 7%;
   background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
 
   &:hover {
