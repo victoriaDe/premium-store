@@ -127,7 +127,7 @@ class Item {
               </div>
               <button class="item-purchase-button ${
                 isAddedToPurchase ? 'button-purchase-added' : ''
-              }">purchase</button>
+              }">${isAddedToPurchase ? 'added' : 'purchase'}</button>
           </div>
           <div class="item-container-description">
                 <h3>Details</h3>
