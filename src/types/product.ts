@@ -33,7 +33,7 @@ export interface IProductData {
     };
     actual: {
       cost: string;
-      currency: string;
+      discountType: string;
     };
   };
   images: {
