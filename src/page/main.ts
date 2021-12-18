@@ -66,17 +66,13 @@ router
     Filter.addEvent(router);
   });
 
-const localProducts = LocalStorage.getLocalData('All')?.data as IProduct[];
-const localUser = LocalStorage.getLocalData('user')?.data as IUser;
-
-router.init(localUser, localProducts);
-
 // инициализация стора
 document.addEventListener(
   'DOMContentLoaded',
   async () => {
     const userData = await LocalStorage.getUserData();
     if (userData) {
+      router.init(userData);
       ShoppingList.showShoppingListCounter(userData.shoppingList);
       Wishlist.showWishlistCounter(userData.wishlist);
       window.dispatchEvent(new HashChangeEvent('hashchange'));
