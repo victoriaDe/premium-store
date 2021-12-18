@@ -13,9 +13,11 @@ export interface IProductLocalStorageData {
   dateAdded: number
 }
 type LocalDataType = IUserLocalStorageData | IProductLocalStorageData | null
-
+export type CurrencyType= ""| "BYN" | "RUB"
 class LocalStorage {
   #userId = '61a6286353b5dad92e57b4c0';
+  #currency = 'RUB' as CurrencyType;
+
 
   // get data from localstorage
   getLocalData(id: string): LocalDataType {
@@ -49,7 +51,7 @@ class LocalStorage {
   }
 
   async updateProductDataByFilter(filter: TFilter | 'All') {
-    const productDataByFilter = await ProductAPI.getProductsByFilter(filter);
+    const productDataByFilter = await ProductAPI.getProductsByFilter(filter, this.#currency);
     if (!productDataByFilter) return null;
     const localProductData = {
       data: productDataByFilter,
@@ -94,7 +96,7 @@ class LocalStorage {
     const userData = await this.getUserData();
     if (userData) {
       if (userData[property].length > 0) {
-        return ProductAPI.getProductsByList(userData[property]);
+        return ProductAPI.getProductsByList(userData[property], this.#currency);
       }
     }
     return null;
