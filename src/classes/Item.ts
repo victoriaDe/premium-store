@@ -92,11 +92,7 @@ class Item {
       (event) => {
         if (!router.findRoute(`${product.data.id}`)) {
           router.addRoute(`${product.data.id}`, `${product.data.name}`, () =>
-            Item.showSelectedItem(
-              product,
-              userData,
-              Item.createSelectedItem,
-            ),
+            Item.showSelectedItem(product, userData, Item.createSelectedItem),
           );
         }
       },
@@ -117,19 +113,28 @@ class Item {
     userData: IUser,
     addEvent: AddEvent,
   ): HTMLElement {
-
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
+    console.log(product.data.price);
+    let actualPrice = ``;
+    let sale = ``;
+    if (product.data.price.basic.cost !== product.data.price.actual.cost) {
+      actualPrice = `<span class="item-price-reduced">${product.data.price.actual.cost}${product.data.price.basic.currency}</span>`;
+      const discountAmount = Math.ceil(100 - ((100 * +product.data.price.actual.cost) / +product.data.price.basic.cost));
+      sale = `<span class="item-price-sale">${discountAmount}%</span>`;
+    }
     if (product) {
       $item.innerHTML = `
           <h2>${product.data.name}</h2>
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
-              <span class="item-purchase-price">${
-                product.data.price.basic.cost
-              }${product.data.price.basic.currency}</span>
+              <div class="item-price">
+                        <span class="item-price-amount price-sale">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
+                        ${sale}
+                        ${actualPrice}
+              </div>
               <button class="item-purchase-button ${
                 isAddedToPurchase ? 'button-purchase-added' : ''
               }">purchase</button>
@@ -177,11 +182,7 @@ class Item {
       ) {
         $visualContainer?.parentElement?.removeChild($itemFilter);
       }
-      const $item: HTMLElement = createItem(
-        product,
-        userData,
-        Item.addEvent,
-      );
+      const $item: HTMLElement = createItem(product, userData, Item.addEvent);
       $visualContainer.appendChild($item);
     }
   }
