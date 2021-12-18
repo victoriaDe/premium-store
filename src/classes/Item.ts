@@ -18,7 +18,6 @@ class Item {
   static createItem(
     product: IProduct,
     userData: IUser,
-    productData: IProduct[],
     router: HashRouter,
   ): HTMLElement {
     const $item = document.createElement('div');
@@ -94,8 +93,7 @@ class Item {
         if (!router.findRoute(`${product.data.id}`)) {
           router.addRoute(`${product.data.id}`, `${product.data.name}`, () =>
             Item.showSelectedItem(
-              product.data.id,
-              productData,
+              product,
               userData,
               Item.createSelectedItem,
             ),
@@ -115,15 +113,12 @@ class Item {
   }
 
   static createSelectedItem(
-    itemId: string,
-    productData: IProduct[],
+    product: IProduct,
     userData: IUser,
     addEvent: AddEvent,
   ): HTMLElement {
-    const product: IProduct | undefined = productData.find(
-      (element: IProduct) => element.data.id === itemId,
-    );
-    const isAddedToPurchase = userData.shoppingList.includes(itemId);
+
+    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
@@ -160,12 +155,10 @@ class Item {
   }
 
   static showSelectedItem(
-    itemId: string,
-    productDataList: IProduct[],
+    product: IProduct,
     userData: IUser,
     createItem: (
-      itemId: string,
-      productDataList: IProduct[],
+      product: IProduct,
       userData: IUser,
       addEvent: AddEvent,
     ) => HTMLElement,
@@ -185,8 +178,7 @@ class Item {
         $visualContainer?.parentElement?.removeChild($itemFilter);
       }
       const $item: HTMLElement = createItem(
-        itemId,
-        productDataList,
+        product,
         userData,
         Item.addEvent,
       );
