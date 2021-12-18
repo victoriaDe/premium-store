@@ -9,6 +9,7 @@ import Item from '@classes/Item';
 // import Router from '@classes/Router';
 import HashRouter from '@classes/HashRouter';
 import ProductAPI from '@api/product';
+import LocalStorage from '@classes/LocalStorage';
 
 /**
  * Function for lazy loading of products on the main page
@@ -53,7 +54,8 @@ function lazyBD(
           if (entry.isIntersecting) {
             // add a specified number of products if we do not reach the end of the list
             const page = ((+showedProductsAmount/+amount)+1)
-            ProductAPI.getAllProductsByLazy(page, +amount, '$').then(value => {
+            ProductAPI.getAllProductsByLazy(page, +amount, LocalStorage.getCurrency()).then(value => {
+
               /*console.log(`number:${+(showedProductsAmount/amount)+1} amount:${+amount} `)*/
               if (value && value.products) {
                 value.products.forEach((val) => {

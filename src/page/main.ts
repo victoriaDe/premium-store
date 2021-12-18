@@ -20,6 +20,8 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 import '@scss/main-content.scss';
+import { IUser } from '@type/user';
+import { IProduct } from '@type/product';
 
 export const main: MainPage = new MainPage();
 
@@ -81,7 +83,7 @@ document.addEventListener(
       ShoppingList.showShoppingListCounter(userData.shoppingList);
       Wishlist.showWishlistCounter(userData.wishlist);
       // lazy(20, 100, data[1], data[0], new Item(), router);
-      lazyBD(20, 100, userData,  new Item(), router);
+     /* lazyBD(20, 100, userData,  new Item(), router);*/
       /* setTimeout(() => {
          LocalStorage.updateUserData();
        });*/

@@ -45,7 +45,7 @@ class Filter {
         $target = document.querySelector(`[data-filter=${filter}]`);
         $target?.classList.add('active-link');
 
-        if (filter === 'all') {
+        if (filter === 'All') {
           this.createAllFilterProducts(userData,router)
         } else {
           LocalStorage.getProductDataByFilter(actualFilter).then((data) => {
@@ -336,7 +336,7 @@ class Filter {
       $container.classList.add('main-container-content');
       $visualContainer.appendChild($container);
 
-      ProductAPI.getAllProductsByLazy(1, 20, '$').then(value => {
+      ProductAPI.getAllProductsByLazy(1, 20,  LocalStorage.getCurrency()).then(value => {
         if (value) {
           value.products.forEach((value: IProduct) => {
             $container.appendChild(
