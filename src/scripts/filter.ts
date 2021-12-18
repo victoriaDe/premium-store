@@ -1,10 +1,10 @@
 import { IProduct, TFilter } from '@type/product';
-import Item from '@scripts/item';
+import Item from '@classes/Item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
 import { main } from '@page/main';
-import Router from '@classes/Router';
-import LocalStorage from '@scripts/localStorage';
+import HashRouter from '@classes/HashRouter';
+import LocalStorage, { IProductLocalStorageData } from '@classes/LocalStorage';
 
 export type SetActiveFilterType =
   | 'all'
@@ -20,7 +20,7 @@ class Filter {
 
   static #tier: string | undefined;
 
-  static addEvent(router: Router): void {
+  static addEvent(router: HashRouter): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
     $filterButtons.forEach((item: Node) => {
@@ -28,36 +28,45 @@ class Filter {
         const $eventTarget: HTMLElement = e.target as HTMLElement;
         const $prevFilter = document.querySelector('.active-link');
 
-        router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
+        // router.changeURI(`?filter=${$eventTarget.dataset.filter}`);
 
         if ($prevFilter && $prevFilter !== $eventTarget) {
           $prevFilter.classList.remove('active-link');
         }
 
         $eventTarget.classList.add('active-link');
-
-        // Filter.filterProducts($eventTarget.textContent);
       });
     });
   }
 
-  static filterProducts(filter: string | null, router: Router) {
-    main.getUserData().then((userData) => {
+  static filterProducts(filter: string | null, router: HashRouter) {
+    let $target: HTMLElement | null;
+    LocalStorage.getUserData().then((userData) => {
       if (userData) {
         let actualFilter: TFilter | 'All';
         if (filter === 'all') {
           actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
         } else if (filter === 'vehicles') {
           actualFilter = 'Technique';
+          $target = document.querySelector('[data-filter=vehicles]');
         } else if (filter === 'gold') {
           actualFilter = 'Gold';
+          $target = document.querySelector('[data-filter=gold]');
         } else if (filter === 'provisions') {
           actualFilter = 'Provisions';
+          $target = document.querySelector('[data-filter=provisions]');
         } else if (filter === 'premium account') {
           actualFilter = 'Premium';
-        } else actualFilter = 'All';
+          $target = document.querySelector('[data-filter=premium]');
+        } else {
+          actualFilter = 'All';
+          $target = document.querySelector('[data-filter=all]');
+        }
 
-        main.getProductDataByFilter(actualFilter).then((data) => {
+        $target?.classList.add('active-link');
+
+        LocalStorage.getProductDataByFilter(actualFilter).then((data) => {
           if (data)
             this.createFilterProducts(
               data,
@@ -68,7 +77,7 @@ class Filter {
             );
         });
         setTimeout(() => {
-          main.updateProductDataByFilter(actualFilter).then(() => {});
+          LocalStorage.updateProductDataByFilter(actualFilter).then(() => {});
         });
       }
     });
@@ -77,28 +86,30 @@ class Filter {
   static filterTechniqueProducts(
     userData: IUser,
     productData: IProduct[],
-    router: Router,
+    router: HashRouter,
   ) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
-    ) as IProduct[];
-    let check = false;
-    const filteredProducts = techniqueProduct.filter((item) => {
-      if ('filter' in item.data) {
-        check = true;
-        if (this.#nation && this.#nation !== 'all') {
-          check = item.data.filter.nation === this.#nation;
+    ) as IProductLocalStorageData | null;
+    if (techniqueProduct) {
+      let check = false;
+      const filteredProducts = techniqueProduct.data.filter((item) => {
+        if ('filter' in item.data) {
+          check = true;
+          if (this.#nation && this.#nation !== 'all') {
+            check = item.data.filter.nation === this.#nation;
+          }
+          if (this.#tier && this.#tier !== 'all') {
+            check = check && item.data.filter.tier === this.#tier;
+          }
+          if (this.#type && this.#type !== 'all') {
+            check = check && item.data.filter.type === this.#type;
+          }
         }
-        if (this.#tier && this.#tier !== 'all') {
-          check = check && item.data.filter.tier === this.#tier;
-        }
-        if (this.#type && this.#type !== 'all') {
-          check = check && item.data.filter.type === this.#type;
-        }
-      }
-      return check;
-    });
-    Filter.showFilterProduct(filteredProducts, userData, productData, router);
+        return check;
+      });
+      Filter.showFilterProduct(filteredProducts, userData, productData, router);
+    }
   }
 
   static createFilterProducts(
@@ -106,7 +117,7 @@ class Filter {
     userData: IUser,
     productData: IProduct[],
     filter: string,
-    router: Router,
+    router: HashRouter,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -124,7 +135,7 @@ class Filter {
       $itemFilter.classList.add('item-filters');
       $itemFilter.innerHTML = `
         <div class="filter-container">
-                <button class="filter-container-checkedBtn nations" id="allNations" type="button">All nations</button>
+                <button class="filter-container-checkedBtn nations arrow" id="allNations" type="button">All nations</button>
                 <ul class="filter-list nations-list">
                     <li class="nations-btn filter-btn" data-nation="all">
                         <button class="nations">All nations</button>
@@ -153,7 +164,7 @@ class Filter {
                 </ul>
             </div>
             <div class="filter-container">
-                <button class="filter-container-checkedBtn types" id="allTypes" type="button">All types</button>
+                <button class="filter-container-checkedBtn types arrow" id="allTypes" type="button">All types</button>
                 <ul class="filter-list type-list">
                     <li class="type-btn filter-btn" data-type="all">
                         <button class="types">All types</button>
@@ -179,7 +190,7 @@ class Filter {
                 </ul>
             </div>
             <div class="filter-container">
-                <button class="filter-container-checkedBtn tiers" id="allTiers" type="button">All Tiers</button>
+                <button class="filter-container-checkedBtn tiers arrow" id="allTiers" type="button">All Tiers</button>
                 <ul class="filter-list tiers-list">
                   <li class="tires-btn filter-btn" data-tier="all">
                         <button>&#8545;-&#8553;</button>
@@ -214,7 +225,22 @@ class Filter {
       const tierList = $itemFilter.querySelectorAll('.tires-btn');
       const nationList = $itemFilter.querySelectorAll('.nations-btn');
       const allVehicles = $itemFilter.querySelector('.item-filters-btn');
+      const allFilterButtons = $itemFilter.querySelectorAll(
+        '.filter-container-checkedBtn',
+      );
       allVehicles?.addEventListener('click', () => {
+        allFilterButtons.forEach((item, index) => {
+          if (index === 0) {
+            item.textContent = 'All nations';
+          }
+          if (index === 1) {
+            item.textContent = 'All types';
+          }
+          if (index === 2) {
+            item.textContent = 'All tiers';
+          }
+          item.classList.remove(item.classList[3]);
+        });
         this.#type = 'all';
         this.#tier = 'all';
         this.#nation = 'all';
@@ -225,6 +251,16 @@ class Filter {
           e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
             'opened-list',
           );
+          const elem = e.currentTarget.parentElement.parentElement
+            ?.firstElementChild as HTMLElement;
+          if (elem.classList.length > 3) {
+            elem.classList.remove(elem.classList[3]);
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          } else {
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          }
           this.#type = e.currentTarget.dataset.type;
           this.filterTechniqueProducts(userData, productData, router);
         });
@@ -234,6 +270,9 @@ class Filter {
           e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
             'opened-list',
           );
+          const elem = e.currentTarget.parentElement.parentElement
+            ?.firstElementChild as HTMLElement;
+          elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
           this.#tier = e.currentTarget.dataset.tier;
           this.filterTechniqueProducts(userData, productData, router);
         });
@@ -243,6 +282,16 @@ class Filter {
           e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
             'opened-list',
           );
+          const elem = e.currentTarget.parentElement.parentElement
+            ?.firstElementChild as HTMLElement;
+          if (elem.classList.length > 3) {
+            elem.classList.remove(elem.classList[3]);
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          } else {
+            elem.classList.add(e.currentTarget.firstElementChild.className);
+            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+          }
           this.#nation = e.currentTarget.dataset.nation;
           this.filterTechniqueProducts(userData, productData, router);
         });
@@ -263,7 +312,7 @@ class Filter {
     filteredProducts: IProduct[],
     userData: IUser,
     productData: IProduct[],
-    router: Router,
+    router: HashRouter,
   ) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',

@@ -1,167 +1,104 @@
-import { IUser } from '@type/user';
-import { IProduct, TFilter } from '@type/product';
-
-import UserAPI from '@api/user';
-import Item from '@scripts/item';
-import Shopping from '@scripts/changeUserLists';
-import ProductAPI from '@api/product';
+import MainPage from '@classes/MainPage';
 import Filter from '@scripts/filter';
-import Wishlist from '@scripts/wishlist';
-import LocalStorage from '@scripts/localStorage';
-import ShoppingList from '@scripts/shoppingList';
+import Wishlist from '@classes/Wishlist';
+import ShoppingList from '@classes/ShoppingList';
 import Popup from '@classes/Popup';
-import Router from '@classes/Router';
-
-import lazy from '@scripts/lazy';
+import HashRouter from '@classes/HashRouter';
+import Navigation from '@classes/Navigation';
+import '../elements/elements';
 
 import '@scss/main.scss';
 import '@scss/variables/colors.scss';
 import '@scss/variables/sizes.scss';
 import '@scss/popup.scss';
-import '@scss/main-content.scss';
 import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
-
-const router = new Router(process.env.DEPLOY_PATH!);
-
-router
-  .addRoute('wishlist', () => {
-    Wishlist.createWishlist();
-  })
-  .addRoute('shoppingcart', () => ShoppingList.createShoppingList())
-  .addRoute('', () => {
-    Item.showMainNavContainer();
-    Filter.addEvent(router);
-    Filter.filterProducts('all', router);
-  })
-  .addRoute('?filter=all', () => Filter.filterProducts('all', router))
-  .addRoute('?filter=vehicles', () => Filter.filterProducts('vehicles', router))
-  .addRoute('?filter=gold', () => Filter.filterProducts('gold', router))
-  .addRoute('?filter=premium', () =>
-    Filter.filterProducts('premium account', router),
-  )
-  .addRoute('?filter=provisions', () =>
-    Filter.filterProducts('provisions', router),
-  );
-
-router.init();
-
-const $wishlistLink = document.getElementById('wishlistId') as HTMLElement;
-
-$wishlistLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('wishlist');
-});
-
-const $shoppingCartLink = document.getElementById('shoppingId') as HTMLElement;
-
-$shoppingCartLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('shoppingcart');
-});
-
-const $headerLogoLink = document.getElementById('headerLogo') as HTMLElement;
-
-$headerLogoLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  router.changeURI('');
-});
-
-// const $filterLinkList = document.querySelectorAll('.main-nav-link');
-//
-// $filterLinkList.forEach(($filterLink) => {
-//   $filterLink.addEventListener('click', (event) => {
-//     const $target = event.target as HTMLElement;
-//     router.changeURI(`?filter=${$target.dataset.filter}`);
-//   });
-// });
-
-class MainPage {
-  #productData: IProduct[] | null = [];
-
-  #userData: IUser | null = null;
-
-  #userId = '61a6286353b5dad92e57b4c0';
-
-  static updateLocalData() {
-    UserAPI.getUserByID('61a6286353b5dad92e57b4c0').then((data) => {
-      localStorage.setItem('user', JSON.stringify(data));
-    });
-    ProductAPI.getProductsByFilter('All').then((data) => {
-      localStorage.setItem('productData', JSON.stringify(data));
-    });
-  }
-
-  async getAllData() {
-    const productData = await this.getProductDataByFilter('All');
-    const userData = await this.getUserData();
-    return [productData, userData];
-  }
-
-  async updateUserData() {
-    const userData = await UserAPI.getUserByID(this.#userId);
-    localStorage.setItem('user', JSON.stringify(userData));
-    return userData;
-  }
-
-  async sendUserData() {
-    const userData = LocalStorage.getLocalData('user') as IUser | null;
-    if (userData) {
-      const data = await UserAPI.changeUserData(userData);
-    }
-  }
-
-  async updateProductDataByFilter(filter: TFilter | 'All') {
-    const productDataByFilter = await ProductAPI.getProductsByFilter(filter);
-    localStorage.setItem(filter, JSON.stringify(productDataByFilter));
-    return productDataByFilter;
-  }
-
-  async getProductDataByFilter(filter: TFilter | 'All') {
-    let productDataByFilter = LocalStorage.getLocalData(filter) as
-      | IProduct[]
-      | null;
-    if (!productDataByFilter)
-      productDataByFilter = await this.updateProductDataByFilter(filter);
-    return productDataByFilter;
-  }
-
-  async getUserData() {
-    let userData = LocalStorage.getLocalData('user') as IUser | null;
-    if (!userData) userData = await this.updateUserData();
-    this.#userData = userData;
-    return userData;
-  }
-
-  async getListData(property: 'shoppingList' | 'wishlist') {
-    const userData = await this.getUserData();
-    if (userData) {
-      if (userData[property].length > 0) {
-        return ProductAPI.getProductsByList(userData[property]);
-      }
-    }
-    return null;
-  }
-
-  async init(): Promise<any> {
-    const data = (await this.getAllData()) as any[];
-    console.log(data[0]);
-    await Filter.filterProducts('all', router);
-    Filter.addEvent(router);
-    Shopping.showShoppingList(data[1].shoppingList);
-    Shopping.showWishlist(data[1].wishlist);
-    await lazy(20, 100, data[1], data[0], new Item(), router);
-
-    setTimeout(() => {
-      this.updateUserData();
-    });
-  }
-}
+import '@scss/main-content.scss';
+import LocalStorage from '@classes/LocalStorage';
+import lazy from '@scripts/lazy';
+import Item from '@classes/Item';
 
 export const main: MainPage = new MainPage();
 
-main.init();
+const router = new HashRouter();
+
+router
+  .addRoute('wishlist', 'Wishlist', () => {
+    Wishlist.createWishlist();
+  })
+  .addRoute('shoppingcart', 'Shopping cart', () =>
+    ShoppingList.createShoppingList(),
+  )
+  .addRoute('', 'Premium Store', () => {
+    Navigation.showMainNavContainer();
+    Filter.addEvent(router);
+    Filter.filterProducts('all', router);
+  })
+  .addRoute('all', 'All products', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('all', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('vehicles', 'Vehicles', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('vehicles', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('gold', 'Gold', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('gold', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('premium', 'Premium', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('premium account', router);
+    Filter.addEvent(router);
+  })
+  .addRoute('provisions', 'Provisions', () => {
+    Navigation.showMainNavContainer();
+    Filter.filterProducts('provisions', router);
+    Filter.addEvent(router);
+  });
+
+router.init();
+
+// инициализация стора
+document.addEventListener(
+  'DOMContentLoaded',
+  async () => {
+    const data = (await LocalStorage.getAllData()) as any[];
+    ShoppingList.showShoppingListCounter(data[1].shoppingList);
+    Wishlist.showWishlistCounter(data[1].wishlist);
+    lazy(20, 100, data[1], data[0], new Item(), router);
+    setTimeout(() => {
+      LocalStorage.updateUserData();
+    });
+    // принудительно рендерим по хэшу
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  },
+  { once: true },
+);
+
+export { router };
+
+// для работы перезагрузки по кликам
+document.addEventListener('click', (event) => {
+  const $target = event.target as HTMLElement;
+  let fullHash = window.location.hash;
+
+  // фикс для главной страницы
+  if (fullHash === '') {
+    fullHash = `#`;
+  }
+
+  if (
+    $target.classList.contains('hash-link') &&
+    $target.getAttribute('href') === fullHash
+  ) {
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  }
+});
 
 /// /////////////////////////////////////////////////////////////////////
 
@@ -169,53 +106,54 @@ const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); //
 const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
 
 function openPopup(event: MouseEvent) {
-  let popup;
+    let popup;
 
-  const eventTarget = event.target as HTMLElement; // куда кликнули
-  if ($wrapper?.children) $wrapper.innerHTML = ''; // если в обертке что-то есть, то нужно это обнулить, чтобы не плодить попапы
-  $body?.classList.add('lock'); // класс запрещает body скроллиться
-  // описание аргументов класса ниже
-  switch (
-    eventTarget.id // определяем id элемента, каждому айдишнику соответствуют поля для класса
-  ) {
-    case 'login': // попап для логина
-      popup = new Popup(
-        eventTarget,
-        [
-          ['nickname', 'text'],
-          ['password', 'password'],
-        ],
-        true,
-        openPopup,
-      );
-      break;
+    const eventTarget = event.target as HTMLElement; // куда кликнули
+    if ($wrapper?.children) $wrapper.innerHTML = ''; // если в обертке что-то есть, то нужно это обнулить, чтобы не плодить попапы
+    $body?.classList.add('lock'); // класс запрещает body скроллиться
+    $wrapper?.classList.add('visible')
+    // описание аргументов класса ниже
+    switch (
+        eventTarget.id // определяем id элемента, каждому айдишнику соответствуют поля для класса
+        ) {
+        case 'login': // попап для логина
+            popup = new Popup(
+                eventTarget,
+                [
+                    ['nickname', 'text'],
+                    ['password', 'password'],
+                ],
+                true,
+                openPopup,
+            );
+            break;
 
-    case 'create-account': // попап для создания
-      popup = new Popup(
-        eventTarget,
-        [
-          ['full name', 'text'],
-          ['nickname', 'text'],
-          ['email', 'email'],
-          ['password', 'password'],
-        ],
-        false,
-      );
-      break;
+        case 'create-account': // попап для создания
+            popup = new Popup(
+                eventTarget,
+                [
+                    ['full name', 'text'],
+                    ['nickname', 'text'],
+                    ['email', 'email'],
+                    ['password', 'password'],
+                ],
+                false,
+            );
+            break;
 
-    case 'reset-password': // попап для забыл пароль
-      popup = new Popup(eventTarget, [['email', 'email']], false);
-      if ($wrapper) $wrapper.innerHTML = '';
-      break;
+        case 'reset-password': // попап для забыл пароль
+            popup = new Popup(eventTarget, [['email', 'email']], false);
+            if ($wrapper) $wrapper.innerHTML = '';
+            break;
 
-    default:
-      throw new Error('eventTarget has no ID');
-  }
+        default:
+            throw new Error('eventTarget has no ID');
+    }
 
-  if ($wrapper && popup) {
-    $wrapper.appendChild(popup.renderHTML()); // добавить попап в обертку
-    $wrapper.classList.add('opened-popup'); // добавить класс, который открывает попап
-  }
+    if ($wrapper && popup) {
+        $wrapper.appendChild(popup.renderHTML()); // добавить попап в обертку
+        $wrapper.classList.add('opened-popup'); // добавить класс, который открывает попап
+    }
 }
 
 function closePopup(event: MouseEvent) {

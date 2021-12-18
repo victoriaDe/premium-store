@@ -12,7 +12,7 @@ class Router {
   /** array of saved routes */
   #routes: TRoute[] = [];
 
-  /** current path (relative to the site root) */
+  /** current relative path */
   #currentPath = '';
 
   /** site root URI */
@@ -27,15 +27,27 @@ class Router {
   }
 
   /**
+   * Method for change a title to a browser tab
+   */
+
+  changeTitle(): void {
+    const route = this.findRoute(this.#currentPath);
+    document.title = route ? route.title : '';
+  }
+
+  /**
    * Method for adding a route to a router
    * @param path relative path route
+   * @param title the title of the browser tab
    * @param callback callback function for route
    */
 
-  addRoute(path: string, callback: TRouteCallback) {
+  addRoute(path: string, title: string, callback: TRouteCallback): Router {
     this.#routes.push({
       path,
+      title,
       callback,
+      isCalled: false,
     });
     return this;
   }
@@ -50,20 +62,34 @@ class Router {
   }
 
   /**
+   * Method whether the given route was called
+   * @param path relative path route
+   */
+
+  checkRoute(path: string): boolean | undefined {
+    const route = this.findRoute(path);
+    return route?.isCalled;
+  }
+
+  /**
    * Method for changing the route in the router (changes the saved current path and calls the callback function of the new route)
    * @param force flag of forced route change (for the page reload to work by clicking on the current link)
    */
 
-  #changeRoute(force?: boolean) {
-    if (this.#currentPath !== this.#getPath() || force === true) {
-      this.#currentPath = this.#getPath();
+  #changeRoute(force?: boolean): void {
+    const newPath = this.#getPath();
 
-      const route = this.findRoute(this.#currentPath);
+    if (this.#currentPath !== newPath || force === true) {
+      this.#currentPath = newPath;
+
+      const route = this.findRoute(newPath);
 
       if (!route) {
-        throw new Error(`Path '${this.#currentPath}' is undefined`);
+        throw new Error(`Path '${newPath}' is undefined`);
       } else {
         route.callback();
+        route.isCalled = true;
+        this.changeTitle();
       }
     }
   }

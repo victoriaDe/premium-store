@@ -35,6 +35,8 @@
   display: flex;
   align-items: center;
 
+  font-style: normal;
+
   &:hover {
     h1 {
       color: c.$fColorHeader_active;
@@ -44,6 +46,7 @@
   span {
     height: 23px;
     width: 23px;
+    pointer-events: none;
 
     background-image: url('~@images/logo/VectorSmartObject.svg');
     background-repeat: no-repeat;
@@ -57,6 +60,7 @@
 
   h1 {
     margin-left: 12px;
+    pointer-events: none;
 
     font-size: s.$fzHeaderH1;
     font-weight: normal;
@@ -97,6 +101,7 @@
 
     font-size: s.$fzHeader_nav;
     font-weight: 400;
+    font-style: normal;
     letter-spacing: 0.025em;
     text-transform: capitalize;
     color: c.$fColorHeader;

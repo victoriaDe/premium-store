@@ -13,7 +13,8 @@
 
 
   @media screen and (max-device-width: s.$min-width) {
-    grid-template-rows: 5% 1fr auto;
+
+    grid-template-rows: 1fr;
     grid-template-columns: 100%;
   }
 
@@ -24,13 +25,16 @@
     font-weight: 400;
     letter-spacing: -0.025em;
     padding-bottom: 40px;
+    word-break: break-word;
 
     color: c.$fColorWhite;
+
     text-transform: uppercase;
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-
-    @media screen and (max-device-width: s.$max-device-width) {
+    @media screen and (max-device-width: s.$min-width) {
       font-size: s.$fzItem_H2_adapt;
+    }
+    @media screen and (max-device-width: s.$max-device-width) {
       padding-top: 15px;
       padding-bottom: 15px;
     }
@@ -112,12 +116,23 @@
     background: rgba(233, 81, 4, 0.8);
   }
 
+
   @media screen and (max-device-width: s.$max-device-width) {
     height: 100%;
     width: 50%;
   }
 }
 
+.button-purchase-added {
+  transition: none;
+  text-align: left;
+  background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
+
+  &:hover {
+    background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
+    opacity: 0.8;
+  }
+}
 
 .item-container-description {
   grid-column-start: 1;
@@ -156,32 +171,6 @@
       font-size: s.$fzDescription_H3_adapt;
     }
   }
-
-  p {
-    font-weight: 400;
-    letter-spacing: 0.025em;
-  }
-
-
-  ul {
-    padding: 0 0 0 25px;
-    box-sizing: border-box;
-    list-style-type: circle;
-    max-width: 80%;
-    margin: 0 auto;
-    color: c.$fColorDescriptionUl;
-
-    li {
-      padding: 5px 0;
-    }
-  }
-
-  a {
-    display: inline-block;
-    padding: 15px 0 0 0;
-    font-style: italic;
-  }
-
 }
 
 
