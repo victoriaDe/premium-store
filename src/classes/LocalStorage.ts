@@ -18,6 +18,10 @@ class LocalStorage {
   #userId = '61a6286353b5dad92e57b4c0';
   #currency = 'RUB' as CurrencyType;
 
+  getCurrency(){
+    return this.#currency
+  }
+
 
   // get data from localstorage
   getLocalData(id: string): LocalDataType {
