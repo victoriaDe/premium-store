@@ -4,7 +4,6 @@ import LocalStorage from '@classes/LocalStorage';
 import ShoppingList from '@classes/ShoppingList';
 import Item from '@classes/Item';
 
-
 class Wishlist {
   static createHeaderList(name: string) {
     const $header = document.createElement('div');
@@ -22,19 +21,19 @@ class Wishlist {
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
       <a class="item-filtered-img" href="#"><img src=${
-      product.data.images.span_2x1
-    } alt="image"></a>
+        product.data.images.span_2x1
+      } alt="image"></a>
                 <div class="item-filtered-description">
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
                     <div>
                         <button class="item-description-likeBtn button-like_active"></button>
                         <span class="item-purchase-prise">${
-      product.data.price.basic.cost
-    }${product.data.price.basic.currency}</span>
+                          product.data.price.basic.cost
+                        }${product.data.price.basic.currency}</span>
                         <button class="button-purchase-5000 ${
-      isAddedToPurchase ? 'button-purchase-added' : ''
-    }">Purchase</button>
+                          isAddedToPurchase ? 'button-purchase-added' : ''
+                        }">${isAddedToPurchase ? 'added' : 'purchase'}</button>
                     </div>
     `;
 
