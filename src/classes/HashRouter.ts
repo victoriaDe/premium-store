@@ -3,11 +3,11 @@
  */
 
 import { IUser } from '@type/user';
-import { IProduct } from '@type/product';
 import { THRoute, TRouteCallback } from '@type/router';
 
 import Item from '@classes/Item';
 import Navigation from '@classes/Navigation';
+import ProductAPI from '@api/product';
 
 /**
  * Class for creating a router with hash support
@@ -49,8 +49,8 @@ class HashRouter {
    * @param products список всех продуктов из локального хранилища
    */
 
-  createRoute(hash: string, user: IUser, products: IProduct[]): boolean {
-    const product = products.find((p) => p.data.id === hash);
+  async createRoute(hash: string, user: IUser): Promise<boolean> {
+    const product = await ProductAPI.getProductByID(hash, '');
 
     if (product) {
       this.addRoute(hash, product.data.name, () => {
@@ -60,6 +60,7 @@ class HashRouter {
       window.dispatchEvent(new HashChangeEvent('hashchange'));
       return true;
     }
+
     return false;
   }
 
@@ -96,8 +97,8 @@ class HashRouter {
    * @param products список всех продуктов из локального хранилища
    */
 
-  init(user: IUser, products: IProduct[]) {
-    window.addEventListener('hashchange', () => {
+  init(user: IUser) {
+    window.addEventListener('hashchange', async () => {
       const hash = HashRouter.#getHash();
       const route = this.findRoute(hash);
       if (route) {
@@ -106,7 +107,7 @@ class HashRouter {
         HashRouter.#changeTitle(route.title);
       } else {
         // пробуем создать путь сами
-        const isRouteCreated = this.createRoute(hash, user, products);
+        const isRouteCreated = await this.createRoute(hash, user);
 
         if (!isRouteCreated) {
           HashRouter.#changeTitle('*****');

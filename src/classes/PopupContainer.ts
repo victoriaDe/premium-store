@@ -1,12 +1,10 @@
 import Popup from '@classes/Popup';
 
-
 class PopupContainer {
-
-
-  static openPopup(event: MouseEvent ) {
-     let popup;
-    const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
+  static openPopup(event: MouseEvent) {
+    let popup;
+    const $wrapper: HTMLElement | null =
+      document.getElementById('popupWrapper'); // серый фон попапа
     const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
     const eventTarget = event.target as HTMLElement; // куда кликнули
     if ($wrapper?.children) $wrapper.innerHTML = ''; // если в обертке что-то есть, то нужно это обнулить, чтобы не плодить попапы
@@ -15,7 +13,7 @@ class PopupContainer {
     // описание аргументов класса ниже
     switch (
       eventTarget.id // определяем id элемента, каждому айдишнику соответствуют поля для класса
-      ) {
+    ) {
       case 'login': // попап для логина
         popup = new Popup(
           eventTarget,
@@ -57,9 +55,10 @@ class PopupContainer {
   }
 
   static closePopup(event: MouseEvent) {
-    const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
+    const $wrapper: HTMLElement | null =
+      document.getElementById('popupWrapper'); // серый фон попапа
     const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
-     const eventTarget = event.target as HTMLElement; // куда кликнули
+    const eventTarget = event.target as HTMLElement; // куда кликнули
     $body?.classList.remove('lock'); // удалить запрет на скролл body
 
     // если кликнули, чтобы закрыть попап по
@@ -76,4 +75,4 @@ class PopupContainer {
   }
 }
 
-export default PopupContainer
+export default PopupContainer;
