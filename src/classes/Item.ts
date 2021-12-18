@@ -38,7 +38,7 @@ class Item {
                      }" href="#${product.data.id}">
                           <img class="main-container-link_img" src=${
                             product.data.images.span_2x1
-                          } alt="Танк">
+                          } alt="${product.data.name}">
                      </a>
                      <div class="main-container-description">
                             ${nation}
