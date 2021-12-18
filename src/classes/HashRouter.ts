@@ -2,7 +2,12 @@
  * @module Router
  */
 
-import { THRoute, TRoute, TRouteCallback } from '@type/router';
+import { IUser } from '@type/user';
+import { IProduct } from '@type/product';
+import { THRoute, TRouteCallback } from '@type/router';
+
+import Item from '@classes/Item';
+import Navigation from '@classes/Navigation';
 
 /**
  * Class for creating a router with hash support
@@ -38,6 +43,27 @@ class HashRouter {
   }
 
   /**
+   * Метод для создания пути товара при перезагрузке страницы
+   * @param hash хэш пути
+   * @param user пользователь из локального хранилища
+   * @param products список всех продуктов из локального хранилища
+   */
+
+  createRoute(hash: string, user: IUser, products: IProduct[]): boolean {
+    const product = products.find((p) => p.data.id === hash);
+
+    if (product) {
+      this.addRoute(hash, product.data.name, () => {
+        Navigation.showMainNavContainer();
+        Item.showSelectedItem(product, user, Item.createSelectedItem);
+      });
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Method for finding a route in the array of saved routes of the router
    * @param hash hash route
    */
@@ -66,9 +92,11 @@ class HashRouter {
 
   /**
    * Method for initializing the router
+   * @param user пользователь из локального хранилища
+   * @param products список всех продуктов из локального хранилища
    */
 
-  init() {
+  init(user: IUser, products: IProduct[]) {
     window.addEventListener('hashchange', () => {
       const hash = HashRouter.#getHash();
       const route = this.findRoute(hash);
@@ -77,8 +105,13 @@ class HashRouter {
         route.isCalled = true;
         HashRouter.#changeTitle(route.title);
       } else {
-        HashRouter.#changeTitle('*****');
-        throw new Error(`Path #'${hash}' is undefined`);
+        // пробуем создать путь сами
+        const isRouteCreated = this.createRoute(hash, user, products);
+
+        if (!isRouteCreated) {
+          HashRouter.#changeTitle('*****');
+          throw new Error(`Path #'${hash}' is undefined`);
+        }
       }
     });
   }
