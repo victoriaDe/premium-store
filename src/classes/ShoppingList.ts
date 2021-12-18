@@ -18,9 +18,11 @@ class ShoppingList {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
-      <a class="item-filtered-img" href="#"><img src=${
-        product.data.images.span_2x1
-      } alt="${product.data.name}"></a>
+      <a class="item-filtered-img" href="#${
+        product.data.id
+      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
+      product.data.name
+    }"></a>
                 <div class="item-filtered-description">
                     <h2>${product.data.name}</h2>
                     <p>${product.data.description}</p>
