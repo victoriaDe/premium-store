@@ -95,9 +95,12 @@
     @media screen and (max-device-width: s.$max-device-width) {
       font-size: s.$fzNav_content_adapt;
     }
+
   }
+  .active-link {
+    border-bottom: 5px solid c.$fColorWhite;
+    color: c.$fColorWhite;
+  }
+
 }
-.active-link {
-  border-bottom: 3px solid c.$fColorWhite;
-  color: c.$fColorWhite;
-}
+

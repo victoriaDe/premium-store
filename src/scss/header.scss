@@ -162,6 +162,7 @@
 
   .nav-link-active {
     color: c.$fColorHeader_active;
+    border-bottom: 3px solid c.$fColorHeader_active;
   }
 
   .header-nav-account {
