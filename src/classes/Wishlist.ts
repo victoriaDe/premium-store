@@ -27,7 +27,10 @@ class Wishlist {
       product.data.name
     }"></a>
                 <div class="item-filtered-description">
-                    <h2>${product.data.name}</h2>
+                    <h2>
+                      ${product.data.name}
+                      ${saleElement[1]}
+                    </h2>
                     <p>${product.data.description}</p>
                     <div>
                         <button class="item-description-likeBtn button-like_active"></button>

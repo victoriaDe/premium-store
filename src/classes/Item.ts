@@ -201,7 +201,7 @@ class Item {
           (100 * +product.data.price.actual.cost) /
             +product.data.price.basic.cost,
       );
-      sale = `<span>${discountAmount}% </span>`;
+      sale = `<span class='item-sale'>${discountAmount}% </span>`;
     }
     return [actualPrice, sale];
   }
