@@ -1,0 +1,36 @@
+@use '~@scss/variables/colors' as c;
+@use '~@scss/variables/sizes' as s;
+
+
+.item-sale {
+  background: red;
+}
+
+.item-price {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 20px
+}
+
+.item-price-amount {
+  color: c.$gold;
+  font-size: s.$fzItem_price;
+
+}
+
+.item-price-amount.price-sale {
+  color: gray;
+  font-size: s.$fzSale;
+}
+
+.item-arrow {
+  color: c.$fColorWhite;
+  font-size: s.$fzSale;
+}
+
+.item-price-reduced {
+  font-size: s.$fzItem_price;
+  color: #d5b57a;
+}
