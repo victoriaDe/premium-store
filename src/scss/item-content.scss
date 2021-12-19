@@ -135,18 +135,6 @@
   }
 }
 
-.button-purchase-added {
-  transition: none;
-  text-align: left;
-  padding-left: 7%;
-  background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
-
-  &:hover {
-    background: url("~@images/buttons/cart.png") no-repeat 90% 50%, c.$bgColorButton_purchase_added;
-    opacity: 0.8;
-  }
-}
-
 .item-container-description {
   grid-column-start: 1;
   grid-column-end: 3;
