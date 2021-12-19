@@ -3,7 +3,7 @@ class Navigation {
     const $mainNavContainer = document.createElement('div');
     $mainNavContainer.classList.add('main-nav-container');
     $mainNavContainer.innerHTML = `       
-            <a class="main-nav-logo"></a>
+            <a class="main-nav-logo" href="https://worldoftanks.com/"></a>
             <nav class="main-nav-links">
                 <a class="main-nav-link hash-link" href="#all" data-filter="All">all</a>
                 <a class="main-nav-link hash-link" href="#vehicles" data-filter="Technique">vehicles</a>
