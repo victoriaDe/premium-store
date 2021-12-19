@@ -3,6 +3,7 @@ import { IUser } from '@type/user';
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
 import HashRouter from '@classes/HashRouter';
+import humanPrice from '@scripts/human-price';
 
 interface AddEvent {
   (
@@ -43,9 +44,11 @@ class Item {
                             ${nation}
                             ${type}
                             <h2>${product.data.name}</h2>
-                            <span class="main-container-description_price">${
-                              product.data.price.basic.cost
-                            }${product.data.price.basic.currency}</span>
+                            <span class="main-container-description_price">
+     ${humanPrice(product.data.price.basic.cost)} ${
+      product.data.price.basic.currency
+    }                       
+</span>
                             <button class="main-container-description_button-purchase ${
                               isAddedToPurchase ? 'button-purchase-added' : ''
                             }">
@@ -108,11 +111,18 @@ class Item {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
+    ``;
     let actualPrice = ``;
     let sale = ``;
     if (product.data.price.basic.cost !== product.data.price.actual.cost) {
-      actualPrice = `<span class="item-price-reduced">${product.data.price.actual.cost}${product.data.price.basic.currency}</span>`;
-      const discountAmount = Math.ceil(100 - ((100 * +product.data.price.actual.cost) / +product.data.price.basic.cost));
+      actualPrice = `<span class="item-price-reduced">${humanPrice(
+        product.data.price.basic.cost,
+      )} ${product.data.price.basic.currency}</span>`;
+      const discountAmount = Math.ceil(
+        100 -
+          (100 * +product.data.price.actual.cost) /
+            +product.data.price.basic.cost,
+      );
       sale = `<span class="item-price-sale">${discountAmount}%</span>`;
     }
     if (product) {
@@ -121,7 +131,9 @@ class Item {
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
               <div class="item-price">
-                        <span class="item-price price-sale">${product.data.price.basic.cost}${product.data.price.basic.currency}</span>
+                        <span class="item-price price-sale">${humanPrice(
+                          product.data.price.basic.cost,
+                        )} ${product.data.price.basic.currency}</span>
                         ${sale}
                         ${actualPrice}
               </div>
