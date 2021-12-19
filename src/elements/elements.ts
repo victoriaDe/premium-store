@@ -1,9 +1,6 @@
 const $login = document.getElementById('login');
 const $popup = document.getElementById('popupWrapper');
 
-window.addEventListener('load', countPadding);
-window.addEventListener('resize', countPadding);
-
 function countPadding() {
   const $headerHeight: number | undefined =
     document.querySelector('header')?.offsetHeight;
@@ -16,3 +13,10 @@ function countPadding() {
 if (window.innerWidth < 720) {
   $login?.classList.add('login');
 }
+
+function load() {
+  countPadding();
+}
+
+window.addEventListener('load', load);
+window.addEventListener('resize', load);

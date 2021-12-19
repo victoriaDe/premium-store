@@ -15,8 +15,6 @@ class Wishlist {
 
   static createWishlistItem(product: IProduct, userData: IUser) {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
-    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
-
     const $item: HTMLElement = document.createElement('div');
     const saleElement = Item.getSale(product);
     $item.classList.add('item-filtered-container');
@@ -31,7 +29,7 @@ class Wishlist {
                       ${product.data.name}
                       ${saleElement[1]}
                     </h2>
-                    <p>${product.data.description}</p>
+                    ${product.data.description}
                     <div>
                         <button class="item-description-likeBtn button-like_active"></button>
                         <span class="item-purchase-prise">
@@ -45,7 +43,18 @@ class Wishlist {
                         }">${isAddedToPurchase ? 'added' : 'purchase'}</button>
                     </div>
     `;
+    Wishlist.addEvent($item, product);
+    return $item;
+  }
 
+  static createEmptyListItems(text: string) {
+    const $item: HTMLElement = document.createElement('div');
+    $item.classList.add('item-filtered-container');
+    $item.innerHTML = `<div class="empty-list">${text}</div>`;
+    return $item;
+  }
+
+  static addEvent ($item: HTMLElement, product: IProduct) {
     const $likeButton: any = $item.querySelector('.item-description-likeBtn');
     if ($likeButton) {
       Item.addEvent(
@@ -67,14 +76,6 @@ class Wishlist {
         [product, ShoppingList.showShoppingListCounter, $buttonPurchase],
       );
     }
-    return $item;
-  }
-
-  static createEmptyListItems(text: string) {
-    const $item: HTMLElement = document.createElement('div');
-    $item.classList.add('item-filtered-container');
-    $item.innerHTML = `<div class="empty-list">${text}</div>`;
-    return $item;
   }
 
   static async createWishlist() {
