@@ -48,7 +48,7 @@ class Item {
                               ${product.data.name}
                               ${saleElement[1]}
                              </h2>
-                            <span class="main-container-description_price">
+                            <span class="item-price">
                               <span class="item-price-amount price-sale">${humanPrice(
                                 product.data.price.basic.cost,
                               )} ${product.data.price.basic.currency}</span>
@@ -101,6 +101,7 @@ class Item {
     addEvent: AddEvent,
   ): HTMLElement {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
+    console.log(isAddedToPurchase);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';

@@ -30,7 +30,7 @@ class ShoppingList {
                       ${product.data.name}
                       ${saleElement[1]}
                     </h2>
-                    <p>${product.data.description}</p>
+                    ${product.data.description}
                     <div>
                         <button class="item-description-likeBtn ${
                           isAddedToWishlist ? 'button-like_active' : ' '
@@ -45,27 +45,7 @@ class ShoppingList {
                           isAddedToPurchase ? 'button-purchase-added' : ''
                         }">added</button>
     `;
-    const $likeButton: any = $item.querySelector('.item-description-likeBtn');
-    if ($likeButton) {
-      Item.addEvent(
-        'click',
-        $likeButton,
-        Wishlist.changeWishlistCounter,
-        false,
-        [product, Wishlist.showWishlistCounter, $likeButton],
-      );
-    }
-    const $buttonPurchase: any = $item.querySelector('.button-purchase-5000');
-    if ($buttonPurchase) {
-      Item.addEvent(
-        'click',
-        $buttonPurchase,
-        ShoppingList.changeShoppingListCounter,
-        false,
-        [product, ShoppingList.showShoppingListCounter, $buttonPurchase],
-      );
-    }
-
+    Wishlist.addEvent($item, product);
     return $item;
   }
 
