@@ -325,7 +325,7 @@ class Filter {
       $container.classList.add('main-container-content');
       $visualContainer.appendChild($container);
 
-      ProductAPI.getAllProductsByLazy(1, 20, LocalStorage.getCurrency()).then(
+      ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency()).then(
         (value) => {
           if (value) {
             value.products.forEach((value: IProduct) => {
