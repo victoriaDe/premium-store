@@ -24,7 +24,7 @@ function lazy(
   user: IUser,
   products: IProduct[],
   item: Item,
-  router: HashRouter,
+  // router: HashRouter,
 ) {
   const $productsContainer = document.querySelector('.main-container-content');
 
@@ -57,7 +57,7 @@ function lazy(
             ) {
               if (i < products.length) {
                 $productsContainer.appendChild(
-                  Item.createItem(products[i], user, router),
+                  Item.createItem(products[i], user /* , router */),
                 );
               } else {
                 break;

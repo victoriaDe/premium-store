@@ -292,13 +292,15 @@ class Filter {
       let itemCounter = 0;
       filteredProducts.forEach((value: IProduct) => {
         if (itemCounter < 20) {
-          $container.appendChild(Item.createItem(value, userData, router));
+          $container.appendChild(
+            Item.createItem(value, userData /* , router */),
+          );
           itemCounter += value.span;
         }
       });
     }
 
-    lazy(20, 100, userData, filteredProducts, new Item(), router);
+    lazy(20, 100, userData, filteredProducts, new Item() /* , router */);
   }
 
   static createAllFilterProducts(userData: IUser, router: HashRouter) {
@@ -334,9 +336,11 @@ class Filter {
         (value) => {
           if (value) {
             value.products.forEach((value: IProduct) => {
-              $container.appendChild(Item.createItem(value, userData, router));
+              $container.appendChild(
+                Item.createItem(value, userData /* , router */),
+              );
             });
-            lazyBD(40, 500, userData, new Item(), router);
+            lazyBD(40, 500, userData, new Item() /* , router */);
           }
         },
       );

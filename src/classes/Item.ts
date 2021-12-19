@@ -4,7 +4,7 @@ import { IAddEvent } from '@type/item';
 
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
-import HashRouter from '@classes/HashRouter';
+// import HashRouter from '@classes/HashRouter';
 
 import humanPrice from '@scripts/human-price';
 
@@ -17,13 +17,13 @@ class Item {
    * Метод для создания карточки продукта на главной странице и страницах фильтров
    * @param product исходный продукт
    * @param userData текущий пользователь
-   * @param router
+   // * @param router
    */
 
   static createItem(
     product: IProduct,
-    userData: IUser,
-    router: HashRouter,
+    userData: IUser /* ,
+    router: HashRouter, */,
   ): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');
@@ -117,7 +117,6 @@ class Item {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
-    ``;
     const saleElement = Item.getSale(product);
     if (product) {
       $item.innerHTML = `

@@ -26,7 +26,7 @@ function lazyBD(
   user: IUser,
   // products: IProduct[],
   item: Item,
-  router: HashRouter,
+  /* router: HashRouter, */
 ) {
   const $productsContainer = document.querySelector('.main-container-content');
 
@@ -47,28 +47,32 @@ function lazyBD(
       ) {
         // find the number of displayed products
         const showedProductsAmount = $productsContainer.children.length;
-       /* console.log(`showedProductsAmount:${showedProductsAmount}`)*/
+        /* console.log(`showedProductsAmount:${showedProductsAmount}`) */
 
         entries.forEach((entry) => {
           // tracked element has reached the line of sight
           if (entry.isIntersecting) {
             // add a specified number of products if we do not reach the end of the list
-            const page = ((+showedProductsAmount/+amount)+1)
-            ProductAPI.getAllProductsByLazy(page, +amount, LocalStorage.getCurrency()).then(value => {
-
-              /*console.log(`number:${+(showedProductsAmount/amount)+1} amount:${+amount} `)*/
+            const page = +showedProductsAmount / +amount + 1;
+            ProductAPI.getAllProductsByLazy(
+              page,
+              +amount,
+              LocalStorage.getCurrency(),
+            ).then((value) => {
+              /* console.log(`number:${+(showedProductsAmount/amount)+1} amount:${+amount} `) */
               if (value && value.products) {
                 value.products.forEach((val) => {
-                 /* console.log(`${val.data.name}`)*/
+                  /* console.log(`${val.data.name}`) */
                   $productsContainer.appendChild(
-                    Item.createItem(val, user, router),
+                    Item.createItem(val, user /* , router */),
                   );
                 });
 
                 observer.unobserve(entry.target);
 
                 // find the number of displayed products (after the loading of new products has been triggered)
-                const newShowedProductsAmount = $productsContainer.children.length;
+                const newShowedProductsAmount =
+                  $productsContainer.children.length;
                 // have not yet reached the end of the product list
                 if (newShowedProductsAmount < value.countProducts) {
                   // find the last product (after the loading of new products has been triggered)
