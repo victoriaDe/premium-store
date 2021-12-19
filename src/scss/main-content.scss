@@ -44,9 +44,10 @@
 
   @media screen and (max-device-width: s.$max-device-width) {
     height: 161px;
-
-    .main-container-description {
-      padding: 10px;
+    &:hover {
+      .main-container-description {
+        padding: 0 0 15px 15px;
+      }
     }
   }
 
