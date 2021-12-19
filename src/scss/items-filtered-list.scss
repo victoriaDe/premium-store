@@ -109,11 +109,14 @@
     margin: 10px;
 
     .item-purchase-prise {
-      display: inline-block;
 
       font-size: s.$fzDescription_price;
       color: #d1b482;
 
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3px;
       @media screen and (max-device-width: s.$max-device-width) {
         display: inline-block;
         width: 50%;
@@ -123,19 +126,7 @@
       }
     }
 
-    button {
-      font-size: s.$fzButton_list_purchase;
-      background: c.$bgColorButton_purchase;
-      color: c.$fColorWhite;
-      width: 100px;
-      height: 39px;
-      text-transform: uppercase;
 
-
-      &:hover {
-        opacity: 0.7;
-      }
-    }
 
     .item-description-likeBtn {
       width: 37px;

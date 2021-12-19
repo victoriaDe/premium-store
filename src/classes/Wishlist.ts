@@ -38,7 +38,7 @@ class Wishlist {
                           )} ${saleElement[2]}</span>
                           ${saleElement[0]}
                         </span>
-                        <button class="button-purchase-5000 ${
+                        <button class="item-purchase-button ${
                           isAddedToPurchase ? 'button-purchase-added' : ''
                         }">${isAddedToPurchase ? 'added' : 'purchase'}</button>
                     </div>
@@ -66,7 +66,7 @@ class Wishlist {
       );
     }
 
-    const $buttonPurchase: any = $item.querySelector('.button-purchase-5000');
+    const $buttonPurchase: any = $item.querySelector('.item-purchase-button');
     if ($buttonPurchase) {
       Item.addEvent(
         'click',
