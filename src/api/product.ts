@@ -13,23 +13,6 @@ import { CurrencyType } from '@classes/LocalStorage';
 
 class ProductAPI {
   /**
-   * Method for getting a product by ID
-   * @param id user ID
-   * @param currency
-   */
-
-  static async getProductByID(id: string, currency: CurrencyType) {
-    try {
-      const response = await instance.get<IResponse<IProduct>>(
-        `product?id=${id}&currency=${currency}`,
-      );
-      return response.data.data;
-    } catch (err) {
-      throw new Error('Ooops!');
-    }
-  }
-
-  /**
    * Method for getting an array of objects by filter
    * @param filter preset filter
    * @param currency
