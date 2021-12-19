@@ -21,7 +21,7 @@
   color: c.$gold;
   font-size: s.$fzItem_price;
 
-  @media screen and (max-device-width: s.$max-device-width) {
+  @media screen and (max-device-width: s.$min-width) {
     font-size: s.$fzSale_Adapt;
   }
 }
@@ -30,7 +30,7 @@
   color: gray;
   font-size: s.$fzSale;
 
-  @media screen and (max-device-width: s.$max-device-width) {
+  @media screen and (max-device-width: s.$min-width) {
     display: none;
   }
 }
@@ -39,7 +39,7 @@
   color: c.$fColorWhite;
   font-size: s.$fzSale;
 
-  @media screen and (max-device-width: s.$max-device-width) {
+  @media screen and (max-device-width: s.$min-width) {
     display: none;
   }
 }

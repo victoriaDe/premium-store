@@ -27,6 +27,10 @@
   &:hover {
     background: rgba(0, 0, 0, 0.7);
 
+    .main-container-description {
+      padding: 0 0 15px 30px;
+    }
+
     .main-container-description_button-purchase {
       display: block;
       pointer-events: auto;
@@ -40,6 +44,12 @@
 
   @media screen and (max-device-width: s.$max-device-width) {
     height: 161px;
+
+    &:hover {
+      .main-container-description {
+        padding: 0 0 15px 15px;
+      }
+    }
   }
 
   .main-container-link {
@@ -58,7 +68,7 @@
 
   .main-container-description {
 
-    padding: 30px;
+    padding: 0 0 30px 30px;
     box-sizing: border-box;
 
     position: absolute;
@@ -77,7 +87,7 @@
     pointer-events: none;
 
     @media screen and (max-device-width: s.$max-device-width) {
-      padding: 10px;
+      padding: 0 0 15px 15px;
     }
 
 
@@ -234,6 +244,7 @@
   text-transform: uppercase;
   letter-spacing: 0.01em;
 
+  margin-left: -15px;
   display: none;
   transition: background 0.3s;
 
@@ -247,6 +258,7 @@
     height: 30px;
     width: 80px;
     font-size: 10px;
+    margin-left: 0;
   }
 }
 
