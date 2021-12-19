@@ -97,7 +97,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 0 5%;
+    gap: 0 3%;
     margin: 10px;
 
     .item-purchase-prise {
@@ -146,6 +146,8 @@
       height: 33px;
 
       background: url('~@images/buttons/heartB.svg') no-repeat;
+      background-size: contain;
+
 
       @media screen and (max-device-width: s.$max-device-width) {
         transform: scale(0.7);
@@ -157,7 +159,8 @@
     }
 
     .button-like_active {
-      background: url('~@images/buttons/heart.svg') no-repeat center;
+      background: url('~@images/buttons/heart.svg') no-repeat;
+      background-size: contain;
 
       &:hover {
         animation: heartRemove 1.5s ease-in-out;

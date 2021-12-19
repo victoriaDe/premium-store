@@ -1,23 +1,29 @@
 @use '~@scss/variables/colors' as c;
 @use '~@scss/variables/sizes' as s;
 
-
-.item-sale {
-  background: red;
-}
-
 .item-price {
   display: flex;
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  gap: 20px
+  gap: 20px;
+  width: 100%;
+}
+
+.item-sale {
+  background: rgba(255, 0, 0, 0.6);
+  padding: 8px;
+  border-radius: 50%;
+  margin-left: -10px;
 }
 
 .item-price-amount {
   color: c.$gold;
   font-size: s.$fzItem_price;
 
+  @media screen and (max-device-width: s.$max-device-width) {
+    font-size: s.$fzSale_Adapt;
+  }
 }
 
 .item-price-amount.price-sale {
@@ -33,4 +39,10 @@
 .item-price-reduced {
   font-size: s.$fzItem_price;
   color: #d5b57a;
+
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    font-size: s.$fzSale_Adapt;
+  }
 }
+

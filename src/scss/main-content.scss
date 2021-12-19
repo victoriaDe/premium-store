@@ -172,6 +172,8 @@
 
       word-break: break-word;
 
+      position: relative;
+
       text-transform: uppercase;
       text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
       background: rgba(0, 0, 0, 0.1);
@@ -179,25 +181,6 @@
 
       @media screen and (max-device-width: s.$max-device-width) {
         font-size: s.$fzDescription_product_adapt;
-      }
-    }
-
-    .main-container-description_price {
-      width: 100%;
-      display: inline-block;
-
-      font-size: s.$fzDescription_price;
-
-      line-height: 1.2;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-
-      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.33);
-      color: c.$fColorDescription_price;
-
-      @media screen and (max-device-width: s.$max-device-width) {
-        font-size: s.$fzDescription_price_adapt;
       }
     }
   }
