@@ -29,11 +29,19 @@
 .item-price-amount.price-sale {
   color: gray;
   font-size: s.$fzSale;
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    display: none;
+  }
 }
 
 .item-arrow {
   color: c.$fColorWhite;
   font-size: s.$fzSale;
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    display: none;
+  }
 }
 
 .item-price-reduced {
