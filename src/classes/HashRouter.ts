@@ -4,6 +4,7 @@
 
 import { IUser } from '@type/user';
 import { THRoute, TRouteCallback } from '@type/router';
+import { CurrencyType } from '@classes/LocalStorage';
 
 import Item from '@classes/Item';
 import Navigation from '@classes/Navigation';
@@ -49,8 +50,12 @@ class HashRouter {
    * @param products список всех продуктов из локального хранилища
    */
 
-  async createRoute(hash: string, user: IUser): Promise<boolean> {
-    const product = await ProductAPI.getProductByID(hash, '');
+  async createRoute(
+    hash: string,
+    user: IUser,
+    currency: CurrencyType,
+  ): Promise<boolean> {
+    const product = await ProductAPI.getProductByID(hash, currency);
 
     if (product) {
       this.addRoute(hash, product.data.name, () => {
@@ -97,7 +102,7 @@ class HashRouter {
    * @param products список всех продуктов из локального хранилища
    */
 
-  init(user: IUser) {
+  init(user: IUser, currency: CurrencyType) {
     window.addEventListener('hashchange', async () => {
       const hash = HashRouter.#getHash();
       const route = this.findRoute(hash);
@@ -107,7 +112,7 @@ class HashRouter {
         HashRouter.#changeTitle(route.title);
       } else {
         // пробуем создать путь сами
-        const isRouteCreated = await this.createRoute(hash, user);
+        const isRouteCreated = await this.createRoute(hash, user, currency);
 
         if (!isRouteCreated) {
           HashRouter.#changeTitle('*****');
