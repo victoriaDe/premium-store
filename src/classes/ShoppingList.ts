@@ -36,7 +36,7 @@ class ShoppingList {
                           isAddedToWishlist ? 'button-like_active' : ' '
                         }"></button>
                         <span class="item-purchase-prise">
-                          <span class="item-price-amount price-sale">${humanPrice(
+                          <span class="item-price-amount ${saleElement[3]}">${humanPrice(
                             product.data.price.basic.cost,
                           )} ${saleElement[2]}</span>
                           ${saleElement[0]}

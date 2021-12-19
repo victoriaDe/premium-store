@@ -49,7 +49,7 @@ class Item {
                               ${saleElement[1]}
                              </h2>
                             <span class="item-price">
-                              <span class="item-price-amount price-sale">${humanPrice(
+                              <span class="item-price-amount ${saleElement[3]}">${humanPrice(
                                 product.data.price.basic.cost,
                               )} ${saleElement[2]}</span>
                               ${saleElement[0]}
@@ -115,7 +115,7 @@ class Item {
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
               <div class="item-price">
-                        <span class="item-price-amount price-sale">${humanPrice(
+                        <span class="item-price-amount ${saleElement[3]}">${humanPrice(
                           product.data.price.basic.cost,
                         )} ${saleElement[2]}</span>
                         ${saleElement[0]}
@@ -177,6 +177,7 @@ class Item {
   }
 
   static getSale(product: IProduct) {
+    let priceAmount = '';
     let actualPrice = ``;
     let sale = ``;
     let currency = `${product.data.price.basic.currency}`;
@@ -193,8 +194,9 @@ class Item {
       );
       sale = `<span class='item-sale'>-${discountAmount}%</span>`;
       currency = ``
+      priceAmount = 'price-sale';
     }
-    return [actualPrice, sale, currency];
+    return [actualPrice, sale, currency, priceAmount];
   }
 
   static addEvent(
