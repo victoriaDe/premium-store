@@ -18,7 +18,7 @@ class Wishlist {
     const isAddedToWishlist = userData.wishlist.includes(product.data.id);
 
     const $item: HTMLElement = document.createElement('div');
-
+    const saleElement = Item.getSale(product);
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
       <a class="item-filtered-img" href="#${
@@ -31,9 +31,12 @@ class Wishlist {
                     <p>${product.data.description}</p>
                     <div>
                         <button class="item-description-likeBtn button-like_active"></button>
-                        <span class="item-purchase-prise">${humanPrice(
-                          product.data.price.basic.cost,
-                        )} ${product.data.price.basic.currency}</span>
+                        <span class="item-purchase-prise">
+                          <span class="item-price-amount price-sale">${humanPrice(
+                            product.data.price.basic.cost,
+                          )} ${product.data.price.basic.currency}</span>
+                          ${saleElement[0]}
+                        </span>
                         <button class="button-purchase-5000 ${
                           isAddedToPurchase ? 'button-purchase-added' : ''
                         }">${isAddedToPurchase ? 'added' : 'purchase'}</button>

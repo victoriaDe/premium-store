@@ -32,6 +32,7 @@ class Item {
       nation = `<span class="main-container-description_flag" data-country="${product.data.filter.nation}"></span>`;
       type = `<span class="main-container-description_type" data-type="${product.data.filter.type}"></span>`;
     }
+    const saleElement = Item.getSale(product);
     $item.innerHTML = `
                      <a class="main-container-link ${
                        isAddedToPurchase ? 'main-container-link-added' : ''
@@ -43,12 +44,16 @@ class Item {
                      <div class="main-container-description">
                             ${nation}
                             ${type}
-                            <h2>${product.data.name}</h2>
+                            <h2>
+                              ${product.data.name}
+                              ${saleElement[1]}
+                             </h2>
                             <span class="main-container-description_price">
-     ${humanPrice(product.data.price.basic.cost)} ${
-      product.data.price.basic.currency
-    }                       
-</span>
+                              <span class="item-price-amount price-sale">${humanPrice(
+                                product.data.price.basic.cost,
+                              )} ${product.data.price.basic.currency}</span>
+                              ${saleElement[0]}
+                            </span>
                             <button class="main-container-description_button-purchase ${
                               isAddedToPurchase ? 'button-purchase-added' : ''
                             }">
@@ -112,30 +117,19 @@ class Item {
     $item.classList.add('item-container');
     $item.id = 'mainItem';
     ``;
-    let actualPrice = ``;
-    let sale = ``;
-    if (product.data.price.basic.cost !== product.data.price.actual.cost) {
-      actualPrice = `<span class="item-price-reduced">${humanPrice(
-        product.data.price.basic.cost,
-      )} ${product.data.price.basic.currency}</span>`;
-      const discountAmount = Math.ceil(
-        100 -
-          (100 * +product.data.price.actual.cost) /
-            +product.data.price.basic.cost,
-      );
-      sale = `<span class="item-price-sale">${discountAmount}%</span>`;
-    }
+    const saleElement = Item.getSale(product);
     if (product) {
       $item.innerHTML = `
-          <h2>${product.data.name}</h2>
+          <h2>${product.data.name}
+            ${saleElement[1]}
+          </h2>
           <img src=${product.data.images.span_1x1} alt="${product.data.name}"/>
           <div class="item-container-purchase">
               <div class="item-price">
-                        <span class="item-price price-sale">${humanPrice(
+                        <span class="item-price-amount price-sale">${humanPrice(
                           product.data.price.basic.cost,
                         )} ${product.data.price.basic.currency}</span>
-                        ${sale}
-                        ${actualPrice}
+                        ${saleElement[0]}
               </div>
               <button class="item-purchase-button ${
                 isAddedToPurchase ? 'button-purchase-added' : ''
@@ -191,6 +185,25 @@ class Item {
       const $item: HTMLElement = createItem(product, userData, Item.addEvent);
       $visualContainer.appendChild($item);
     }
+  }
+
+  static getSale(product: IProduct) {
+    let actualPrice = ``;
+    let sale = ``;
+    if (product.data.price.basic.cost !== product.data.price.actual.cost) {
+      actualPrice = `
+      <span class = "item-arrow icon-arrow-right"></span>
+      <span class="item-price-reduced">${humanPrice(
+        product.data.price.actual.cost,
+      )} ${product.data.price.basic.currency}</span>`;
+      const discountAmount = Math.ceil(
+        100 -
+          (100 * +product.data.price.actual.cost) /
+            +product.data.price.basic.cost,
+      );
+      sale = `<span>${discountAmount}% </span>`;
+    }
+    return [actualPrice, sale];
   }
 
   static addEvent(

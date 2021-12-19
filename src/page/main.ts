@@ -8,6 +8,8 @@ import '@scss/item.scss';
 import '@scss/items-filtered-list.scss';
 import '@scss/filters.scss';
 import '@scss/main-content.scss';
+import '@scss/item-content.scss';
+import '@scss/iconmoon.scss';
 
 import storeInit from '@scripts/init/store';
 import {
