@@ -55,12 +55,11 @@ class HashRouter {
     user: IUser,
     currency: CurrencyType,
   ): Promise<boolean> {
-    const product = await ProductAPI.getProductByID(hash, currency);
-
-    if (product) {
-      this.addRoute(hash, product.data.name, () => {
+    const product = await ProductAPI.getProductsByList([hash], currency);
+    if (product && product.length) {
+      this.addRoute(hash, product[0].data.name, () => {
         Navigation.showMainNavContainer();
-        Item.showSelectedItem(product, user, Item.createSelectedItem);
+        Item.showSelectedItem(product[0], user, Item.createSelectedItem);
       });
       window.dispatchEvent(new HashChangeEvent('hashchange'));
       return true;

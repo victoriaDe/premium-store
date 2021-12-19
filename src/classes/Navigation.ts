@@ -9,7 +9,7 @@ class Navigation {
                 <a class="main-nav-link hash-link" href="#vehicles" data-filter="Technique">vehicles</a>
                 <a class="main-nav-link hash-link" href="#gold" data-filter="Gold">gold</a>
                 <a class="main-nav-link hash-link" href="#premium" data-filter="Premium">premium account</a>
-                <a class="main-nav-link hash-link" href="#provisions" data-filter="Provisions">Шляпа</a>
+                <a class="main-nav-link hash-link" href="#provisions" data-filter="Provisions">Consumables</a>
             </nav>       
     `;
     return $mainNavContainer;
@@ -19,8 +19,7 @@ class Navigation {
     const $mainContainer: HTMLElement | null =
       document.getElementById('main-container-id');
     const $mainVisualContainer = document.createElement('div');
-    $mainVisualContainer.innerHTML = '<div id="main-visual-container"></div>';
-
+    $mainVisualContainer.id="main-visual-container"
     if ($mainContainer) {
       $mainContainer.innerHTML = '';
       $mainContainer.append(this.createMainNavContainer());
