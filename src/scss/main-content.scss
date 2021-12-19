@@ -24,7 +24,6 @@
   position: relative;
   height: 300px;
 
-
   &:hover {
     background: rgba(0, 0, 0, 0.7);
 
@@ -46,10 +45,8 @@
   @media screen and (max-device-width: s.$max-device-width) {
     height: 161px;
 
-    &:hover {
-      .main-container-description {
-        padding: 0 0 15px 15px;
-      }
+    .main-container-description {
+      padding: 10px;
     }
   }
 
@@ -81,14 +78,14 @@
     justify-content: flex-start;
     align-items: flex-end;
     flex-wrap: wrap;
-    gap: 15px 10px;
+    gap: 8px 10px;
 
     cursor: pointer;
 
     pointer-events: none;
 
     @media screen and (max-device-width: s.$max-device-width) {
-      padding: 0 0 15px 15px;
+      padding: 10px;
     }
 
 
@@ -246,6 +243,7 @@
   letter-spacing: 0.01em;
 
   margin-left: -15px;
+
   display: none;
   transition: background 0.3s;
 
