@@ -7,17 +7,12 @@
 @import "~@scss/description.scss";
 @import "~@scss/iconmoon.scss";
 
-//@font-face {
-//  font-family: 'icomoon';
-//  src: url('../assets/fonts/iconmoon/icomoon.eot?dn1foy');
-//  src: url('../assets/fonts/iconmoon/icomoon.eot?dn1foy#iefix') format('embedded-opentype'),
-//  url('../assets/fonts/iconmoon/icomoon.ttf?dn1foy') format('truetype'),
-//  url('../assets/fonts/iconmoon/icomoon.woff?dn1foy') format('woff'),
-//  url('../assets/fonts/iconmoon/icomoon.svg?dn1foy#icomoon') format('svg');
-//  font-weight: normal;
-//  font-style: normal;
-//  font-display: block;
-//}
+@font-face {
+  font-family: 'icomoon';
+url('../assets/fonts/iconmoon/icomoon.woff?dn1foy') format('woff'), font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
 
 
 @font-face {
