@@ -1,30 +1,38 @@
-import { IUser } from '@type/user';
-import { IProduct, TFilter } from '@type/product';
+/**
+ * @module Local Storage
+ */
+
+import { TFilter } from '@type/product';
 import UserAPI from '@api/user';
 import ProductAPI from '@api/product';
+import {
+  TCurrency,
+  IProductLocalStorageData,
+  IUserLocalStorageData,
+  TLocalData,
+} from '@type/local-storage';
 
-export interface IUserLocalStorageData {
-  data: IUser,
-  dateAdded: number
-}
+/**
+ * Класс для работы с локальных хранилищем
+ */
 
-export interface IProductLocalStorageData {
-  data: IProduct[]
-  dateAdded: number
-}
-type LocalDataType = IUserLocalStorageData | IProductLocalStorageData | null
-export type CurrencyType= ""| "BYN" | "RUB"
 class LocalStorage {
+  /** ID пользователя для рабоаты */
   #userId = '61a6286353b5dad92e57b4c0';
-  #currency = 'RUB' as CurrencyType;
 
-  getCurrency(){
-    return this.#currency
+  /** Валюта продуктов */
+  #currency = 'RUB' as TCurrency;
+
+  /**
+   * Метод для получения валюты продуктов
+   */
+
+  getCurrency() {
+    return this.#currency;
   }
 
-
   // get data from localstorage
-  getLocalData(id: string): LocalDataType {
+  getLocalData(id: string): TLocalData {
     const dataJson: string | null = localStorage.getItem(`${id}`);
     if (dataJson) return JSON.parse(dataJson);
     return null;
@@ -55,7 +63,10 @@ class LocalStorage {
   }
 
   async updateProductDataByFilter(filter: TFilter | 'All') {
-    const productDataByFilter = await ProductAPI.getProductsByFilter(filter, this.#currency);
+    const productDataByFilter = await ProductAPI.getProductsByFilter(
+      filter,
+      this.#currency,
+    );
     if (!productDataByFilter) return null;
     const localProductData = {
       data: productDataByFilter,
@@ -66,12 +77,14 @@ class LocalStorage {
   }
 
   async getProductDataByFilter(filter: TFilter | 'All') {
-    let productDataStorageByFilter = this.getLocalData(filter) as IProductLocalStorageData | null;
+    const productDataStorageByFilter = this.getLocalData(
+      filter,
+    ) as IProductLocalStorageData | null;
     if (!productDataStorageByFilter) {
       const productDataByFilter = await this.updateProductDataByFilter(filter);
       if (productDataByFilter) return productDataByFilter;
     } else if (Date.now() - productDataStorageByFilter.dateAdded < 3000000) {
-      //3000000 - 10 минут
+      // 3000000 - 10 минут
       return productDataStorageByFilter.data;
     } else {
       const productDataByFilter = await this.updateProductDataByFilter(filter);
@@ -81,12 +94,14 @@ class LocalStorage {
   }
 
   async getUserData() {
-    let userDataStorage = this.getLocalData('user') as IUserLocalStorageData | null;
+    const userDataStorage = this.getLocalData(
+      'user',
+    ) as IUserLocalStorageData | null;
     if (!userDataStorage) {
       const userData = await this.updateUserData();
       if (userData) return userData;
     } else if (Date.now() - userDataStorage.dateAdded < 3000000) {
-      //3000000 - 10 минут
+      // 3000000 - 10 минут
       return userDataStorage.data;
     } else {
       const userData = await this.updateUserData();
@@ -106,9 +121,16 @@ class LocalStorage {
     return null;
   }
 
+  /**
+   * Метод для изменения локальной корзины пользователя
+   * @param id ID пользователя
+   * @param productId ID продукта
+   */
 
-  // update shoppingList in localstorage
-  changeLocalShoppingList(id: string, productId: string): IUserLocalStorageData | null {
+  changeLocalShoppingList(
+    id: string,
+    productId: string,
+  ): IUserLocalStorageData | null {
     const user = this.getLocalData('user') as IUserLocalStorageData | null;
     if (user) {
       const index: number = user.data.shoppingList.indexOf(productId);
@@ -117,15 +139,23 @@ class LocalStorage {
       } else {
         user.data.shoppingList.push(productId);
       }
-     /* user.data.shoppingList.push(idProduct);*/
+      /* user.data.shoppingList.push(idProduct); */
       localStorage.setItem('user', JSON.stringify(user));
-      return user
+      return user;
     }
-    return null
+    return null;
   }
 
-  // update wishlist in localstorage
-  changeLocalWishlist(id: string, productId: string): IUserLocalStorageData | null {
+  /**
+   * Метод для изменения локального списка желаний пользователя
+   * @param id ID пользователя
+   * @param productId ID продукта
+   */
+
+  changeLocalWishlist(
+    id: string,
+    productId: string,
+  ): IUserLocalStorageData | null {
     const user = this.getLocalData('user') as IUserLocalStorageData | null;
     if (user) {
       const index: number = user.data.wishlist.indexOf(productId);
@@ -135,10 +165,10 @@ class LocalStorage {
         user.data.wishlist.push(productId);
       }
       localStorage.setItem('user', JSON.stringify(user));
-      return user
+      return user;
     }
-    return null
+    return null;
   }
 }
 
-export default new LocalStorage;
+export default new LocalStorage();
