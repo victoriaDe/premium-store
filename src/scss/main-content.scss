@@ -165,6 +165,7 @@
     }
 
     h2 {
+      width: 100%;
       font-size: s.$fzDescription_product;
       font-weight: 400;
       line-height: 1.2;
@@ -185,43 +186,6 @@
     }
   }
 
-  .main-container-description_button-purchase {
-    height: 39px;
-    width: 100px;
-
-    background: c.$bgColorButton_purchase;
-    font-size: s.$fzButton_content_purchase;
-    font-weight: 400;
-    color: c.$fColorWhite;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-
-    display: none;
-    transition: background 0.3s;
-
-    &:hover {
-      background: rgba(233, 81, 4, 0.8);
-    }
-
-    @media screen and (max-device-width: s.$max-device-width) {
-      display: block;
-      pointer-events: auto;
-      height: 30px;
-      width: 80px;
-      font-size: 10px;
-    }
-  }
-
-  .main-container-description_button-purchase.button-purchase-added {
-    transition: none;
-    text-align: left;
-    padding-left: 7%;
-    background: url('~@images/buttons/cart.png') no-repeat 90% 50%, c.$bgColorButton_purchase_added;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
 
   .main-container-description_button-like {
     position: absolute;
@@ -256,6 +220,33 @@
       animation: none;
       transform: scale(1);
     }
+  }
+}
+
+.main-container-description_button-purchase {
+  height: 39px;
+  width: 100px;
+
+  background: c.$bgColorButton_purchase;
+  font-size: s.$fzButton_content_purchase;
+  font-weight: 400;
+  color: c.$fColorWhite;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+
+  display: none;
+  transition: background 0.3s;
+
+  &:hover {
+    background: rgba(233, 81, 4, 0.8);
+  }
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    display: block;
+    pointer-events: auto;
+    height: 30px;
+    width: 80px;
+    font-size: 10px;
   }
 }
 
