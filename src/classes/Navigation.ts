@@ -9,7 +9,7 @@ class Navigation {
                 <a class="main-nav-link hash-link" href="#vehicles" data-filter="Technique">vehicles</a>
                 <a class="main-nav-link hash-link" href="#gold" data-filter="Gold">gold</a>
                 <a class="main-nav-link hash-link" href="#premium" data-filter="Premium">premium account</a>
-                <a class="main-nav-link hash-link" href="#provisions" data-filter="Provisions">Шляпа</a>
+                <a class="main-nav-link hash-link" href="#provisions" data-filter="Provisions">Consumables</a>
             </nav>       
     `;
     return $mainNavContainer;
