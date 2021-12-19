@@ -35,7 +35,10 @@ class ProductAPI {
    * @param currency
    */
 
-  static async getProductsByFilter(filter: TFilter | 'All' , currency: CurrencyType) {
+  static async getProductsByFilter(
+    filter: TFilter | 'All',
+    currency: CurrencyType,
+  ) {
     try {
       const response = await instance.get<IResponse<IProduct[]>>(
         `product/filter?filter=${filter}&currency=${currency}`,
@@ -52,12 +55,18 @@ class ProductAPI {
    * @param currency
    */
 
-  static async getAllProductsByLazy(pageNumber=1, pageSize=20, currency = "$") {
+  static async getAllProductsByLazy(
+    pageNumber = 1,
+    pageSize = 20,
+    currency = '$',
+  ) {
     try {
-      const response = await instance.get<IResponse<{
-        countProducts:number,
-        products:IProduct[]
-      }>>(
+      const response = await instance.get<
+        IResponse<{
+          countProducts: number;
+          products: IProduct[];
+        }>
+      >(
         `allProducts?pageNumber=${pageNumber}&pageSize=${pageSize}&currency=${currency}`,
       );
       return response.data.data;
@@ -72,11 +81,14 @@ class ProductAPI {
    * @param currency
    */
 
-  static async getProductsByList(listProductsID: string[], currency: CurrencyType) {
+  static async getProductsByList(
+    listProductsID: string[],
+    currency: CurrencyType,
+  ) {
     try {
       const response = await instance.post<IResponse<IProduct[]>>('products', {
         listProductsId: listProductsID,
-        currency:currency
+        currency,
       });
       return response.data.data;
     } catch (err) {
