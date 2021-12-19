@@ -4,7 +4,7 @@
 
 import { IUser } from '@type/user';
 import { THRoute, TRouteCallback } from '@type/router';
-import { CurrencyType } from '@classes/LocalStorage';
+import LocalStorage, { CurrencyType } from '@classes/LocalStorage';
 
 import Item from '@classes/Item';
 import Navigation from '@classes/Navigation';
@@ -55,16 +55,20 @@ class HashRouter {
     user: IUser,
     currency: CurrencyType,
   ): Promise<boolean> {
+    console.log("createRoute   hash")
     const product = await ProductAPI.getProductsByList([hash], currency);
     if (product && product.length) {
       this.addRoute(hash, product[0].data.name, () => {
-        Navigation.showMainNavContainer();
-        Item.showSelectedItem(product[0], user, Item.createSelectedItem);
+        LocalStorage.getUserData().then((userData)=>{
+          if(userData){
+            Navigation.showMainNavContainer();
+            Item.showSelectedItem(product[0], userData, Item.createSelectedItem);
+          }
+        })
       });
       window.dispatchEvent(new HashChangeEvent('hashchange'));
       return true;
     }
-
     return false;
   }
 

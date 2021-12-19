@@ -92,18 +92,6 @@ class Item {
         [product, Wishlist.showWishlistCounter, $likeButton],
       );
     }
-
-    $item.addEventListener('click', (event: UIEvent) => {
-      const eventTarget = event.target as HTMLElement;
-      if (eventTarget && eventTarget.nodeName !== 'BUTTON') {
-      }
-      if (!router.findRoute(`${product.data.id}`)) {
-        router.addRoute(`${product.data.id}`, `${product.data.name}`, () =>
-          Item.showSelectedItem(product, userData, Item.createSelectedItem),
-        );
-      }
-    });
-
     return $item;
   }
 
