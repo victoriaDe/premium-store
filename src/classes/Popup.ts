@@ -100,14 +100,16 @@ class Popup {
     return $cross;
   }
 
-  renderHTML(linkHandler?: TLinkHandler): HTMLDivElement {
+  renderHTML(): HTMLDivElement {
     const $container = document.createElement('div'); // контейнер в обертке, оранжевый
     $container.classList.add('pop-up-container'); // только стили
 
     $container.append(
       this.createHeader(),
       Popup.createSpan(),
-      this.#linkHandler ? this.createForm(linkHandler) : this.createForm(),
+      this.#linkHandler
+        ? this.createForm(this.#linkHandler)
+        : this.createForm(),
     ); // аппендаются все сгенеренные элементы
     return $container;
   }
