@@ -3,6 +3,7 @@ import { IUser } from '@type/user';
 import LocalStorage from '@classes/LocalStorage';
 import ShoppingList from '@classes/ShoppingList';
 import Item from '@classes/Item';
+import humanPrice from '@scripts/human-price';
 
 class Wishlist {
   static createHeaderList(name: string) {
@@ -30,9 +31,9 @@ class Wishlist {
                     <p>${product.data.description}</p>
                     <div>
                         <button class="item-description-likeBtn button-like_active"></button>
-                        <span class="item-purchase-prise">${
-                          product.data.price.basic.cost
-                        }${product.data.price.basic.currency}</span>
+                        <span class="item-purchase-prise">${humanPrice(
+                          product.data.price.basic.cost,
+                        )} ${product.data.price.basic.currency}</span>
                         <button class="button-purchase-5000 ${
                           isAddedToPurchase ? 'button-purchase-added' : ''
                         }">${isAddedToPurchase ? 'added' : 'purchase'}</button>
