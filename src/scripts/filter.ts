@@ -7,6 +7,7 @@ import HashRouter from '@classes/HashRouter';
 import LocalStorage, { IProductLocalStorageData } from '@classes/LocalStorage';
 import lazyBD from '@scripts/lazyBD';
 import ProductAPI from '@api/product';
+import Wishlist from '@classes/Wishlist';
 
 export type SetActiveFilterType =
   | 'all'
@@ -279,6 +280,9 @@ class Filter {
     );
     if ($visualContainer) {
       $visualContainer.innerText = '';
+      if (filteredProducts.length === 0) {
+        $visualContainer.append(Wishlist.createEmptyListItems('List is Empty'));
+      }
       const $container = document.createElement('div');
       $container.id = 'main';
       $container.classList.add('main-container-content');
