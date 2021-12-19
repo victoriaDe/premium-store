@@ -19,8 +19,7 @@ class Navigation {
     const $mainContainer: HTMLElement | null =
       document.getElementById('main-container-id');
     const $mainVisualContainer = document.createElement('div');
-    $mainVisualContainer.innerHTML = '<div id="main-visual-container"></div>';
-
+    $mainVisualContainer.id="main-visual-container"
     if ($mainContainer) {
       $mainContainer.innerHTML = '';
       $mainContainer.append(this.createMainNavContainer());
