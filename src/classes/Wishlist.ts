@@ -35,7 +35,7 @@ class Wishlist {
                         <span class="item-purchase-prise">
                           <span class="item-price-amount price-sale">${humanPrice(
                             product.data.price.basic.cost,
-                          )} ${product.data.price.basic.currency}</span>
+                          )} ${saleElement[2]}</span>
                           ${saleElement[0]}
                         </span>
                         <button class="button-purchase-5000 ${
