@@ -19,7 +19,6 @@ import {
 
 storeInit();
 reloadPageSameLink();
-fixLoginPopup();
 
 /// /////////////////////////////////////////////////////////////////////
 
@@ -28,6 +27,7 @@ const $create: HTMLElement | null = document.getElementById('create-account'); /
 const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
 
 if ($login) {
+  fixLoginPopup($login);
   addOpenPopup($login);
 }
 

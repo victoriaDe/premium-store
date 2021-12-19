@@ -21,14 +21,14 @@ function reloadPageSameLink() {
 }
 
 // корректная форма на малых экранах
-function fixLoginPopup() {
+function fixLoginPopup($loginID: HTMLElement) {
   window.addEventListener('resize', () => {
     // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
     // для логина, который клеит картинку на место текста
     if (window.screen.width <= 720) {
-      $login?.classList.add('login');
+      $loginID.classList.add('login');
     } else {
-      $login?.classList.remove('login');
+      $loginID.classList.remove('login');
     }
   });
 }
