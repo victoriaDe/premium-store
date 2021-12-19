@@ -27,6 +27,10 @@
   &:hover {
     background: rgba(0, 0, 0, 0.7);
 
+    .main-container-description {
+      padding: 0 0 15px 30px;
+    }
+
     .main-container-description_button-purchase {
       display: block;
       pointer-events: auto;
@@ -40,6 +44,10 @@
 
   @media screen and (max-device-width: s.$max-device-width) {
     height: 161px;
+
+    .main-container-description {
+      padding: 10px;
+    }
   }
 
   .main-container-link {
@@ -58,7 +66,7 @@
 
   .main-container-description {
 
-    padding: 30px;
+    padding: 0 0 30px 30px;
     box-sizing: border-box;
 
     position: absolute;
@@ -70,7 +78,7 @@
     justify-content: flex-start;
     align-items: flex-end;
     flex-wrap: wrap;
-    gap: 15px 10px;
+    gap: 8px 10px;
 
     cursor: pointer;
 
@@ -234,11 +242,13 @@
   text-transform: uppercase;
   letter-spacing: 0.01em;
 
+  margin-left: -15px;
+
   display: none;
   transition: background 0.3s;
 
   &:hover {
-    background: rgba(233, 81, 4, 0.8);
+    opacity: 0.8;
   }
 
   @media screen and (max-device-width: s.$max-device-width) {
@@ -247,6 +257,7 @@
     height: 30px;
     width: 80px;
     font-size: 10px;
+    margin-left: 0;
   }
 }
 
