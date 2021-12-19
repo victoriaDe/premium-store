@@ -238,7 +238,7 @@
   transition: background 0.3s;
 
   &:hover {
-    background: rgba(233, 81, 4, 0.8);
+    opacity: 0.8;
   }
 
   @media screen and (max-device-width: s.$max-device-width) {
