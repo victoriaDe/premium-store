@@ -1,27 +1,27 @@
 ![Premium Store Preview](https://i.ibb.co/Ht4DX4k/preview.png)
 
-# Premium Store от команды #3
+# Premium Store, team #3
 ***
 
-**Premium Store** - это сайт виртульных продуктов для игры [World of Tanks](https://worldoftanks.com/)
+**Premium Store** is an online store for the [World of Tanks](https://worldoftanks.com/) -  massively multiplayer online game
 
-## Основные репозитории
+## Main repositories:
 ***
 
 [Frontend](https://github.com/ASKorag/premium-store)
 
 [Backend](https://github.com/Victor-Sinitca/WG_Force3_BackEnd)
 
-[Админка для бэкенда](https://github.com/Victor-Sinitca/wg-server-admin)
+[Admin app ](https://github.com/Victor-Sinitca/wg-server-admin) was created to manipulate backend
 
 ## Live
 ***
 
-[Сайт](https://askorag.github.io/premium-store/frontend/)
+[Website](https://askorag.github.io/premium-store/frontend/)
 
-[Админка БД](https://victor-sinitca.github.io/wg-server-admin/)
+[Admin app](https://victor-sinitca.github.io/wg-server-admin/)
 
-[Документация сайта](https://askorag.github.io/premium-store/docs/)
+[Docs](https://askorag.github.io/premium-store/docs/)
 
 
 ## Install
@@ -35,26 +35,38 @@ npm install
 npm run dev
 ```
 
-## Сборка проекта
+## Build
 ***
 ```bash
 npm run build
 ```
 
 
-## Составление документации
+## Docs compousing
 ***
 ```bash
 npm run docs
 ```
 
 
-## Авторы
+## Authors
 ***
-- [Михаил Синица](https://github.com/Victor-Sinitca)
+### Victor Sinitsa ###
 
-- [Андрей Сериков](https://github.com/ASKorag)
+- GitHub: [@Victor-Sinitca](https://github.com/Victor-Sinitca)
+- Telegram: [@victorSinitca](@victorSinitca)
 
-- [Захар Быстрок](https://github.com/Zahar666)
+### Andrey Serikov ###
 
-- [Виктория Деруго](https://github.com/victoriaDe)
+- GitHub: [@ASKorag](https://github.com/ASKorag)
+- Telegram: [@ubyrfehxbu_f](@ubyrfehxbu_f)
+
+### Zahar Bystrok ###
+
+- GitHub: [@Zahar666](https://github.com/Zahar666)
+- Telegram: [@zaharbystrok](@zaharbystrok)
+
+### Victoria Derugo ###
+
+- GitHub: [@victoriaDe](https://github.com/victoriaDe)
+- Telegram: [@tkramor](@tkramor)
