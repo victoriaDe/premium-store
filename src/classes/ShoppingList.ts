@@ -41,7 +41,7 @@ class ShoppingList {
                           )} ${saleElement[2]}</span>
                           ${saleElement[0]}
                         </span>
-                        <button class="button-purchase-5000 ${
+                        <button class="item-purchase-button ${
                           isAddedToPurchase ? 'button-purchase-added' : ''
                         }">added</button>
     `;
