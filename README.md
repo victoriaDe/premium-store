@@ -1,4 +1,4 @@
-![Premium Store Preview](https://github.com/ASKorag/premium-store/blob/feature/change-readme/preview)
+![Premium Store Preview](https://i.ibb.co/Ht4DX4k/preview.png)
 
 # Premium Store от команды #3
 ***
