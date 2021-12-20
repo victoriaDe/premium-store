@@ -160,6 +160,7 @@
   gap: 1rem;
   color: c.$fColorDescription_p;
   font-size: s.$fzItem_description_p;
+  text-align: justify;
 
 
   @media screen and (max-device-width: s.$min-width) {

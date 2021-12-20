@@ -41,6 +41,8 @@ body {
   background-color: #1c1b15;
   font-family: 'Roboto Condensed', sans-serif;
   color: #cccccc;
+
+  -webkit-tap-highlight-color: transparent
 }
 
 body.lock {
