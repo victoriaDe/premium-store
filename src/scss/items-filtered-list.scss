@@ -16,6 +16,8 @@
 
   @media screen and (max-device-width: s.$max-width-resp) {
     grid-template-columns: 1fr;
+
+    position: relative;
   }
 }
 
@@ -87,13 +89,15 @@
   flex-direction: column;
   border-bottom: 2px solid;
 
+  align-self: center;
+
   h2 {
     font-size: 1.8em;
     font-weight: 400;
     color: c.$fColorWhite;
     letter-spacing: 0.01em;
     text-align: right;
-
+    word-break: break-word;
     margin: 10px;
   }
 
@@ -105,7 +109,9 @@
     margin: 10px 0;
 
     .item-purchase-prise {
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
       font-size: s.$fzDescription_price;
       color: #d1b482;
