@@ -26,6 +26,9 @@
   @media screen and (max-device-width: s.$min-width) {
     font-size: s.$fzSale_Adapt;
   }
+  @media screen and (max-device-width: s.$max-device-width) {
+    font-size: s.$fzSale_Adapt;
+  }
 }
 
 .item-price-amount.price-sale {
