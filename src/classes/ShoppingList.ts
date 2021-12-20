@@ -10,6 +10,7 @@ import Wishlist from '@classes/Wishlist';
 import LocalStorage from '@classes/LocalStorage';
 
 import humanPrice from '@scripts/human-price';
+import DOMElements from '@classes/DOMElements';
 
 /**
  * Класс для работы с корзиной
@@ -89,10 +90,30 @@ class ShoppingList {
       if (shoppingListData && userData) {
         shoppingListData?.forEach((product) => {
           // временная затычка
-          $container.append(this.createShoppingListItem(product, userData));
+          // $container.append(this.createShoppingListItem(product, userData));
+          $container.append(
+            DOMElements.createAddedItem(product, userData, 'shopping list'),
+          );
         });
-        $wrapper.append($container);
         $wrapper.append(this.createHeaderList('Shopping list'));
+        $wrapper.append($container);
+
+        const $totalContainer = document.createElement('div');
+        $totalContainer.classList.add('total-container');
+
+        const $totalPrice = document.createElement('p');
+        $totalPrice.classList.add('total-price');
+        $totalPrice.textContent = '100 500$';
+
+        const $totalBtn = DOMElements.createButton({
+          text: 'buy',
+          classes: ['total-button'],
+        });
+
+        $totalContainer.append($totalPrice);
+        $totalContainer.append($totalBtn);
+
+        $container.append($totalContainer);
       } else {
         $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
         $wrapper.append(this.createHeaderList('Shopping list'));
@@ -126,8 +147,11 @@ class ShoppingList {
     showShopping: (shopping: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-/*    const data = LocalStorage.changeLocalShoppingList('user', product.data.id);*/
-    const data = LocalStorage.changeUserProductList(product.data.id, 'shoppingList');
+    /*    const data = LocalStorage.changeLocalShoppingList('user', product.data.id); */
+    const data = LocalStorage.changeUserProductList(
+      product.data.id,
+      'shoppingList',
+    );
     if (data) {
       ShoppingList.showShoppingListCounter(data.data.shoppingList);
 
@@ -138,8 +162,7 @@ class ShoppingList {
       $buttonElement.textContent = isProductInShoppingList
         ? 'purchase'
         : 'added';
-      $buttonElement.classList.toggle('button-purchase-added')
-
+      $buttonElement.classList.toggle('button-purchase-added');
     }
   }
 }
