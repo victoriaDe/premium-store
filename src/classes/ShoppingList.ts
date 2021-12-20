@@ -43,9 +43,8 @@ class ShoppingList {
     const saleElement = Item.getSale(product);
     $item.innerHTML = `
     <div class="checkbox-container">
-        <label>
-            <input type="checkbox" id="checkbox-${product.data.id}" class="checkbox-buy" name="name-${product.data.id}" checked>
-        </label>
+            <input type="checkbox" id="checkbox-${product.data.id}" name="name-${product.data.id}">
+        <label for="checkbox-${product.data.id}"></label>
     </div>
       <a class="item-filtered-img" href="#${
       product.data.id
