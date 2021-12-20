@@ -109,14 +109,11 @@
     margin: 10px;
 
     .item-purchase-prise {
+      display: inline-block;
 
       font-size: s.$fzDescription_price;
       color: #d1b482;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 3px;
       @media screen and (max-device-width: s.$max-device-width) {
         display: inline-block;
         width: 50%;
@@ -126,7 +123,10 @@
       }
     }
 
-
+    .button-purchase-added {
+      padding-left: 30px;
+      background: url('~@images/buttons/cart.png') no-repeat 80% 50%, #668048;
+    }
 
     .item-description-likeBtn {
       width: 37px;
