@@ -13,7 +13,7 @@ import {
 } from '@type/local-storage';
 
 /**
- * Класс для работы с локальных хранилищем
+ * Класс для работы с локальным хранилищем
  */
 
 class LocalStorage {
@@ -31,12 +31,20 @@ class LocalStorage {
     return this.#currency;
   }
 
-  // get data from localstorage
+  /**
+   * Метод для получения данных из локального хранилища
+   * @param id ID запрашиваемых данных
+   */
+
   getLocalData(id: string): TLocalData {
     const dataJson: string | null = localStorage.getItem(`${id}`);
     if (dataJson) return JSON.parse(dataJson);
     return null;
   }
+
+  /**
+   * Метод для отправки данных пользователя с локального хранилища в БД
+   */
 
   async sendUserData() {
     const userData = this.getLocalData('user') as IUserLocalStorageData | null;

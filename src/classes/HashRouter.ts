@@ -7,7 +7,7 @@ import { TCurrency } from '@type/local-storage';
 
 import LocalStorage from '@classes/LocalStorage';
 import Item from '@classes/Item';
-import Navigation from '@classes/Navigation';
+import NavPanel from '@classes/NavPanel';
 import ProductAPI from '@api/product';
 
 /**
@@ -55,7 +55,7 @@ class HashRouter {
       this.addRoute(hash, product[0].data.name, () => {
         LocalStorage.getUserData().then((userData) => {
           if (userData) {
-            Navigation.showMainNavContainer();
+            NavPanel.showMainNavContainer();
             Item.showSelectedItem(
               product[0],
               userData,

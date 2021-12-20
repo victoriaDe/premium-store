@@ -1,14 +1,14 @@
 /**
- * @module Navigation
+ * @module NavPanel
  */
 
 /**
  * Класс для работы с навигационной панелью
  */
 
-class Navigation {
+class NavPanel {
   /**
-   * Метод для создания навигационноый панели
+   * Метод для создания навигационной панели
    */
 
   static createMainNavContainer(): HTMLElement {
@@ -44,4 +44,4 @@ class Navigation {
   }
 }
 
-export default Navigation;
+export default NavPanel;
