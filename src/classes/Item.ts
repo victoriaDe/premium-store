@@ -139,7 +139,7 @@ class Item {
           </div>
           <div class="item-container-description">
                 <h3>Details</h3>
-                <div>${product.data.description || 'coming soon...'}</div>
+                <p>${product.data.description || 'coming soon...'}</p>
             </div>`;
     }
     const $purchaseButton: HTMLElement | null = $item.querySelector(
