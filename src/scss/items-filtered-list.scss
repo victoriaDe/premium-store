@@ -87,6 +87,8 @@
   flex-direction: column;
   border-bottom: 2px solid;
 
+  align-self: center;
+
   h2 {
     font-size: 1.8em;
     font-weight: 400;
@@ -102,11 +104,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 0 3%;
-    margin: 10px;
+    margin: 10px 0;
 
     .item-purchase-prise {
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
       font-size: s.$fzDescription_price;
       color: #d1b482;
@@ -162,10 +165,6 @@
     h2 {
       text-align: center;
       font-size: 1.5em;
-    }
-
-    div {
-      justify-content: center;
     }
   }
 }
