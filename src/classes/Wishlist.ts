@@ -165,7 +165,7 @@ class Wishlist {
     showWishList: (wishlist: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    const data = LocalStorage.changeLocalWishlist('user', product.data.id);
+    const data = LocalStorage.changeUserProductList(product.data.id, 'wishlist');
     if (data) {
       showWishList(data.data.wishlist);
       $buttonElement.classList.toggle('button-like_active');

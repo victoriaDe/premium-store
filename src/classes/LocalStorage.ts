@@ -53,6 +53,10 @@ class LocalStorage {
     }
   }
 
+  /**
+   * Метод для получения данных пользователя из БД и сохранения их в локальное хранилище
+   */
+
   async updateUserData() {
     const userData = await UserAPI.getUserByID(this.#userId);
     if (!userData) return null;
@@ -63,6 +67,12 @@ class LocalStorage {
     localStorage.setItem('user', JSON.stringify(localUserData));
     return userData;
   }
+
+
+  /**
+   * Метод для получения продуктов по типу из БД и сохранения их в локальное хранилище
+   * @param filter - тип продукта
+   */
 
   async updateProductDataByFilter(filter: TFilter | 'All') {
     const productDataByFilter = await ProductAPI.getProductsByFilter(
@@ -77,6 +87,12 @@ class LocalStorage {
     localStorage.setItem(filter, JSON.stringify(localProductData));
     return productDataByFilter;
   }
+
+
+  /**
+   * Главный метод для получения продуктов
+   * @param filter - тип продукта
+   */
 
   async getProductDataByFilter(filter: TFilter | 'All') {
     const productDataStorageByFilter = this.getLocalData(
@@ -99,6 +115,11 @@ class LocalStorage {
     return null;
   }
 
+
+  /**
+   * Главный метод для получения данных пользователя
+   */
+
   async getUserData() {
     const userDataStorage = this.getLocalData(
       'user',
@@ -116,12 +137,18 @@ class LocalStorage {
     return null;
   }
 
-  async getListData(property: 'shoppingList' | 'wishlist') {
-    // всегда берем актуальные данные по списку id
+
+  /**
+   * Метод для получения продуктов из БД по списку из пользовательских данных
+   * @param listType - тип списка
+   */
+
+  async getListData(listType: 'shoppingList' | 'wishlist') {
+    // всегда берем актуальные данные с сервера по списку id
     const userData = await this.getUserData();
     if (userData) {
-      if (userData[property].length > 0) {
-        return ProductAPI.getProductsByList(userData[property], this.#currency);
+      if (userData[listType].length > 0) {
+        return ProductAPI.getProductsByList(userData[listType], this.#currency);
       }
     }
     return null;
@@ -129,47 +156,21 @@ class LocalStorage {
 
   /**
    * Метод для изменения локальной корзины пользователя
-   * @param id ID пользователя
    * @param productId ID продукта
+   * @param listType выбор типа списка продуктов
    */
 
-  changeLocalShoppingList(
-    id: string,
+  changeUserProductList(
     productId: string,
+    listType: "shoppingList" | "wishlist"
   ): IUserLocalStorageData | null {
     const user = this.getLocalData('user') as IUserLocalStorageData | null;
     if (user) {
-      const index: number = user.data.shoppingList.indexOf(productId);
+      const index: number = user.data[listType].indexOf(productId);
       if (index !== -1) {
-        user.data.shoppingList.splice(index, 1);
+        user.data[listType].splice(index, 1);
       } else {
-        user.data.shoppingList.push(productId);
-      }
-      localStorage.setItem('user', JSON.stringify(user));
-      //передача пользовательских данных на сервер после отрисовки
-      setTimeout(() => this.sendUserData());
-      return user;
-    }
-    return null;
-  }
-
-  /**
-   * Метод для изменения локального списка желаний пользователя
-   * @param id ID пользователя
-   * @param productId ID продукта
-   */
-
-  changeLocalWishlist(
-    id: string,
-    productId: string,
-  ): IUserLocalStorageData | null {
-    const user = this.getLocalData('user') as IUserLocalStorageData | null;
-    if (user) {
-      const index: number = user.data.wishlist.indexOf(productId);
-      if (index !== -1) {
-        user.data.wishlist.splice(index, 1);
-      } else {
-        user.data.wishlist.push(productId);
+        user.data[listType].push(productId);
       }
       localStorage.setItem('user', JSON.stringify(user));
       //передача пользовательских данных на сервер после отрисовки

@@ -126,7 +126,8 @@ class ShoppingList {
     showShopping: (shopping: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    const data = LocalStorage.changeLocalShoppingList('user', product.data.id);
+/*    const data = LocalStorage.changeLocalShoppingList('user', product.data.id);*/
+    const data = LocalStorage.changeUserProductList(product.data.id, 'shoppingList');
     if (data) {
       ShoppingList.showShoppingListCounter(data.data.shoppingList);
 
