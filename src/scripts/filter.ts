@@ -1,4 +1,4 @@
-import { IProduct, TFilter } from '@type/product';
+import { IProduct } from '@type/product';
 import Item from '@classes/Item';
 import lazy from '@scripts/lazy';
 import { IUser } from '@type/user';
@@ -10,21 +10,15 @@ import lazyBD from '@scripts/lazyBD';
 import ProductAPI from '@api/product';
 import Wishlist from '@classes/Wishlist';
 
-export type SetActiveFilterType =
-  | 'all'
-  | 'vehicles'
-  | 'gold'
-  | 'premium account'
-  | 'provisions';
 
 class Filter {
+  //  #nation #type #tier используются для фильтрации продуктов типа техника
   static #nation: string | undefined;
-
   static #type: string | undefined;
-
   static #tier: string | undefined;
 
-  static addEvent(router: HashRouter): void {
+
+  static addEvent(): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
     $filterButtons.forEach((item: Node) => {
@@ -59,9 +53,6 @@ class Filter {
                 actualFilter,
                 router,
               );
-          });
-          setTimeout(() => {
-            LocalStorage.updateProductDataByFilter(actualFilter).then(() => {});
           });
         }
       }

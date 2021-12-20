@@ -169,9 +169,6 @@ class Wishlist {
     if (data) {
       showWishList(data.data.wishlist);
       $buttonElement.classList.toggle('button-like_active');
-      setTimeout(() => {
-        LocalStorage.sendUserData();
-      });
     }
   }
 }

@@ -13,7 +13,7 @@ import {
 } from '@type/local-storage';
 
 /**
- * Класс для работы с локальных хранилищем
+ * Класс для работы с локальным хранилищем
  */
 
 class LocalStorage {
@@ -31,18 +31,20 @@ class LocalStorage {
     return this.#currency;
   }
 
-  // get data from localstorage
+  /**
+   * Метод для получения данных из локального хранилища
+   * @param id ID запрашиваемых данных
+   */
+
   getLocalData(id: string): TLocalData {
     const dataJson: string | null = localStorage.getItem(`${id}`);
     if (dataJson) return JSON.parse(dataJson);
     return null;
   }
 
-  async getAllData() {
-    const productData = await this.getProductDataByFilter('All');
-    const userData = await this.getUserData();
-    return [productData, userData];
-  }
+  /**
+   * Метод для отправки данных пользователя с локального хранилища в БД
+   */
 
   async sendUserData() {
     const userData = this.getLocalData('user') as IUserLocalStorageData | null;
@@ -84,7 +86,11 @@ class LocalStorage {
       const productDataByFilter = await this.updateProductDataByFilter(filter);
       if (productDataByFilter) return productDataByFilter;
     } else if (Date.now() - productDataStorageByFilter.dateAdded < 3000000) {
-      // 3000000 - 10 минут
+      // 3000000 - 10 минут - максимальное время актуальности данных в локальном хранилище
+      setTimeout(() => {
+        // запрос на получение новых данных после отрисоки на основе данных из локального хранилища
+        this.updateProductDataByFilter(filter).then(() => {});
+      });
       return productDataStorageByFilter.data;
     } else {
       const productDataByFilter = await this.updateProductDataByFilter(filter);
@@ -139,8 +145,9 @@ class LocalStorage {
       } else {
         user.data.shoppingList.push(productId);
       }
-      /* user.data.shoppingList.push(idProduct); */
       localStorage.setItem('user', JSON.stringify(user));
+      //передача пользовательских данных на сервер после отрисовки
+      setTimeout(() => this.sendUserData());
       return user;
     }
     return null;
@@ -165,6 +172,8 @@ class LocalStorage {
         user.data.wishlist.push(productId);
       }
       localStorage.setItem('user', JSON.stringify(user));
+      //передача пользовательских данных на сервер после отрисовки
+      setTimeout(() => this.sendUserData());
       return user;
     }
     return null;
