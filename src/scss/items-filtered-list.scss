@@ -16,6 +16,8 @@
 
   @media screen and (max-device-width: s.$max-width-resp) {
     grid-template-columns: 1fr;
+
+    position: relative;
   }
 }
 
@@ -95,7 +97,7 @@
     color: c.$fColorWhite;
     letter-spacing: 0.01em;
     text-align: right;
-
+    word-break: break-word;
     margin: 10px;
   }
 

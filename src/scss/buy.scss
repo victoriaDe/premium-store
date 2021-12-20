@@ -51,6 +51,18 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-device-width: s.$max-width-resp) {
+    width: 100%;
+    position: absolute;
+    bottom: 0.5em;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  @media screen and (max-device-width: s.$max-device-width) {
+    flex-wrap: wrap;
+    bottom: -3em;
+  }
 }
 
 .total-container.total-container_bottom {
@@ -65,6 +77,10 @@
 
   span {
     color: c.$gold;
+  }
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    width: 100%;
   }
 }
 
@@ -84,5 +100,9 @@
   &:hover {
     color: c.$baColor_total-btn;
     background: c.$bgColor_checkbox;
+  }
+
+  @media screen and (max-device-width: s.$max-device-width) {
+    width: 100%;
   }
 }
