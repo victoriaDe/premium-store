@@ -1,10 +1,10 @@
 /**
- * @module DOMElements
+ * @module UsersList
  */
 
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import { TPage } from '@type/dom-elements';
+import { TPage } from '@type/users-list';
 
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
@@ -16,7 +16,7 @@ import LocalStorage from '@classes/LocalStorage';
  * Класс для создания DOM элементов
  */
 
-class DOMElements {
+class UsersList {
   /**
    * Метод для создания шапки на страницах корзины и списка желаний
    * @param title заголовок шапки
@@ -124,7 +124,7 @@ class DOMElements {
       $wrapper.innerHTML = '';
       if (user && addedProducts) {
         addedProducts.forEach((product) => {
-          $container.append(DOMElements.createAddedItem(product, user, page));
+          $container.append(UsersList.createAddedItem(product, user, page));
         });
         if (page === 'shoppingList') {
           const $totalContainer = document.createElement('div');
@@ -144,13 +144,13 @@ class DOMElements {
         $wrapper.append($container);
       } else {
         $wrapper.append(
-          DOMElements.createEmptyList(
+          UsersList.createEmptyList(
             `${page === 'wishlist' ? 'Wishlist' : 'Shopping List'} is empty`,
           ),
         );
       }
       $wrapper.append(
-        DOMElements.createListHeader(
+        UsersList.createListHeader(
           page === 'wishlist' ? 'Wishlist' : 'Shopping List',
         ),
       );
@@ -158,4 +158,4 @@ class DOMElements {
   }
 }
 
-export default DOMElements;
+export default UsersList;
