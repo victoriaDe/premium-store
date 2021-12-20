@@ -97,10 +97,10 @@ class ShoppingList {
       if (shoppingListData && userData) {
         shoppingListData?.forEach((product) => {
           // временная затычка
-          // $container.append(this.createShoppingListItem(product, userData));
-          $container.append(
-            DOMElements.createAddedItem(product, userData, 'shopping list'),
-          );
+          $container.append(this.createShoppingListItem(product, userData));
+          // $container.append(
+          //   DOMElements.createAddedItem(product, userData, 'shopping list'),
+          // );
         });
         $wrapper.append(this.createHeaderList('Shopping list'));
         $wrapper.append($container);
