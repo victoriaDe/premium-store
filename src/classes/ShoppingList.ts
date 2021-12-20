@@ -42,6 +42,13 @@ class ShoppingList {
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
     $item.innerHTML = `
+<div class="checkbox-container">
+<label>
+<input type="checkbox" id="checkbox-${
+      product.data.id
+    }" class="checkbox-buy" name="name-${product.data.id}" checked>
+</label>
+</div>
       <a class="item-filtered-img" href="#${
         product.data.id
       }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
@@ -68,6 +75,8 @@ class ShoppingList {
                         <button class="item-purchase-button ${
                           isAddedToPurchase ? 'button-purchase-added' : ''
                         }">added</button>
+                        </div>
+                        </div>
     `;
     Wishlist.addEvent($item, product);
     return $item;
