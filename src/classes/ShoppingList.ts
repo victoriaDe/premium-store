@@ -133,16 +133,12 @@ class ShoppingList {
       const isProductInShoppingList = $buttonElement.classList.contains(
         'button-purchase-added',
       );
-
       // change button text and class
       $buttonElement.textContent = isProductInShoppingList
         ? 'purchase'
         : 'added';
-      $buttonElement.classList.toggle('button-purchase-added');
+      $buttonElement.classList.toggle('button-purchase-added')
 
-      setTimeout(() => {
-        LocalStorage.sendUserData();
-      });
     }
   }
 }
