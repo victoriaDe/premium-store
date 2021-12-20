@@ -1,7 +1,7 @@
 import HashRouter from '@classes/HashRouter';
 import Wishlist from '@classes/Wishlist';
 import ShoppingList from '@classes/ShoppingList';
-import Navigation from '@classes/Navigation';
+import NavPanel from '@classes/NavPanel';
 import Filter from '@scripts/filter';
 
 const router = new HashRouter();
@@ -14,32 +14,32 @@ router
     ShoppingList.createShoppingList(),
   )
   .addRoute('', 'Premium Store', () => {
-    Navigation.showMainNavContainer();
+    NavPanel.showMainNavContainer();
     Filter.addEvent(router);
     Filter.filterProducts('All', router);
   })
   .addRoute('all', 'All products', () => {
-    Navigation.showMainNavContainer();
+    NavPanel.showMainNavContainer();
     Filter.filterProducts('All', router);
     Filter.addEvent(router);
   })
   .addRoute('vehicles', 'Vehicles', () => {
-    Navigation.showMainNavContainer();
+    NavPanel.showMainNavContainer();
     Filter.filterProducts('Technique', router);
     Filter.addEvent(router);
   })
   .addRoute('gold', 'Gold', () => {
-    Navigation.showMainNavContainer();
+    NavPanel.showMainNavContainer();
     Filter.filterProducts('Gold', router);
     Filter.addEvent(router);
   })
   .addRoute('premium', 'Premium', () => {
-    Navigation.showMainNavContainer();
+    NavPanel.showMainNavContainer();
     Filter.filterProducts('Premium', router);
     Filter.addEvent(router);
   })
   .addRoute('provisions', 'Provisions', () => {
-    Navigation.showMainNavContainer();
+    NavPanel.showMainNavContainer();
     Filter.filterProducts('Provisions', router);
     Filter.addEvent(router);
   });
