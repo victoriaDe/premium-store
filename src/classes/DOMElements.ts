@@ -4,21 +4,12 @@
 
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
+import { TBtnAtrs, TPage } from '@type/dom-elements';
 
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
 
 import humanPrice from '@scripts/human-price';
-
-type TPage = 'wishlist' | 'shopping list';
-type TTagAtrs = {
-  classes: string[];
-  id?: string;
-};
-
-type TBtnAtrs = TTagAtrs & {
-  text: string;
-};
 
 /**
  * Класс для создания DOM элементов
