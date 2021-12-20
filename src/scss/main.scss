@@ -8,6 +8,7 @@
 @import "~@scss/iconmoon.scss";
 @import "~@scss/price.scss";
 @import "~@scss/btn-added.scss";
+@import "~@scss/buy.scss";
 
 @font-face {
   font-family: 'icomoon';
@@ -41,6 +42,8 @@ body {
   background-color: #1c1b15;
   font-family: 'Roboto Condensed', sans-serif;
   color: #cccccc;
+
+  -webkit-tap-highlight-color: transparent
 }
 
 body.lock {
@@ -85,10 +88,4 @@ input {
   @media screen and (max-device-width: 425px) {
     padding: 0 15px;
   }
-}
-
-ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
 }

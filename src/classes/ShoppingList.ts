@@ -1,17 +1,39 @@
+/**
+ * @module Shopping List
+ */
+
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
+
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
 import LocalStorage from '@classes/LocalStorage';
+
 import humanPrice from '@scripts/human-price';
+import DOMElements from '@classes/DOMElements';
+
+/**
+ * Класс для работы с корзиной
+ */
 
 class ShoppingList {
+  /**
+   * Метод для создания шапки в корзине
+   * @param name текст шапки
+   */
+
   static createHeaderList(name: string) {
     const $header = document.createElement('div');
     $header.innerHTML = `${name}`;
     $header.classList.add('list-header-container');
     return $header;
   }
+
+  /**
+   * Метод для создания карточки продукта в корзине
+   * @param product исходный продукт
+   * @param userData текущий пользователь
+   */
 
   static createShoppingListItem(product: IProduct, userData: IUser) {
     const isAddedToWishlist = userData.wishlist.includes(product.data.id);
@@ -20,9 +42,14 @@ class ShoppingList {
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
     $item.innerHTML = `
+    <div class="checkbox-container">
+        <label>
+            <input type="checkbox" id="checkbox-${product.data.id}" class="checkbox-buy" name="name-${product.data.id}" checked>
+        </label>
+    </div>
       <a class="item-filtered-img" href="#${
-        product.data.id
-      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
+      product.data.id
+    }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
       product.data.name
     }"></a>
                 <div class="item-filtered-description">
@@ -33,21 +60,29 @@ class ShoppingList {
                     ${product.data.description}
                     <div>
                         <button class="item-description-likeBtn ${
-                          isAddedToWishlist ? 'button-like_active' : ' '
-                        }"></button>
+      isAddedToWishlist ? 'button-like_active' : ' '
+    }"></button>
                         <span class="item-purchase-prise">
-                          <span class="item-price-amount ${saleElement[3]}">${humanPrice(
-                            product.data.price.basic.cost,
-                          )} ${saleElement[2]}</span>
+                          <span class="item-price-amount ${
+      saleElement[3]
+    }">${humanPrice(product.data.price.basic.cost)} ${
+      saleElement[2]
+    }</span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
-                          isAddedToPurchase ? 'button-purchase-added' : ''
-                        }">added</button>
+      isAddedToPurchase ? 'button-purchase-added' : ''
+    }">added</button>
+                        </div>
+                        </div>
     `;
     Wishlist.addEvent($item, product);
     return $item;
   }
+
+  /**
+   * Метод для создания корзины
+   */
 
   static async createShoppingList() {
     const shoppingListData = await LocalStorage.getListData('shoppingList');
@@ -63,9 +98,29 @@ class ShoppingList {
         shoppingListData?.forEach((product) => {
           // временная затычка
           $container.append(this.createShoppingListItem(product, userData));
+          // $container.append(
+          //   DOMElements.createAddedItem(product, userData, 'shopping list'),
+          // );
         });
-        $wrapper.append($container);
         $wrapper.append(this.createHeaderList('Shopping list'));
+        $wrapper.append($container);
+
+        const $totalContainer = document.createElement('div');
+        $totalContainer.classList.add('total-container');
+
+        const $totalPrice = document.createElement('p');
+        $totalPrice.classList.add('total-price');
+        $totalPrice.innerHTML = 'Total: <span>100 500$</span>';
+
+        const $totalBtn = DOMElements.createButton({
+          text: 'buy',
+          classes: ['total-button'],
+        });
+
+        $totalContainer.append($totalPrice);
+        $totalContainer.append($totalBtn);
+
+        $container.append($totalContainer);
       } else {
         $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
         $wrapper.append(this.createHeaderList('Shopping list'));
@@ -73,7 +128,11 @@ class ShoppingList {
     }
   }
 
-  // show number of shopping list
+  /**
+   * Метод для показа счётчика товаров в корзине
+   * @param shopping текущая корзина
+   */
+
   static showShoppingListCounter(shopping: string[]): void {
     const $shoppingCounter: HTMLElement | null = document.querySelector(
       '.cart-span-container',
@@ -83,29 +142,34 @@ class ShoppingList {
     }
   }
 
-  // change product in shoppingList
+  /**
+   * Метод для изменения счётчика товаров в корзине
+   * @param product исходный продукт
+   * @param showShopping
+   * @param $buttonElement  элемент, вызвавший изменение счётчика
+   */
+
   static changeShoppingListCounter(
     product: IProduct,
     showShopping: (shopping: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    const data = LocalStorage.changeLocalShoppingList('user', product.data.id);
+    /*    const data = LocalStorage.changeLocalShoppingList('user', product.data.id); */
+    const data = LocalStorage.changeUserProductList(
+      product.data.id,
+      'shoppingList',
+    );
     if (data) {
       ShoppingList.showShoppingListCounter(data.data.shoppingList);
 
       const isProductInShoppingList = $buttonElement.classList.contains(
         'button-purchase-added',
       );
-
       // change button text and class
       $buttonElement.textContent = isProductInShoppingList
         ? 'purchase'
         : 'added';
       $buttonElement.classList.toggle('button-purchase-added');
-
-      setTimeout(() => {
-        LocalStorage.sendUserData();
-      });
     }
   }
 }
