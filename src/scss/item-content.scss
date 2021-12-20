@@ -94,8 +94,22 @@
     bottom: 0;
     left: 0;
   }
+
+  .button-purchase-added {
+    padding-left: 30px;
+    background: url('~@images/buttons/cart.png') no-repeat 80% 50%, #668048;
+  }
 }
 
+
+@media screen and (max-device-width: s.$min-width) {
+  .item-container-purchase {
+    .item-price {
+      width: 50%;
+      justify-content: center;
+    }
+  }
+}
 
 .item-purchase-price {
 
@@ -134,6 +148,7 @@
     width: 50%;
   }
 }
+
 
 .item-container-description {
   grid-column-start: 1;
