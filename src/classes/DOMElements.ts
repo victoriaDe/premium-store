@@ -4,7 +4,7 @@
 
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import { TBtnAtrs, TPage } from '@type/dom-elements';
+import { TPage } from '@type/dom-elements';
 
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
@@ -16,22 +16,6 @@ import humanPrice from '@scripts/human-price';
  */
 
 class DOMElements {
-  /**
-   * Метод для создания кнопки
-   * @param data объект с данными кнопки
-   */
-
-  static createButton(data: TBtnAtrs) {
-    const { classes, text, id } = data;
-    const $btn = document.createElement('button');
-    $btn.classList.add(...classes);
-    $btn.textContent = text;
-
-    if (id) {
-      $btn.id = id;
-    }
-    return $btn;
-  }
   /**
    * Метод для создания шапки на страницах корзины и списка желаний
    * @param title заголовок шапки
@@ -78,7 +62,7 @@ class DOMElements {
     $item.innerHTML = `
     <a class="item-filtered-img" href="#${
       product.data.id
-    }" onclick="return false"><img src="${product.data.images.span_2x1}" alt="${
+    }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
       product.data.name
     }"></a>
                   <div class="item-filtered-description">
@@ -89,7 +73,7 @@ class DOMElements {
                     ${product.data.description}
                     <div>
                     <button class="item-description-likeBtn ${
-                      isAddedToWishlist ? 'button-like_active' : ' '
+                      isAddedToWishlist ? 'button-like_active' : ''
                     }"></button>
                         <span class="item-purchase-prise">
                           <span class="item-price-amount ${
