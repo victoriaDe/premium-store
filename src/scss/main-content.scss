@@ -24,18 +24,21 @@
   position: relative;
   height: 300px;
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.7);
 
-    .main-container-description {
-      padding: 0 0 15px 30px;
+  @media screen and (min-device-width: s.$max-width-resp) {
+    &:hover {
+      background: rgba(0, 0, 0, 0.7);
+
+      .main-container-description {
+        padding: 0 0 15px 30px;
+      }
+
+      .main-container-description_button-purchase {
+        display: block;
+        pointer-events: auto;
+
+      }
     }
-
-    .main-container-description_button-purchase {
-      display: block;
-      pointer-events: auto;
-    }
-
   }
 
   @media screen and (max-device-width: s.$min-width) {
@@ -252,13 +255,9 @@
     opacity: 0.8;
   }
 
-  @media screen and (max-device-width: s.$max-device-width) {
-    display: block;
-    pointer-events: auto;
-    height: 30px;
-    width: 80px;
-    font-size: 10px;
-    margin-left: 0;
+  @media screen and (max-device-width: s.$min-width) {
+    display: none;
+
   }
 }
 
