@@ -42,16 +42,14 @@ class ShoppingList {
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
     $item.innerHTML = `
-<div class="checkbox-container">
-<label>
-<input type="checkbox" id="checkbox-${
-      product.data.id
-    }" class="checkbox-buy" name="name-${product.data.id}" checked>
-</label>
-</div>
+    <div class="checkbox-container">
+        <label>
+            <input type="checkbox" id="checkbox-${product.data.id}" class="checkbox-buy" name="name-${product.data.id}" checked>
+        </label>
+    </div>
       <a class="item-filtered-img" href="#${
-        product.data.id
-      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
+      product.data.id
+    }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
       product.data.name
     }"></a>
                 <div class="item-filtered-description">
@@ -62,19 +60,19 @@ class ShoppingList {
                     ${product.data.description}
                     <div>
                         <button class="item-description-likeBtn ${
-                          isAddedToWishlist ? 'button-like_active' : ' '
-                        }"></button>
+      isAddedToWishlist ? 'button-like_active' : ' '
+    }"></button>
                         <span class="item-purchase-prise">
                           <span class="item-price-amount ${
-                            saleElement[3]
-                          }">${humanPrice(product.data.price.basic.cost)} ${
+      saleElement[3]
+    }">${humanPrice(product.data.price.basic.cost)} ${
       saleElement[2]
     }</span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
-                          isAddedToPurchase ? 'button-purchase-added' : ''
-                        }">added</button>
+      isAddedToPurchase ? 'button-purchase-added' : ''
+    }">added</button>
                         </div>
                         </div>
     `;
@@ -112,7 +110,7 @@ class ShoppingList {
 
         const $totalPrice = document.createElement('p');
         $totalPrice.classList.add('total-price');
-        $totalPrice.textContent = '100 500$';
+        $totalPrice.innerHTML = 'Total: <span>100 500$</span>';
 
         const $totalBtn = DOMElements.createButton({
           text: 'buy',
