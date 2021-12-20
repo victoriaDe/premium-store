@@ -105,22 +105,22 @@ class ShoppingList {
         $wrapper.append(this.createHeaderList('Shopping list'));
         $wrapper.append($container);
 
-        const $totalContainer = document.createElement('div');
-        $totalContainer.classList.add('total-container');
-
-        const $totalPrice = document.createElement('p');
-        $totalPrice.classList.add('total-price');
-        $totalPrice.innerHTML = 'Total: <span>100 500$</span>';
-
-        const $totalBtn = DOMElements.createButton({
-          text: 'buy',
-          classes: ['total-button'],
-        });
-
-        $totalContainer.append($totalPrice);
-        $totalContainer.append($totalBtn);
-
-        $container.append($totalContainer);
+        // const $totalContainer = document.createElement('div');
+        // $totalContainer.classList.add('total-container');
+        //
+        // const $totalPrice = document.createElement('p');
+        // $totalPrice.classList.add('total-price');
+        // $totalPrice.innerHTML = 'Total: <span>100 500$</span>';
+        //
+        // const $totalBtn = DOMElements.createButton({
+        //   text: 'buy',
+        //   classes: ['total-button'],
+        // });
+        //
+        // $totalContainer.append($totalPrice);
+        // $totalContainer.append($totalBtn);
+        //
+        // $container.append($totalContainer);
       } else {
         $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
         $wrapper.append(this.createHeaderList('Shopping list'));

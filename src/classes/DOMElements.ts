@@ -10,6 +10,7 @@ import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
 
 import humanPrice from '@scripts/human-price';
+import LocalStorage from '@classes/LocalStorage';
 
 /**
  * Класс для создания DOM элементов
@@ -21,7 +22,7 @@ class DOMElements {
    * @param title заголовок шапки
    */
 
-  static createPageHeader(title: string): HTMLDivElement {
+  static createListHeader(title: string): HTMLDivElement {
     const $header = document.createElement('div');
     $header.innerHTML = `${title}`;
     $header.classList.add('list-header-container');
@@ -33,7 +34,7 @@ class DOMElements {
    * @param text выводимый на странице текст
    */
 
-  static createEmptyPage(text: string): HTMLDivElement {
+  static createEmptyList(text: string): HTMLDivElement {
     const $item = document.createElement('div');
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `<div class="empty-list">${text}</div>`;
@@ -49,7 +50,7 @@ class DOMElements {
 
   static createAddedItem(product: IProduct, user: IUser, page: TPage) {
     const isAddedToShoppingList =
-      page === 'shopping list'
+      page === 'shoppingList'
         ? true
         : user.shoppingList.includes(product.data.id);
     const isAddedToWishlist =
@@ -91,8 +92,69 @@ class DOMElements {
                         </div>
                     </div>
     `;
+
+    if (page === 'shoppingList') {
+      const $checkboxContainer = document.createElement('div');
+      $checkboxContainer.classList.add('checkbox-container');
+
+      $checkboxContainer.innerHTML = `
+    <label>
+       <input type="checkbox" id="checkbox-${product.data.id}" class="checkbox-buy"
+          name="will-buy" checked>
+    </label>
+    }
+    `;
+
+      $item.prepend($checkboxContainer);
+    }
     Wishlist.addEvent($item, product);
     return $item;
+  }
+
+  static async createUsersList(page: TPage) {
+    const addedProducts = await LocalStorage.getListData(page);
+    const user = await LocalStorage.getUserData();
+
+    const $container = document.createElement('div');
+    $container.classList.add('items-filtered');
+    $container.id = 'items-filtered';
+    const $wrapper = document.querySelector('.main-container');
+
+    if ($wrapper) {
+      $wrapper.innerHTML = '';
+      if (user && addedProducts) {
+        addedProducts.forEach((product) => {
+          $container.append(DOMElements.createAddedItem(product, user, page));
+        });
+        if (page === 'shoppingList') {
+          const $totalContainer = document.createElement('div');
+          $totalContainer.classList.add('total-container');
+
+          $totalContainer.innerHTML = `
+          <p class="total-price">
+        Total: 
+        <span>100 500$</span>
+</p>
+        <button class="total-button">buy</button>
+          `;
+
+          $container.append($totalContainer);
+        }
+
+        $wrapper.append($container);
+      } else {
+        $wrapper.append(
+          DOMElements.createEmptyList(
+            `${page === 'wishlist' ? 'Wishlist' : 'Shopping List'} is empty`,
+          ),
+        );
+      }
+      $wrapper.append(
+        DOMElements.createListHeader(
+          page === 'wishlist' ? 'Wishlist' : 'Shopping List',
+        ),
+      );
+    }
   }
 }
 
