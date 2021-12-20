@@ -105,7 +105,9 @@
     margin: 10px 0;
 
     .item-purchase-prise {
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
       font-size: s.$fzDescription_price;
       color: #d1b482;
