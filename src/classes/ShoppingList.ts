@@ -11,6 +11,7 @@ import LocalStorage from '@classes/LocalStorage';
 
 import humanPrice from '@scripts/human-price';
 import localStorage from '@classes/LocalStorage';
+
 // import DOMElements from '@classes/DOMElements';
 
 /**
@@ -45,13 +46,13 @@ class ShoppingList {
     $item.innerHTML = `
     <div class="checkbox-container">
             <input type="checkbox" id="checkbox-${
-              product.data.id
-            }" name="name-${product.data.id}">
-        <label for="checkbox-${product.data.id}"></label>
+      product.data.id
+    }" name="name-${product.data.id}">
+        <label for="checkbox-${product.data.id}">Buy it now!</label>
     </div>
       <a class="item-filtered-img" href="#${
-        product.data.id
-      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
+      product.data.id
+    }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
       product.data.name
     }"></a>
                 <div class="item-filtered-description">
@@ -62,19 +63,19 @@ class ShoppingList {
                     ${product.data.description}
                     <div>
                         <button class="item-description-likeBtn ${
-                          isAddedToWishlist ? 'button-like_active' : ' '
-                        }"></button>
+      isAddedToWishlist ? 'button-like_active' : ' '
+    }"></button>
                         <span class="item-purchase-prise">
                           <span class="item-price-amount ${
-                            saleElement[3]
-                          }">${humanPrice(product.data.price.basic.cost)} ${
+      saleElement[3]
+    }">${humanPrice(product.data.price.basic.cost)} ${
       saleElement[2]
     }</span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
-                          isAddedToPurchase ? 'button-purchase-added' : ''
-                        }">added</button>
+      isAddedToPurchase ? 'button-purchase-added' : ''
+    }">added</button>
                         </div>
                         </div>
     `;

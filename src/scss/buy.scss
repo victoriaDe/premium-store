@@ -3,11 +3,19 @@
 
 .checkbox-container {
   position: absolute;
-  top: 50%;
+  bottom: 3%;
   transform: translateY(-50%);
+
+
+  @media screen and (max-device-width: s.$max-width-resp) {
+    top: 5%;
+    bottom: 100%;
+    left: 0;
+  }
 
   label {
     cursor: pointer;
+    padding-left: 20px;
   }
 }
 
@@ -100,7 +108,8 @@ label:after {
 
   transition: color 0.5s ease, background-color 0.5s ease;
 
-  &:hover {
+  &:hover,
+  &:focus, &:active {
     color: c.$baColor_total-btn;
     background: c.$bgColor_checkbox;
   }
