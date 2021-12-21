@@ -212,7 +212,7 @@ class Item {
       <span class="item-price-reduced">${humanPrice(
         product.data.price.actual.cost,
       )} ${product.data.price.basic.currency}</span>`;
-      const discountAmount = Math.ceil(
+      let discountAmount = Math.ceil(
         100 -
           (100 * +product.data.price.actual.cost) /
             +product.data.price.basic.cost,
@@ -220,6 +220,11 @@ class Item {
       sale = `<span class='item-sale'>-${discountAmount}%</span>`;
       currency = ``;
       priceAmount = 'price-sale';
+      if (product.data.price.actual.discountType === '') {
+        discountAmount =
+          +product.data.price.basic.cost - +product.data.price.actual.cost;
+        sale = `<span class='item-sale'>-${discountAmount} ${product.data.price.basic.currency}</span>`;
+      }
     }
     return [actualPrice, sale, currency, priceAmount];
   }

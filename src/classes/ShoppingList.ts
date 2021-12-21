@@ -10,7 +10,8 @@ import Wishlist from '@classes/Wishlist';
 import LocalStorage from '@classes/LocalStorage';
 
 import humanPrice from '@scripts/human-price';
-import DOMElements from '@classes/DOMElements';
+import localStorage from '@classes/LocalStorage';
+// import DOMElements from '@classes/DOMElements';
 
 /**
  * Класс для работы с корзиной
@@ -43,12 +44,14 @@ class ShoppingList {
     const saleElement = Item.getSale(product);
     $item.innerHTML = `
     <div class="checkbox-container">
-            <input type="checkbox" id="checkbox-${product.data.id}" name="name-${product.data.id}">
+            <input type="checkbox" id="checkbox-${
+              product.data.id
+            }" name="name-${product.data.id}">
         <label for="checkbox-${product.data.id}"></label>
     </div>
       <a class="item-filtered-img" href="#${
-      product.data.id
-    }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
+        product.data.id
+      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
       product.data.name
     }"></a>
                 <div class="item-filtered-description">
@@ -59,19 +62,19 @@ class ShoppingList {
                     ${product.data.description}
                     <div>
                         <button class="item-description-likeBtn ${
-      isAddedToWishlist ? 'button-like_active' : ' '
-    }"></button>
+                          isAddedToWishlist ? 'button-like_active' : ' '
+                        }"></button>
                         <span class="item-purchase-prise">
                           <span class="item-price-amount ${
-      saleElement[3]
-    }">${humanPrice(product.data.price.basic.cost)} ${
+                            saleElement[3]
+                          }">${humanPrice(product.data.price.basic.cost)} ${
       saleElement[2]
     }</span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
-      isAddedToPurchase ? 'button-purchase-added' : ''
-    }">added</button>
+                          isAddedToPurchase ? 'button-purchase-added' : ''
+                        }">added</button>
                         </div>
                         </div>
     `;
@@ -94,12 +97,8 @@ class ShoppingList {
     if ($wrapper) {
       $wrapper.innerHTML = '';
       if (shoppingListData && userData) {
-        shoppingListData?.forEach((product) => {
-          // временная затычка
+        shoppingListData.forEach((product) => {
           $container.append(this.createShoppingListItem(product, userData));
-          // $container.append(
-          //   DOMElements.createAddedItem(product, userData, 'shopping list'),
-          // );
         });
         $wrapper.append(this.createHeaderList('Shopping list'));
         $wrapper.append($container);
@@ -109,12 +108,12 @@ class ShoppingList {
 
         const $totalPrice = document.createElement('p');
         $totalPrice.classList.add('total-price');
-        $totalPrice.innerHTML = 'Total: <span>100 500$</span>';
+        $totalPrice.innerHTML = `Total: <span>0 ${localStorage.getCurrency()}</span>`;
 
-        const $totalBtn = DOMElements.createButton({
-          text: 'buy',
-          classes: ['total-button'],
-        });
+        const $totalBtn = document.createElement('button');
+
+        $totalBtn.classList.add('total-button');
+        $totalBtn.textContent = 'buy';
 
         $totalContainer.append($totalPrice);
         $totalContainer.append($totalBtn);
@@ -124,6 +123,47 @@ class ShoppingList {
         $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
         $wrapper.append(this.createHeaderList('Shopping list'));
       }
+
+      $container.addEventListener('click', (event) => {
+        const $target = event.target as HTMLElement;
+        const $totalPrice = $container.querySelector('.total-price > span');
+
+        if ($target.tagName === 'INPUT') {
+          const $items = $container.querySelectorAll(
+            '.item-filtered-container',
+          );
+
+          const $checkedItems: Element[] = [];
+
+          $items.forEach(($item) => {
+            const $checkbox = $item.querySelector(
+              '[type=checkbox]',
+            ) as HTMLInputElement;
+
+            if ($checkbox.checked) {
+              $checkedItems.push($item);
+            }
+          });
+
+          let summaryPrice = 0;
+
+          $checkedItems.forEach(($item) => {
+            let $price = $item.querySelector('.item-price-reduced');
+            if (!$price) {
+              $price = $item.querySelector('.item-price-amount');
+            }
+            const priceStr = $price!
+              .textContent!.replace(',', '.')
+              .replace(/\s/g, '');
+            const price = Number.parseFloat(priceStr);
+            summaryPrice += price;
+          });
+
+          $totalPrice!.textContent = `${humanPrice(
+            String(summaryPrice),
+          )} ${localStorage.getCurrency()}`;
+        }
+      });
     }
   }
 
