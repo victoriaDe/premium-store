@@ -107,7 +107,7 @@ class UsersList {
 
       $item.prepend($checkboxContainer);
     }
-    Wishlist.addEvent($item, product);
+    Wishlist.addEvent($item, product, false);
     return $item;
   }
 

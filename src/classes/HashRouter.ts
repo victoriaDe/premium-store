@@ -59,7 +59,6 @@ class HashRouter {
             Item.showSelectedItem(
               product[0],
               userData,
-              Item.createSelectedItem,
             );
           }
         });

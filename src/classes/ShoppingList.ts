@@ -100,28 +100,7 @@ class ShoppingList {
                         </div>
                         </div>
     `;
-    Wishlist.addEvent($item, product);
-    const $buttonPurchase: any = $item.querySelector('.item-purchase-button');
-    $buttonPurchase.addEventListener('click', () => {
-      if (!$buttonPurchase.classList.contains('button-purchase-added')) {
-        const parent = $buttonPurchase.closest('.item-filtered-container');
-        parent?.classList.add('delete-item');
-        LocalStorage.getLocalData('user');
-        const user = LocalStorage.getLocalData('user')?.data as IUser;
-        if (user.shoppingList.length === 0) {
-          const $totalContainer = document.querySelector('.total-container');
-          if ($totalContainer) {
-            $totalContainer.parentElement?.removeChild($totalContainer);
-            parent?.parentElement?.append(
-              Wishlist.createEmptyListItems('Your shopping cart is empty'),
-            );
-          }
-        }
-        parent?.addEventListener('animationend', () => {
-          parent?.parentElement?.removeChild(parent);
-        });
-      }
-    });
+    Wishlist.addEvent($item, product, true);
     return $item;
   }
 
@@ -238,7 +217,6 @@ class ShoppingList {
     showShopping: (shopping: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    /*    const data = LocalStorage.changeLocalShoppingList('user', product.data.id); */
     const data = LocalStorage.changeUserProductList(
       product.data.id,
       'shoppingList',

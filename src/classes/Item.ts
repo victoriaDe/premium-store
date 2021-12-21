@@ -7,6 +7,7 @@ import Wishlist from '@classes/Wishlist';
 // import HashRouter from '@classes/HashRouter';
 
 import humanPrice from '@scripts/human-price';
+import LocalStorage from '@classes/LocalStorage';
 
 /**
  * Класс для работы с продуктом
@@ -20,11 +21,7 @@ class Item {
    // * @param router
    */
 
-  static createItem(
-    product: IProduct,
-    userData: IUser /* ,
-    router: HashRouter, */,
-  ): HTMLElement {
+  static createItem(product: IProduct, userData: IUser): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');
 
@@ -79,25 +76,8 @@ class Item {
     const $purchaseButton: HTMLElement | null = $item.querySelector(
       '.main-container-description_button-purchase',
     );
+    this.addButtonEvent($purchaseButton, $likeButton, product, false);
 
-    if ($purchaseButton) {
-      Item.addEvent(
-        'click',
-        $purchaseButton,
-        ShoppingList.changeShoppingListCounter,
-        false,
-        [product, ShoppingList.showShoppingListCounter, $purchaseButton],
-      );
-    }
-    if ($likeButton) {
-      Item.addEvent(
-        'click',
-        $likeButton,
-        Wishlist.changeWishlistCounter,
-        false,
-        [product, Wishlist.showWishlistCounter, $likeButton],
-      );
-    }
     return $item;
   }
 
@@ -105,14 +85,9 @@ class Item {
    * Метод для создания карточки продукта на странице самого продукта
    * @param product исходный продукт
    * @param userData текущий пользователь
-   * @param addEvent
    */
 
-  static createSelectedItem(
-    product: IProduct,
-    userData: IUser,
-    addEvent: IAddEvent,
-  ): HTMLElement {
+  static createSelectedItem(product: IProduct, userData: IUser): HTMLElement {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
@@ -146,13 +121,7 @@ class Item {
       '.item-purchase-button',
     );
     if ($purchaseButton) {
-      addEvent(
-        'click',
-        $purchaseButton,
-        ShoppingList.changeShoppingListCounter,
-        false,
-        [product, ShoppingList.showShoppingListCounter, $purchaseButton],
-      );
+      Item.addButtonEvent($purchaseButton, null, product, false);
     }
     return $item;
   }
@@ -161,18 +130,9 @@ class Item {
    * Метод для отображения карточки продукта
    * @param product исходный продукт
    * @param userData текущий пользователь
-   * @param createItem функция создания карточки продукта
    */
 
-  static showSelectedItem(
-    product: IProduct,
-    userData: IUser,
-    createItem: (
-      product: IProduct,
-      userData: IUser,
-      addEvent: IAddEvent,
-    ) => HTMLElement,
-  ) {
+  static showSelectedItem(product: IProduct, userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
     );
@@ -191,7 +151,7 @@ class Item {
       ) {
         $visualContainer?.parentElement?.removeChild($itemFilter);
       }
-      const $item: HTMLElement = createItem(product, userData, Item.addEvent);
+      const $item: HTMLElement = Item.createSelectedItem(product, userData);
       $visualContainer.appendChild($item);
     }
   }
@@ -230,28 +190,58 @@ class Item {
   }
 
   /**
-   * Метод для добавления обработчиков
-   * @param event тип события
-   * @param $element элемент для навешивания обработчика
-   * @param eventFunction функция обработчика
-   * @param once срабатывание обработчика только 1 раз
-   * @param params параметры для функции обработчика
+   * Метод для добавления обработчиков на кнопки
+   * @param $buttonPurchase
+   * @param $likeButton
+   * @param product
+   * @param shoppingList
    */
 
-  static addEvent(
-    event: string,
-    $element: HTMLElement,
-    eventFunction: (...args: any[]) => void,
-    once: boolean,
-    params: any[],
+  static addButtonEvent(
+    $buttonPurchase: HTMLElement | null,
+    $likeButton: HTMLElement | null,
+    product: IProduct,
+    shoppingList: boolean,
   ): void {
-    $element.addEventListener(
-      `${event}`,
-      () => {
-        eventFunction(...params);
-      },
-      { once },
-    );
+    if ($buttonPurchase) {
+      $buttonPurchase.addEventListener('click', (e) => {
+        ShoppingList.changeShoppingListCounter(
+          product,
+          ShoppingList.showShoppingListCounter,
+          $buttonPurchase,
+        );
+        if (shoppingList) {
+          if (!$buttonPurchase.classList.contains('button-purchase-added')) {
+            const parent = $buttonPurchase.closest('.item-filtered-container');
+            parent?.classList.add('delete-item');
+            LocalStorage.getLocalData('user');
+            const user = LocalStorage.getLocalData('user')?.data as IUser;
+            if (user.shoppingList.length === 0) {
+              const $totalContainer =
+                document.querySelector('.total-container');
+              if ($totalContainer) {
+                $totalContainer.parentElement?.removeChild($totalContainer);
+                parent?.parentElement?.append(
+                  Wishlist.createEmptyListItems('Your shopping cart is empty'),
+                );
+              }
+            }
+            parent?.addEventListener('animationend', () => {
+              parent?.parentElement?.removeChild(parent);
+            });
+          }
+        }
+      });
+    }
+    if ($likeButton) {
+      $likeButton.addEventListener('click', (e) => {
+        ShoppingList.changeShoppingListCounter(
+          product,
+          Wishlist.showWishlistCounter,
+          $likeButton,
+        );
+      });
+    }
   }
 }
 
