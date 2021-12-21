@@ -51,7 +51,7 @@ class Geo {
       const resp = await instance.get(
         `reverse.php?key=pk.6622c6988c1228ba51e625c22d5efb77&lat=${latitude}&lon=${longitude}&format=json`,
       );
-      return resp.data.address.country_code;
+      return resp.data.address.country_code.toUpperCase();
     } catch (err) {
       throw new Error(`Ooops! I can't get country code`);
     }
