@@ -9,6 +9,7 @@ import LocalStorage from '@classes/LocalStorage';
 import Item from '@classes/Item';
 import NavPanel from '@classes/NavPanel';
 import ProductAPI from '@api/product';
+import NavPanelDOM from '@classes/dom/NavPanelDOM';
 
 /**
  * Class for creating a router with hash support
@@ -55,11 +56,9 @@ class HashRouter {
       this.addRoute(hash, product[0].data.name, () => {
         LocalStorage.getUserData().then((userData) => {
           if (userData) {
-            NavPanel.showMainNavContainer();
-            Item.showSelectedItem(
-              product[0],
-              userData,
-            );
+            // NavPanel.showMainNavContainer();
+            NavPanelDOM.showMainNavContainer();
+            Item.showSelectedItem(product[0], userData);
           }
         });
       });
