@@ -8,7 +8,7 @@ import { IUser } from '@type/user';
 import LocalStorage from '@classes/LocalStorage';
 import Item from '@classes/Item';
 
-import humanPrice from '@scripts/human-price';
+import { humanPrice } from '@scripts/price';
 
 /**
  * Класс для работы со списком желаний

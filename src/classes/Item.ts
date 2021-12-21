@@ -1,12 +1,10 @@
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
-import { IAddEvent } from '@type/item';
 
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
-// import HashRouter from '@classes/HashRouter';
 
-import humanPrice from '@scripts/human-price';
+import { calcFinalPrice, humanPrice } from '@scripts/price';
 import LocalStorage from '@classes/LocalStorage';
 
 /**
@@ -228,6 +226,13 @@ class Item {
             }
             parent?.addEventListener('animationend', () => {
               parent?.parentElement?.removeChild(parent);
+              const $container = document.querySelector(
+                '.items-filtered',
+              ) as HTMLElement;
+
+              if ($container) {
+                calcFinalPrice($container);
+              }
             });
           }
         }

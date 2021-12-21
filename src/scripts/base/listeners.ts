@@ -1,6 +1,6 @@
-// для работы перезагрузки по кликам
 import PopupContainer from '@classes/PopupContainer';
 
+// для работы перезагрузки по кликам
 function reloadPageSameLink() {
   document.addEventListener('click', (event) => {
     const $target = event.target as HTMLElement;
