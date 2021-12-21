@@ -225,18 +225,6 @@ class ShoppingList {
     }
 
   }
-
-  // static deleteFromCart(
-  //   product: IProduct,
-  //   $buttonElement: HTMLElement,
-  // ): void {
-  //   if ($buttonElement.classList.contains('button-purchase-added')) {
-  //   } else {
-  //     console.log(1);
-  //     let parent = $buttonElement.closest('.item-filtered-container');
-  //     parent?.classList.add('delete-item');
-  //   }
-  // }
 }
 
 export default ShoppingList;
