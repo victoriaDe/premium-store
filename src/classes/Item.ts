@@ -205,7 +205,6 @@ class Item {
     let priceAmount = '';
     let actualPrice = ``;
     let sale = ``;
-    console.log(product.data.price.actual);
     let currency = `${product.data.price.basic.currency}`;
     if (product.data.price.basic.cost !== product.data.price.actual.cost) {
       actualPrice = `
@@ -222,7 +221,8 @@ class Item {
       currency = ``;
       priceAmount = 'price-sale';
       if (product.data.price.actual.discountType === '') {
-        discountAmount = +product.data.price.basic.cost - +product.data.price.actual.cost;
+        discountAmount =
+          +product.data.price.basic.cost - +product.data.price.actual.cost;
         sale = `<span class='item-sale'>-${discountAmount} ${product.data.price.basic.currency}</span>`;
       }
     }
