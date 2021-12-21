@@ -88,11 +88,10 @@ class ShoppingList {
                           isAddedToWishlist ? 'button-like_active' : ' '
                         }"></button>
                         <span class="item-purchase-prise">
-                          <span class="item-price-amount ${
-                            saleElement[3]
-                          }">${humanPrice(product.data.price.basic.cost)} ${
-      saleElement[2]
-    }</span>
+                          <span class="item-price-amount ${saleElement[3]}">
+                            ${humanPrice(product.data.price.basic.cost)} 
+                            ${saleElement[2]}
+                          </span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
@@ -105,11 +104,20 @@ class ShoppingList {
     const $buttonPurchase: any = $item.querySelector('.item-purchase-button');
     $buttonPurchase.addEventListener('click', () => {
       if (!$buttonPurchase.classList.contains('button-purchase-added')) {
-        let parent = $buttonPurchase.closest('.item-filtered-container');
+        const parent = $buttonPurchase.closest('.item-filtered-container');
         parent?.classList.add('delete-item');
-
+        LocalStorage.getLocalData('user');
+        const user = LocalStorage.getLocalData('user')?.data as IUser;
+        if (user.shoppingList.length === 0) {
+          const $totalContainer = document.querySelector('.total-container');
+          if ($totalContainer) {
+            $totalContainer.parentElement?.removeChild($totalContainer);
+            parent?.parentElement?.append(
+              Wishlist.createEmptyListItems('Your shopping cart is empty'),
+            );
+          }
+        }
         parent?.addEventListener('animationend', () => {
-          console.log(parent?.parentElement);
           parent?.parentElement?.removeChild(parent);
         });
       }
@@ -155,7 +163,9 @@ class ShoppingList {
 
         $container.append($totalContainer);
       } else {
-        $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
+        $wrapper.append(
+          Wishlist.createEmptyListItems('Your shopping cart is empty'),
+        );
         $wrapper.append(this.createHeaderList('Shopping list'));
       }
 
@@ -245,7 +255,6 @@ class ShoppingList {
         : 'added';
       $buttonElement.classList.toggle('button-purchase-added');
     }
-
   }
 }
 
