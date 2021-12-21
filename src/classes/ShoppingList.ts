@@ -48,7 +48,7 @@ class ShoppingList {
             <input type="checkbox" id="checkbox-${
       product.data.id
     }" name="name-${product.data.id}">
-        <label for="checkbox-${product.data.id}">Buy it now!</label>
+        <label for="checkbox-${product.data.id}">Buy it!</label>
     </div>
       <a class="item-filtered-img" href="#${
       product.data.id

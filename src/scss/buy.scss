@@ -3,7 +3,7 @@
 
 .checkbox-container {
   position: absolute;
-  bottom: 3%;
+  bottom: 2%;
   transform: translateY(-50%);
 
 
@@ -14,6 +14,8 @@
   }
 
   label {
+    color: c.$fColorWhite;
+    font-size: s.$fzPrice_Label;
     cursor: pointer;
     padding-left: 20px;
   }
