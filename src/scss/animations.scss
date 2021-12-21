@@ -1,3 +1,5 @@
+@use '~@scss/variables/colors' as c;
+
 .button-like {
   width: 37px;
   height: 33px;
@@ -45,7 +47,10 @@
 }
 
 .delete-item {
-  animation: deleteItem 1s ease-in;
+  z-index: 20;
+  animation: deleteItem 0.6s ease-in;
+  background: c.$baColorGray;
+  opacity: 0.5;
 }
 
 @keyframes deleteItem {
