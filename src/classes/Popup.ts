@@ -21,16 +21,20 @@ class Popup {
   /** флаг для указания наличия в форме ссылки восстановления пароля */
   readonly #hasLink: boolean; // есть ли в попапе ссылка, по-хорошему, нужно было бы отпочковаться в другой класс с расширением, но ради одной ссылки не знаю, стоит ли
 
+  #onSubmit: ((event: any) => void);
+
   constructor(
     target: HTMLElement,
     inputs: TPopupInputs,
     hasLink: boolean,
+    onSubmit: (event: any) => void,
     linkHandler?: TLinkHandler,
   ) {
     this.#target = target;
     this.#inputs = inputs;
     this.#hasLink = hasLink;
     this.#linkHandler = linkHandler;
+    this.#onSubmit = onSubmit;
   }
 
   /**
@@ -57,10 +61,10 @@ class Popup {
       // пробегает по каждому input [0] - текст для лейбла и плейсхолдера,[1] - тип инпута
       $form.innerHTML += `<label>${this.#inputs[i][0]} <input type='${
         this.#inputs[i][1]
-      }' placeholder='Enter your ${this.#inputs[i][0]}'></label>`;
+      }' placeholder='Enter your ${this.#inputs[i][0]}' autocomplete="on"></label>`;
     }
     // после генерации инпутов заталкиваем кнопу в форму
-    $form.appendChild(Popup.createButton());
+    $form.appendChild(Popup.createButton(this.#onSubmit));
 
     if (this.#hasLink) {
       // ссылка на восстановление пароля
@@ -82,6 +86,12 @@ class Popup {
       }
     }
 
+    $form.onsubmit = function(event) {
+      console.log('onsubmit');
+      console.log(event);
+      event.preventDefault();
+    };
+
     return $form;
   }
 
@@ -89,11 +99,15 @@ class Popup {
    * Метод для создания кнопки OK
    */
 
-  static createButton(): HTMLButtonElement {
+  static createButton(onSubmit: (event: any) => void): HTMLButtonElement {
     // единственный адекватный метод без черни
     const $btn = document.createElement('button');
-    $btn.type = 'submit';
+    //$btn.type = 'submit';
+    $btn.type = 'button';
     $btn.innerText = 'OK';
+    $btn.addEventListener('click', (event) => {
+      onSubmit(event);
+    });
     return $btn;
   }
 
@@ -117,7 +131,9 @@ class Popup {
     $link.innerText = str;
     // не знаю, как по-другому повесить листенер, думала через нодлист как-то, он ведь должен обновляться сам, по идее
     // но у меня не вышло
-    $link.addEventListener('click', (event) => handler(event));
+    $link.addEventListener('click', (event) => {
+      handler(event);
+    });
     return $link;
   }
 

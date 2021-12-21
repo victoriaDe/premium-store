@@ -3,10 +3,59 @@
  */
 
 import Popup from '@classes/Popup';
+import { authAPI } from '@api/authApi';
 
 /**
  * Класс для работы со всплывающими окнами
  */
+
+async function loginSubmit(event:any) {
+  console.log("loginSubmit")
+  const usedDada = {
+    email:"victor_sinitca@mail.ru",
+    password:"aaaaa123",
+  }
+  try {
+    const user = await authAPI.login(usedDada.email, usedDada.password)
+    if(user){
+      localStorage.setItem('token', user.accessToken);
+      console.log(`user:${JSON.stringify(user)}`)
+    }
+  }catch (e) {
+    console.log(e)
+  }
+}
+
+async function createAccountSubmit(event:any) {
+  console.log("createAccountSubmit")
+  const usedDada = {
+    email:"victor_sinitca@mail.ru",
+    password:"aaaaa123",
+    name:"Tester"    ,
+  }
+  const user = await  authAPI.registration(usedDada.email, usedDada.password, usedDada.name)
+  if(user){
+    localStorage.setItem('token', user.accessToken);
+    console.log(`user:${JSON.stringify(user)}`)
+  }
+  console.log(`user:${user}`)
+}
+
+async function logoutSubmit(event:any) {
+  const user = await  authAPI.logout()
+  if(user){
+    localStorage.setItem('token', "");
+    console.log(`user:${JSON.stringify(user)}`)
+  }
+  console.log("logoutSubmit")
+}
+
+
+
+function resetSubmit(event:any) {
+  console.log("createAccountSubmit")
+}
+
 
 class PopupContainer {
   /**
@@ -34,6 +83,7 @@ class PopupContainer {
             ['password', 'password'],
           ],
           true,
+          loginSubmit,
           this.openPopup,
         );
         break;
@@ -48,11 +98,12 @@ class PopupContainer {
             ['password', 'password'],
           ],
           false,
+          createAccountSubmit
         );
         break;
 
       case 'reset-password': // попап для забыл пароль
-        popup = new Popup(eventTarget, [['email', 'email']], false);
+        popup = new Popup(eventTarget, [['email', 'email']], false,resetSubmit);
         if ($wrapper) $wrapper.innerHTML = '';
         break;
 
