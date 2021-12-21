@@ -43,6 +43,27 @@ class ShoppingList {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
+
+    const $likeBtn = DOMElems.btn({
+      classes: [
+        'item-description-likeBtn',
+        isAddedToWishlist ? 'button-like_active' : '',
+      ],
+    });
+
+    const $purchaseBtn = DOMElems.btn({
+      text: 'added',
+      classes: [
+        'item-purchase-button',
+        isAddedToPurchase ? 'button-purchase-added' : '',
+      ],
+    });
+
+    const $image = DOMElems.img({
+      src: product.data.images.span_2x1,
+      alt: product.data.name,
+    });
+
     $item.innerHTML = `
     <div class="checkbox-container">
             <input type="checkbox" id="checkbox-${
