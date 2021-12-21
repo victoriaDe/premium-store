@@ -42,8 +42,6 @@ export const authAPI = {
 
   },
   refresh() {
-    return axios.get<AuthResponseType>(`${baseURL}refresh`, {
-      /*withCredentials: true,*/
-    }).then(response => response.data);
+    return instance.get<AuthResponseType>(`/refresh`, ).then(response => response.data);
   },
 };

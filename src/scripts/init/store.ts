@@ -15,6 +15,9 @@ const storeInit = () =>
         ShoppingList.showShoppingListCounter(userData.shoppingList);
         Wishlist.showWishlistCounter(userData.wishlist);
         window.dispatchEvent(new HashChangeEvent('hashchange'));
+      }else {
+        router.init(currency);
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
       }
     },
     { once: true },

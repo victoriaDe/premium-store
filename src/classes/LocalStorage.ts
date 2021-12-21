@@ -11,6 +11,7 @@ import {
   IUserLocalStorageData,
   TLocalData,
 } from '@type/local-storage';
+import { authAPI } from '@api/authApi';
 
 /**
  * Класс для работы с локальным хранилищем
@@ -58,10 +59,11 @@ class LocalStorage {
    */
 
   async updateUserData() {
-    const userData = await UserAPI.getUserByID(this.#userId);
+    /*const userData = await UserAPI.getUserByID(this.#userId);*/
+    const userData = await authAPI.refresh();
     if (!userData) return null;
     const localUserData = {
-      data: userData,
+      data: userData.profile,
       dateAdded: Date.now(),
     };
     localStorage.setItem('user', JSON.stringify(localUserData));
@@ -126,13 +128,13 @@ class LocalStorage {
     ) as IUserLocalStorageData | null;
     if (!userDataStorage) {
       const userData = await this.updateUserData();
-      if (userData) return userData;
+      if (userData) return userData.profile;
     } else if (Date.now() - userDataStorage.dateAdded < 3000000) {
       // 3000000 - 10 минут
       return userDataStorage.data;
     } else {
       const userData = await this.updateUserData();
-      if (userData) return userData;
+      if (userData) return userData.profile;
     }
     return null;
   }
