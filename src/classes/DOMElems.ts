@@ -5,6 +5,7 @@ import {
   TBtnElem,
   TImgElem,
   TInputElem,
+  TLabelElem,
   TLinkElem,
   TParElem,
 } from '@scripts/init/dom-elems';
@@ -18,17 +19,21 @@ class DOMElems {
     const attributes = Object.keys(data);
 
     for (const attr of attributes) {
-      if (attr !== 'classes' && attr !== 'text') {
+      if (attr !== 'classes' && attr !== 'text' && attr !== 'inner') {
         $elem.setAttribute(attr, data[attr]);
       }
     }
 
     if (classes) {
-      classes.forEach((cl: string) => {
-        if (cl.trim() !== '') {
-          $elem.classList.add(cl);
-        }
-      });
+      if (Array.isArray(classes)) {
+        classes.forEach((cl: string) => {
+          if (cl.trim() !== '') {
+            $elem.classList.add(cl);
+          }
+        });
+      } else {
+        $elem.classList.add(classes);
+      }
     }
 
     if (data.text) {
@@ -36,7 +41,11 @@ class DOMElems {
     }
 
     if (data.inner) {
-      $elem.append(data.inner);
+      if (Array.isArray(data.inner)) {
+        $elem.append(...data.inner);
+      } else {
+        $elem.append(data.inner);
+      }
     }
 
     return $elem;
@@ -60,6 +69,10 @@ class DOMElems {
 
   static input(data: TInputElem): HTMLInputElement {
     return DOMElems.#elem('input', data) as HTMLInputElement;
+  }
+
+  static label(data: TLabelElem): HTMLLabelElement {
+    return DOMElems.#elem('label', data) as HTMLLabelElement;
   }
 }
 

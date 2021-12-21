@@ -1,11 +1,11 @@
 type TElem = {
   id?: string;
-  classes?: string[];
+  classes?: string | string[];
 };
 
 export type TParElem = TElem & {
   text?: string;
-  inner?: HTMLElement;
+  inner?: HTMLElement | HTMLElement[];
 };
 
 export type TBtnElem = TParElem & {
@@ -34,4 +34,8 @@ export type TInputElem = TElem & {
     | 'submit'
     | 'text';
   name?: string;
+};
+
+export type TLabelElem = TParElem & {
+  for?: string;
 };
