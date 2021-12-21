@@ -7,10 +7,12 @@ import { IUser } from '@type/user';
 
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
+import DOMElems from '@classes/DOMElems';
 import LocalStorage from '@classes/LocalStorage';
 
 import humanPrice from '@scripts/human-price';
 import localStorage from '@classes/LocalStorage';
+
 // import DOMElements from '@classes/DOMElements';
 
 /**
@@ -42,12 +44,33 @@ class ShoppingList {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
+
+    const $likeBtn = DOMElems.btn({
+      classes: [
+        'item-description-likeBtn',
+        isAddedToWishlist ? 'button-like_active' : '',
+      ],
+    });
+
+    const $purchaseBtn = DOMElems.btn({
+      text: 'added',
+      classes: [
+        'item-purchase-button',
+        isAddedToPurchase ? 'button-purchase-added' : '',
+      ],
+    });
+
+    const $image = DOMElems.img({
+      src: product.data.images.span_2x1,
+      alt: product.data.name,
+    });
+
     $item.innerHTML = `
     <div class="checkbox-container">
             <input type="checkbox" id="checkbox-${
               product.data.id
             }" name="name-${product.data.id}">
-        <label for="checkbox-${product.data.id}"></label>
+        <label for="checkbox-${product.data.id}">Buy it!</label>
     </div>
       <a class="item-filtered-img" href="#${
         product.data.id
@@ -79,6 +102,18 @@ class ShoppingList {
                         </div>
     `;
     Wishlist.addEvent($item, product);
+    const $buttonPurchase: any = $item.querySelector('.item-purchase-button');
+    $buttonPurchase.addEventListener('click', () => {
+      if (!$buttonPurchase.classList.contains('button-purchase-added')) {
+        let parent = $buttonPurchase.closest('.item-filtered-container');
+        parent?.classList.add('delete-item');
+
+        parent?.addEventListener('animationend', () => {
+          console.log(parent?.parentElement);
+          parent?.parentElement?.removeChild(parent);
+        });
+      }
+    });
     return $item;
   }
 
@@ -210,6 +245,7 @@ class ShoppingList {
         : 'added';
       $buttonElement.classList.toggle('button-purchase-added');
     }
+
   }
 }
 
