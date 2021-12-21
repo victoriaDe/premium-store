@@ -240,7 +240,7 @@ class Item {
     }
     if ($likeButton) {
       $likeButton.addEventListener('click', (e) => {
-        ShoppingList.changeShoppingListCounter(
+        Wishlist.changeWishlistCounter(
           product,
           Wishlist.showWishlistCounter,
           $likeButton,

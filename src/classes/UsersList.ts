@@ -9,7 +9,7 @@ import { TPage } from '@type/users-list';
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
 
-import humanPrice from '@scripts/human-price';
+import { humanPrice } from '@scripts/price';
 import LocalStorage from '@classes/LocalStorage';
 
 /**
