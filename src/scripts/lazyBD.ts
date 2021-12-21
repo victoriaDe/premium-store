@@ -6,6 +6,7 @@ import { IUser } from '@type/user';
 import Item from '@classes/Item';
 import ProductAPI from '@api/product';
 import LocalStorage from '@classes/LocalStorage';
+import ItemDOM from '@classes/dom/ItemDOM';
 
 /**
  * Function for create Observer options
@@ -58,7 +59,7 @@ function lazyBD(
         LocalStorage.getCurrency(),
       ).then((value) => {
         if (!value || !value.products) return;
-        value.products.forEach((val) => $productsContainer.appendChild(Item.createItem(val, user)));
+        value.products.forEach((val) => $productsContainer.appendChild(ItemDOM.createItem(val, user)));
 
         observer.unobserve(entry.target);
 
