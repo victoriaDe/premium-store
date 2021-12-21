@@ -43,3 +43,16 @@
     transform: scale(1)
   }
 }
+
+.delete-item {
+  animation: deleteItem 1s ease-in;
+}
+
+@keyframes deleteItem {
+  0% {
+    transform: translateX(0vw);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}

@@ -102,6 +102,18 @@ class ShoppingList {
                         </div>
     `;
     Wishlist.addEvent($item, product);
+    const $buttonPurchase: any = $item.querySelector('.item-purchase-button');
+    $buttonPurchase.addEventListener('click', () => {
+      if (!$buttonPurchase.classList.contains('button-purchase-added')) {
+        let parent = $buttonPurchase.closest('.item-filtered-container');
+        parent?.classList.add('delete-item');
+
+        parent?.addEventListener('animationend', () => {
+          console.log(parent?.parentElement);
+          parent?.parentElement?.removeChild(parent);
+        });
+      }
+    });
     return $item;
   }
 
@@ -233,6 +245,7 @@ class ShoppingList {
         : 'added';
       $buttonElement.classList.toggle('button-purchase-added');
     }
+
   }
 }
 
