@@ -1,11 +1,11 @@
 /**
  * @module DOMElems
  */
-import { TBtnElem, TImgElem } from '@scripts/init/dom-elems';
+import { TBtnElem, TImgElem, TLinkElem } from '@scripts/init/dom-elems';
 
 class DOMElems {
   static #elem(tag: string, data: any) {
-    const { classes, text } = data;
+    const { classes } = data;
 
     const $elem = document.createElement(tag);
 
@@ -25,8 +25,12 @@ class DOMElems {
       });
     }
 
-    if (text) {
-      $elem.textContent = text;
+    if (data.text) {
+      $elem.textContent = data.text;
+    }
+
+    if (data.inner) {
+      $elem.append(data.inner);
     }
 
     return $elem;
@@ -38,6 +42,10 @@ class DOMElems {
 
   static img(data: TImgElem) {
     return DOMElems.#elem('img', data);
+  }
+
+  static link(data: TLinkElem) {
+    return DOMElems.#elem('a', data);
   }
 }
 

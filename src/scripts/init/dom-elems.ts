@@ -5,6 +5,7 @@ type TElem = {
 
 type TParElem = TElem & {
   text?: string;
+  inner?: HTMLElement;
 };
 
 export type TBtnElem = TParElem & {
@@ -14,4 +15,8 @@ export type TBtnElem = TParElem & {
 export type TImgElem = TElem & {
   src: string;
   alt: string;
+};
+
+export type TLinkElem = TElem & {
+  href: string;
 };
