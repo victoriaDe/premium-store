@@ -11,6 +11,7 @@ import LocalStorage from '@classes/LocalStorage';
 
 import humanPrice from '@scripts/human-price';
 import localStorage from '@classes/LocalStorage';
+import DOMElems from '@classes/DOMElems';
 // import DOMElements from '@classes/DOMElements';
 
 /**
@@ -42,6 +43,27 @@ class ShoppingList {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
+
+    const $likeBtn = DOMElems.btn({
+      classes: [
+        'item-description-likeBtn',
+        isAddedToWishlist ? 'button-like_active' : '',
+      ],
+    });
+
+    const $purchaseBtn = DOMElems.btn({
+      text: 'added',
+      classes: [
+        'item-purchase-button',
+        isAddedToPurchase ? 'button-purchase-added' : '',
+      ],
+    });
+
+    const $image = DOMElems.img({
+      src: product.data.images.span_2x1,
+      alt: product.data.name,
+    });
+
     $item.innerHTML = `
     <div class="checkbox-container">
             <input type="checkbox" id="checkbox-${
@@ -51,9 +73,9 @@ class ShoppingList {
     </div>
       <a class="item-filtered-img" href="#${
         product.data.id
-      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
-      product.data.name
-    }"></a>
+      }" onclick="return false">
+      ${$image.outerHTML}
+      </a>
                 <div class="item-filtered-description">
                     <h2>
                       ${product.data.name}
@@ -61,9 +83,7 @@ class ShoppingList {
                     </h2>
                     ${product.data.description}
                     <div>
-                        <button class="item-description-likeBtn ${
-                          isAddedToWishlist ? 'button-like_active' : ' '
-                        }"></button>
+                    ${$likeBtn.outerHTML}
                         <span class="item-purchase-prise">
                           <span class="item-price-amount ${
                             saleElement[3]
@@ -72,9 +92,7 @@ class ShoppingList {
     }</span>
                           ${saleElement[0]}
                         </span>
-                        <button class="item-purchase-button ${
-                          isAddedToPurchase ? 'button-purchase-added' : ''
-                        }">added</button>
+                        ${$purchaseBtn.outerHTML}
                         </div>
                         </div>
     `;

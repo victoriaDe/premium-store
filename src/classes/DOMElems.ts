@@ -1,34 +1,32 @@
 /**
  * @module DOMElems
  */
-import { TBtnElem } from '@scripts/init/dom-elems';
+import { TBtnElem, TImgElem } from '@scripts/init/dom-elems';
 
 class DOMElems {
-  static #elem(tag: string, data: TBtnElem) {
-    const { id, classes, text, type } = data;
+  static #elem(tag: string, data: any) {
+    const { classes, text } = data;
 
     const $elem = document.createElement(tag);
 
+    const attributes = Object.keys(data);
+
+    for (const attr of attributes) {
+      if (attr !== 'classes' && attr !== 'text') {
+        $elem.setAttribute(attr, data[attr]);
+      }
+    }
+
     if (classes) {
-      classes.forEach((cl) => {
+      classes.forEach((cl: string) => {
         if (cl.trim() !== '') {
           $elem.classList.add(cl);
         }
       });
     }
 
-    if (id) {
-      $elem.id = id;
-    }
-
     if (text) {
       $elem.textContent = text;
-    }
-
-    if (tag === 'button' || tag === 'input') {
-      if (type) {
-        $elem.setAttribute('type', type);
-      }
     }
 
     return $elem;
@@ -36,6 +34,10 @@ class DOMElems {
 
   static btn(data: TBtnElem) {
     return DOMElems.#elem('button', data);
+  }
+
+  static img(data: TImgElem) {
+    return DOMElems.#elem('img', data);
   }
 }
 
