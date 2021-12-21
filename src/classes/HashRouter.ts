@@ -7,9 +7,8 @@ import { TCurrency } from '@type/local-storage';
 
 import LocalStorage from '@classes/LocalStorage';
 import Item from '@classes/Item';
-import NavPanel from '@classes/NavPanel';
-import ProductAPI from '@api/product';
 import NavPanelDOM from '@classes/dom/NavPanelDOM';
+import ProductAPI from '@api/product';
 
 /**
  * Class for creating a router with hash support
