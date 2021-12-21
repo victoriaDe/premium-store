@@ -1,10 +1,16 @@
 /**
  * @module DOMElems
  */
-import { TBtnElem, TImgElem, TLinkElem } from '@scripts/init/dom-elems';
+import {
+  TBtnElem,
+  TImgElem,
+  TInputElem,
+  TLinkElem,
+  TParElem,
+} from '@scripts/init/dom-elems';
 
 class DOMElems {
-  static #elem(tag: string, data: any) {
+  static #elem(tag: string, data: any): HTMLElement {
     const { classes } = data;
 
     const $elem = document.createElement(tag);
@@ -36,16 +42,24 @@ class DOMElems {
     return $elem;
   }
 
-  static btn(data: TBtnElem) {
-    return DOMElems.#elem('button', data);
+  static btn(data: TBtnElem): HTMLButtonElement {
+    return DOMElems.#elem('button', data) as HTMLButtonElement;
   }
 
-  static img(data: TImgElem) {
-    return DOMElems.#elem('img', data);
+  static img(data: TImgElem): HTMLImageElement {
+    return DOMElems.#elem('img', data) as HTMLImageElement;
   }
 
-  static link(data: TLinkElem) {
-    return DOMElems.#elem('a', data);
+  static link(data: TLinkElem): HTMLLinkElement {
+    return DOMElems.#elem('a', data) as HTMLLinkElement;
+  }
+
+  static div(data: TParElem): HTMLDivElement {
+    return DOMElems.#elem('div', data) as HTMLDivElement;
+  }
+
+  static input(data: TInputElem): HTMLInputElement {
+    return DOMElems.#elem('input', data) as HTMLInputElement;
   }
 }
 
