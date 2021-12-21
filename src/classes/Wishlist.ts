@@ -6,7 +6,6 @@ import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
 
 import LocalStorage from '@classes/LocalStorage';
-import ShoppingList from '@classes/ShoppingList';
 import Item from '@classes/Item';
 
 import humanPrice from '@scripts/human-price';
@@ -54,11 +53,10 @@ class Wishlist {
                     <div>
                         <button class="item-description-likeBtn button-like_active"></button>
                         <span class="item-purchase-prise">
-                          <span class="item-price-amount ${
-                            saleElement[3]
-                          }">${humanPrice(product.data.price.basic.cost)} ${
-      saleElement[2]
-    }</span>
+                          <span class="item-price-amount ${saleElement[3]}">
+                            ${humanPrice(product.data.price.basic.cost)} 
+                             ${saleElement[2]}
+                          </span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
@@ -66,7 +64,7 @@ class Wishlist {
                         }">${isAddedToPurchase ? 'added' : 'purchase'}</button>
                     </div>
     `;
-    Wishlist.addEvent($item, product);
+    Wishlist.addEvent($item, product, false);
     return $item;
   }
 
@@ -86,30 +84,21 @@ class Wishlist {
    * Методя для добавления обработчиков на кнопки в карточке продукта в списке желаний
    * @param $item кнопка в карточке продукта
    * @param product исходный продукт
+   * @param shoppingList
    */
 
-  static addEvent($item: HTMLElement, product: IProduct) {
-    const $likeButton: any = $item.querySelector('.item-description-likeBtn');
-    if ($likeButton) {
-      Item.addEvent(
-        'click',
-        $likeButton,
-        Wishlist.changeWishlistCounter,
-        false,
-        [product, Wishlist.showWishlistCounter, $likeButton],
-      );
-    }
-
-    const $buttonPurchase: any = $item.querySelector('.item-purchase-button');
-    if ($buttonPurchase) {
-      Item.addEvent(
-        'click',
-        $buttonPurchase,
-        ShoppingList.changeShoppingListCounter,
-        false,
-        [product, ShoppingList.showShoppingListCounter, $buttonPurchase],
-      );
-    }
+  static addEvent(
+    $item: HTMLElement,
+    product: IProduct,
+    shoppingList: boolean,
+  ) {
+    const $likeButton: HTMLElement | null = $item.querySelector(
+      '.item-description-likeBtn',
+    );
+    const $buttonPurchase: HTMLElement | null = $item.querySelector(
+      '.item-purchase-button',
+    );
+    Item.addButtonEvent($buttonPurchase, $likeButton, product, shoppingList);
   }
 
   /**
@@ -165,7 +154,10 @@ class Wishlist {
     showWishList: (wishlist: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    const data = LocalStorage.changeUserProductList(product.data.id, 'wishlist');
+    const data = LocalStorage.changeUserProductList(
+      product.data.id,
+      'wishlist',
+    );
     if (data) {
       showWishList(data.data.wishlist);
       $buttonElement.classList.toggle('button-like_active');
