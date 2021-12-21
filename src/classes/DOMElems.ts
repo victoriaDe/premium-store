@@ -74,6 +74,14 @@ class DOMElems {
   static label(data: TLabelElem): HTMLLabelElement {
     return DOMElems.#elem('label', data) as HTMLLabelElement;
   }
+
+  static span(data: TParElem): HTMLSpanElement {
+    return DOMElems.#elem('span', data) as HTMLSpanElement;
+  }
+
+  static p(data: TParElem): HTMLParagraphElement {
+    return DOMElems.#elem('p', data) as HTMLParagraphElement;
+  }
 }
 
 export default DOMElems;
