@@ -3,8 +3,8 @@
  */
 
 import { TFilter } from '@type/product';
-import UserAPI from '@api/user';
-import ProductAPI from '@api/product';
+import UserAPI from '@api/UserAPI';
+import ProductAPI from '@api/ProductAPI';
 import {
   TCurrency,
   IProductLocalStorageData,

@@ -13,7 +13,6 @@ import { humanPrice } from '@scripts/price';
 /**
  * Класс для создания DOM продукта
  */
-
 class ItemDOM {
   /**
    * Метод для создания карточки продукта на страницах корзины и списка желаний
@@ -21,7 +20,6 @@ class ItemDOM {
    * @param user текущий пользователь
    * @param page название страницы
    */
-
   static createAddedItem(
     product: IProduct,
     user: IUser,
@@ -90,8 +88,7 @@ class ItemDOM {
    * @param product исходный продукт
    * @param userData текущий пользователь
    */
-
-  static createItem(product: IProduct, userData: IUser | null): HTMLElement {
+    static createItem(product: IProduct, userData: IUser | null): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');
     const isAddedToWishlist = userData?.wishlist.includes(product.data.id);
@@ -100,8 +97,12 @@ class ItemDOM {
     let type = '';
 
     if ('filter' in product.data) {
-      nation = `<span class="main-container-description_flag" data-country="${product.data.filter.nation}"></span>`;
-      type = `<span class="main-container-description_type" data-type="${product.data.filter.type}"></span>`;
+      nation = `
+        <span class="main-container-description_flag" data-country="${product.data.filter.nation}">
+        </span>`;
+      type = `
+        <span class="main-container-description_type" data-type="${product.data.filter.type}">
+        </span>`;
     }
 
     const saleElement = Item.getSale(product);
@@ -127,13 +128,13 @@ class ItemDOM {
           </span>
           ${saleElement[0]}
         </span>
-          <button  class="main-container-description_button-purchase ${
+          <button class="main-container-description_button-purchase ${
             isAddedToPurchase ? 'button-purchase-added' : ''
           }">
             ${isAddedToPurchase ? 'added' : 'purchase'}
           </button>                            
       </div>
-      <button  class="main-container-description_button-like ${
+      <button class="main-container-description_button-like ${
         isAddedToWishlist ? 'button-like_active' : ''
       }">
       </button>`;

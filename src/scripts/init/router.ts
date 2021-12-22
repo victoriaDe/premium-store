@@ -4,7 +4,7 @@ import Router from '@classes/Router';
 import Wishlist from '@classes/Wishlist';
 import ShoppingList from '@classes/ShoppingList';
 import Filter from '@classes/Filter';
-import NavPanelDOM from '@classes/dom/NavPanelDOM';
+import NavPanelDOM from '@dom/NavPanelDOM';
 
 const router = new Router();
 
