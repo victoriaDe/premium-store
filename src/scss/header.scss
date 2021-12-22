@@ -173,24 +173,18 @@
   }
 }
 
-
 .header-nav-link.icon-heart:before,
 .header-nav-link.icon-cart:before {
-  font-size: 0;
+  @media screen and (max-device-width: s.$min-width) {
+    font-size: 1em;
+    color: c.$fColorGray;
+  }
 }
 
-
 .header-nav-link.icon-heart:before,
 .header-nav-link.icon-cart:before {
-
   @media screen and (max-device-width: s.$min-width) {
     font-size: 1rem;
     color: c.$fColorGray;
   }
 }
-
-[class^="icon-"]:focus, [class^="icon-"]:active,
-[class*=" icon-"]:focus, [class*=" icon-"]:active {
-  color: c.$fColor_orange;
-}
-
