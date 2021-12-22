@@ -12,12 +12,14 @@
   margin: 0 auto;
   padding-bottom: 5em;
 
-  justify-content: space-between;
+  justify-content: center;
+
+  position: relative;
 
   @media screen and (max-device-width: s.$max-width-resp) {
     grid-template-columns: 1fr;
+    justify-content: space-between;
 
-    position: relative;
   }
 }
 
@@ -30,6 +32,9 @@
   align-items: flex-start;
   gap: 30px 10%;
   padding-top: 30px;
+
+
+  position: relative;
 
   @media screen and (max-device-width: s.$min-width) {
     gap: 0 5%;
@@ -89,7 +94,7 @@
   flex-direction: column;
   border-bottom: 2px solid;
 
-  align-self: center;
+  align-self: flex-end;
 
   h2 {
     font-size: 1.8em;

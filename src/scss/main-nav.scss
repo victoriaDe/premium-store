@@ -3,7 +3,7 @@
 
 .main {
   flex: 1 0 auto;
-  background: url('~@images/background/bgimage.svg') no-repeat #1c1b15 content-box;
+  background: url('~@images/background/bgimage.jpg') no-repeat #1c1b15 content-box;
   background-size: contain;
 
   @media screen and (max-device-width: s.$max-device-width) {

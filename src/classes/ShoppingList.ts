@@ -7,10 +7,11 @@ import { IUser } from '@type/user';
 
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
+import DOMElems from '@classes/DOMElems';
 import LocalStorage from '@classes/LocalStorage';
 
-import humanPrice from '@scripts/human-price';
-import DOMElements from '@classes/DOMElements';
+import { humanPrice, calcFinalPrice } from '@scripts/price';
+import localStorage from '@classes/LocalStorage';
 
 /**
  * Класс для работы с корзиной
@@ -41,15 +42,37 @@ class ShoppingList {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
+
+    const $likeBtn = DOMElems.btn({
+      classes: [
+        'item-description-likeBtn',
+        isAddedToWishlist ? 'button-like_active' : '',
+      ],
+    });
+
+    const $purchaseBtn = DOMElems.btn({
+      text: 'added',
+      classes: [
+        'item-purchase-button',
+        isAddedToPurchase ? 'button-purchase-added' : '',
+      ],
+    });
+
+    const $image = DOMElems.img({
+      src: product.data.images.span_2x1,
+      alt: product.data.name,
+    });
+
     $item.innerHTML = `
     <div class="checkbox-container">
-        <label>
-            <input type="checkbox" id="checkbox-${product.data.id}" class="checkbox-buy" name="name-${product.data.id}" checked>
-        </label>
+            <input type="checkbox" id="checkbox-${
+              product.data.id
+            }" name="name-${product.data.id}">
+        <label for="checkbox-${product.data.id}">Buy it!</label>
     </div>
       <a class="item-filtered-img" href="#${
-      product.data.id
-    }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
+        product.data.id
+      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
       product.data.name
     }"></a>
                 <div class="item-filtered-description">
@@ -60,23 +83,22 @@ class ShoppingList {
                     ${product.data.description}
                     <div>
                         <button class="item-description-likeBtn ${
-      isAddedToWishlist ? 'button-like_active' : ' '
-    }"></button>
+                          isAddedToWishlist ? 'button-like_active' : ' '
+                        }"></button>
                         <span class="item-purchase-prise">
-                          <span class="item-price-amount ${
-      saleElement[3]
-    }">${humanPrice(product.data.price.basic.cost)} ${
-      saleElement[2]
-    }</span>
+                          <span class="item-price-amount ${saleElement[3]}">
+                            ${humanPrice(product.data.price.basic.cost)} 
+                            ${saleElement[2]}
+                          </span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
-      isAddedToPurchase ? 'button-purchase-added' : ''
-    }">added</button>
+                          isAddedToPurchase ? 'button-purchase-added' : ''
+                        }">added</button>
                         </div>
                         </div>
     `;
-    Wishlist.addEvent($item, product);
+    Wishlist.addEvent($item, product, true);
     return $item;
   }
 
@@ -95,12 +117,8 @@ class ShoppingList {
     if ($wrapper) {
       $wrapper.innerHTML = '';
       if (shoppingListData && userData) {
-        shoppingListData?.forEach((product) => {
-          // временная затычка
+        shoppingListData.forEach((product) => {
           $container.append(this.createShoppingListItem(product, userData));
-          // $container.append(
-          //   DOMElements.createAddedItem(product, userData, 'shopping list'),
-          // );
         });
         $wrapper.append(this.createHeaderList('Shopping list'));
         $wrapper.append($container);
@@ -110,21 +128,31 @@ class ShoppingList {
 
         const $totalPrice = document.createElement('p');
         $totalPrice.classList.add('total-price');
-        $totalPrice.innerHTML = 'Total: <span>100 500$</span>';
+        $totalPrice.innerHTML = `Total: <span>0 ${localStorage.getCurrency()}</span>`;
 
-        const $totalBtn = DOMElements.createButton({
-          text: 'buy',
-          classes: ['total-button'],
-        });
+        const $totalBtn = document.createElement('button');
+
+        $totalBtn.classList.add('total-button');
+        $totalBtn.textContent = 'buy';
 
         $totalContainer.append($totalPrice);
         $totalContainer.append($totalBtn);
 
         $container.append($totalContainer);
       } else {
-        $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
+        $wrapper.append(
+          Wishlist.createEmptyListItems('Your shopping cart is empty'),
+        );
         $wrapper.append(this.createHeaderList('Shopping list'));
       }
+
+      $container.addEventListener('click', (event) => {
+        const $target = event.target as HTMLElement;
+
+        if ($target.tagName === 'INPUT') {
+          calcFinalPrice($container);
+        }
+      });
     }
   }
 
@@ -154,7 +182,6 @@ class ShoppingList {
     showShopping: (shopping: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    /*    const data = LocalStorage.changeLocalShoppingList('user', product.data.id); */
     const data = LocalStorage.changeUserProductList(
       product.data.id,
       'shoppingList',

@@ -1,5 +1,4 @@
 const { resolve } = require('path');
-const { DefinePlugin } = require('webpack');
 
 // plugins
 const HTMLWebpackPlugin = require('html-webpack-plugin'); // plugin for generate html file
@@ -22,11 +21,16 @@ module.exports = {
     extensions: ['.ts', '.js'], // array of files extensions for import without extension & working import in .ts files
     alias: {
       '@': src, // short path to src folder
-      '@page': resolve(src, 'page'), // short path to page folder
-      '@api': resolve(src, 'api'), // short path to api folder
+
       '@scripts': resolve(src, 'scripts'), // short path to scripts folder
       '@classes': resolve(src, 'classes'), // short path to classes folder
+      '@api': resolve(src, 'classes/api'), // short path to api folder
+      '@dom': resolve(src, 'classes/dom'), // short path to dom folder
+
+      '@page': resolve(src, 'page'), // short path to page folder
+
       '@scss': resolve(src, 'scss'), // short path to scss folder
+
       '@images': resolve(src, 'assets/images'), // short path to images folder
       '@font': resolve(src, 'assets/fonts'), // short path to font folder
     },
@@ -44,11 +48,6 @@ module.exports = {
     }),
     new MiniCSSExtractPlugin({
       filename: 'style.css', // filename for output css file
-    }),
-    new DefinePlugin({
-      'process.env.DEPLOY_PATH': isDevMode
-        ? JSON.stringify('http://localhost:8080/')
-        : JSON.stringify('https://askorag.github.io/test2/'),
     }),
   ],
   module: {

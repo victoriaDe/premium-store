@@ -2,63 +2,76 @@
 @use '~@scss/variables/sizes' as s;
 
 .checkbox-container {
-  background: red;
-  width: 20vh;
-  height: 20vh;
+  position: absolute;
+  bottom: 2%;
+  transform: translateY(-50%);
+
+
+  @media screen and (max-device-width: s.$max-width-resp) {
+    top: 5%;
+    bottom: 100%;
+    left: 0;
+  }
+
+  label {
+    color: c.$fColorWhite;
+    font-size: s.$fzPrice_Label;
+    cursor: pointer;
+    padding-left: 20px;
+  }
 }
 
-.checkbox-buy + label:before {
-  content: '';
+.checkbox-container [type="checkbox"] + label:before {
+  content: "";
   position: absolute;
   left: 0;
-  top: 8px;
+  top: 0;
   width: 16px;
   height: 16px;
-  border: 4px solid c.$bgColor_checkbox;
+  border: 2px solid #e95104;
 }
 
-.checkbox-buy + label:after {
-  content: '';
+label:after {
+  content: "";
   position: absolute;
   width: 12px;
   height: 12px;
-  top: 14px;
-  left: 6px;
+  top: 4px;
+  left: 4px;
   font-size: 1.3em;
   line-height: 0.8;
-  background-color: c.$bgColor_checkbox;
-  transition: all .2s;
+  background-color: #e95104;
+  transition: all 0.2s;
 }
 
 /* Checked */
-.checkbox-buy :not(:checked) + label:after {
+.checkbox-container [type="checkbox"]:not(:checked) + label:after {
   opacity: 0;
   transform: scale(0);
 }
 
-.checkbox-buy :checked + label:after {
+.checkbox-container[type="checkbox"]:checked label:after {
   opacity: 1;
   transform: scale(1);
 }
 
+
 // total
 
 .total-container {
-  position: fixed;
-  bottom: 50%;
+
   display: flex;
   gap: 20px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
-  @media screen and (max-device-width: s.$max-width-resp) {
-    width: 100%;
-    position: absolute;
-    bottom: 0.5em;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  width: 100%;
+  position: absolute;
+  bottom: 0.5em;
+  left: 50%;
+  transform: translateX(-50%);
+
   @media screen and (max-device-width: s.$max-device-width) {
     flex-wrap: wrap;
     bottom: -3em;
@@ -97,7 +110,8 @@
 
   transition: color 0.5s ease, background-color 0.5s ease;
 
-  &:hover {
+  &:hover,
+  &:focus, &:active {
     color: c.$baColor_total-btn;
     background: c.$bgColor_checkbox;
   }

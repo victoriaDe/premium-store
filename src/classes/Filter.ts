@@ -7,13 +7,15 @@ import { IUser } from '@type/user';
 import { IProductLocalStorageData } from '@type/local-storage';
 
 import Item from '@classes/Item';
-import ProductAPI from '@api/product';
+import ProductAPI from '@api/ProductAPI';
 import Wishlist from '@classes/Wishlist';
 
 import LocalStorage from '@classes/LocalStorage';
 
 import lazy from '@scripts/lazy';
 import lazyBD from '@scripts/lazyBD';
+import ItemDOM from '@classes/dom/ItemDOM';
+import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
 /**
  * Класс для фильтрации продуктов и работы с уже отфильтрованными продуктами
@@ -130,92 +132,7 @@ class Filter {
       $wrapper?.removeChild($wrapper?.lastChild);
     }
     if (filter === 'Technique') {
-      const $itemFilter = document.createElement('div');
-      $itemFilter.classList.add('item-filters');
-      $itemFilter.innerHTML = `
-        <div class="filter-container">
-                <button class="filter-container-checkedBtn nations arrow" id="allNations" type="button">All nations</button>
-                <ul class="filter-list nations-list">
-                    <li class="nations-btn filter-btn" data-nation="all">
-                        <button class="nations">All nations</button>
-                    </li>
-                    <li class="nations-btn filter-btn" data-nation="china">
-                        <button class="china_btn">China</button>
-                    </li>
-                    <li class="nations-btn filter-btn" data-nation="france">
-                        <button class="france_btn">France</button>
-                    </li>
-                    <li class="nations-btn filter-btn" data-nation="germany">
-                        <button class="germany_btn">Germany</button>
-                    </li>
-                    <li class="nations-btn filter-btn" data-nation="japan">
-                        <button class="japan_btn">Japan</button>
-                    </li>
-                    <li class="nations-btn filter-btn" data-nation="uk">
-                        <button class="uk_btn">U.K.</button>
-                    </li>
-                    <li class="nations-btn filter-btn" data-nation="usa">
-                        <button class="usa_btn">U.S.A.</button>
-                    </li>
-                    <li class="nations-btn filter-btn" data-nation="ussr">
-                        <button class="ussr_btn">U.S.S.R.</button>
-                    </li>
-                </ul>
-            </div>
-            <div class="filter-container">
-                <button class="filter-container-checkedBtn types arrow" id="allTypes" type="button">All types</button>
-                <ul class="filter-list type-list">
-                    <li class="type-btn filter-btn" data-type="all">
-                        <button class="types">All types</button>
-                    </li>
-                    <li class="type-btn filter-btn" data-type="lightTank">
-                        <button class="light">Light Tanks</button>
-                    </li>
-                    <li class="type-btn filter-btn" data-type="mediumTank">
-                        <button class="medium">Medium Tanks</button>
-                    </li>
-                    <li class="type-btn filter-btn" data-type="heavyTank">
-                        <button class="heavy">Heavy Tanks</button>
-                    </li>
-                    <li class="type-btn filter-btn" data-type="AT-SPG">
-                        <button class="destroy">Tank Destroyers</button>
-                    </li>
-                    <li class="type-btn filter-btn" data-type="SPG">
-                        <button class="spg">SPGs</button>
-                    </li>
-                    <li class="type-btn filter-btn" data-type="all">
-                        <button class="multirole">Multirole fighter</button>
-                    </li>
-                </ul>
-            </div>
-            <div class="filter-container">
-                <button class="filter-container-checkedBtn tiers arrow" id="allTiers" type="button">All Tiers</button>
-                <ul class="filter-list tiers-list">
-                  <li class="tires-btn filter-btn" data-tier="all">
-                        <button>&#8545;-&#8553;</button>
-                    </li>
-                    <li class="tires-btn filter-btn" data-tier="2">
-                        <button>&#8545;</button>
-                    </li>
-                    <li class="tires-btn filter-btn" data-tier="4">
-                        <button>&#8544;&#8548;</button>
-                    </li>
-                    <li class="tires-btn filter-btn" data-tier="5">
-                        <button>&#8548;</button>
-                    </li>
-                    <li class="tires-btn filter-btn" data-tier="7">
-                        <button>&#8548;&#8545;</button>
-                    </li>
-                    <li class="tires-btn filter-btn" data-tier="9">
-                        <button>&#8544;&#8553;</button>
-                    </li>
-                    <li class="tires-btn filter-btn" data-tier="10">
-                        <button>&#8553;</button>
-                    </li>
-                </ul>
-            </div>
-            <button class="item-filters-btn" id="allVehicles">Show all vehicles</button>
-      `;
+      const $itemFilter = VehiclesFilterDOM.createVehiclesFilter();
       $wrapper?.append($itemFilter);
       const filterList = $itemFilter.querySelectorAll(
         '.filter-container-checkedBtn',
@@ -245,7 +162,7 @@ class Filter {
       });
       filterType.forEach((item) => {
         item.addEventListener('click', (e: any) => {
-          const elem = e.currentTarget.parentElement.parentElement
+          const $elem = e.currentTarget.parentElement.parentElement
             ?.firstElementChild as HTMLElement;
           if (e.currentTarget.classList[0] === 'nations-btn') {
             this.#nation = e.currentTarget.dataset.nation;
@@ -253,17 +170,17 @@ class Filter {
             this.#type = e.currentTarget.dataset.type;
           }
           if (e.currentTarget.classList[0] !== 'tires-btn') {
-            if (elem.classList.length > 3) {
-              elem.classList.remove(elem.classList[3]);
-              elem.classList.add(e.currentTarget.firstElementChild.className);
-              elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+            if ($elem.classList.length > 3) {
+              $elem.classList.remove($elem.classList[3]);
+              $elem.classList.add(e.currentTarget.firstElementChild.className);
+              $elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
             } else {
-              elem.classList.add(e.currentTarget.firstElementChild.className);
-              elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+              $elem.classList.add(e.currentTarget.firstElementChild.className);
+              $elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
             }
           }
           if (e.currentTarget.classList[0] === 'tires-btn') {
-            elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
+            $elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
             this.#tier = e.currentTarget.dataset.tier;
           }
           e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
@@ -308,7 +225,7 @@ class Filter {
       filteredProducts.forEach((value: IProduct) => {
         if (itemCounter < 20) {
           $container.appendChild(
-            Item.createItem(value, userData /* , router */),
+            ItemDOM.createItem(value, userData /* , router */),
           );
           itemCounter += value.span;
         }
@@ -361,7 +278,7 @@ class Filter {
         (value) => {
           if (value) {
             value.products.forEach((product: IProduct) => {
-              $container.appendChild(Item.createItem(product, userData));
+              $container.appendChild(ItemDOM.createItem(product, userData));
             });
             lazyBD(40, 500, userData, new Item());
           }
