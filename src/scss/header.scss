@@ -135,9 +135,6 @@
   @media screen and (max-device-width: s.$min-width) {
     font-size: 0;
   }
-  @media screen and (max-device-width: s.$max-device-width) {
-    width: 15%;
-  }
 }
 
 .nav-link-active {
@@ -177,15 +174,15 @@
 }
 
 
-.header-nav-links.icon-heart,
-.header-nav-links.icon-cart,
-.header-nav-account.login.icon-cart, {
+.header-nav-link.icon-heart:before,
+.header-nav-link.icon-cart:before {
   font-size: 0;
 }
 
 
-.header-nav-links.icon-heart,
-.header-nav-links.icon-cart {
+.header-nav-link.icon-heart:before,
+.header-nav-link.icon-cart:before {
+
   @media screen and (max-device-width: s.$min-width) {
     font-size: 1rem;
     color: c.$fColorGray;
