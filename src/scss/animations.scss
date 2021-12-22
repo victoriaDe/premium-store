@@ -85,10 +85,14 @@
 
 
 @keyframes hideTree {
+  0% {
+    background: rgba(0, 0, 0, 1);
+  }
   90% {
     opacity: 1;
   }
   100% {
     opacity: 0;
+    background: rgba(0, 0, 0, 0.5);
   }
 }
