@@ -2,15 +2,7 @@ import '../elements/elements';
 import '../elements/tree';
 
 import '@scss/main.scss';
-import '@scss/variables/colors.scss';
-import '@scss/variables/sizes.scss';
-import '@scss/popup.scss';
-import '@scss/item.scss';
-import '@scss/items-filtered-list.scss';
-import '@scss/filters.scss';
-import '@scss/main-content.scss';
-import '@scss/item-content.scss';
-import '@scss/iconmoon.scss';
+
 
 import storeInit from '@scripts/init/store';
 import {
