@@ -3,59 +3,10 @@
  */
 
 import Popup from '@classes/Popup';
-import { authAPI } from '@api/authApi';
-
+import LocalStorage from '@classes/LocalStorage';
 /**
  * Класс для работы со всплывающими окнами
  */
-
-async function loginSubmit(event:any) {
-  console.log("loginSubmit")
-  const usedDada = {
-    email:"victor_sinitca@mail.ru",
-    password:"aaaaa123",
-  }
-  try {
-    const user = await authAPI.login(usedDada.email, usedDada.password)
-    if(user){
-      localStorage.setItem('token', user.accessToken);
-      console.log(`user:${JSON.stringify(user)}`)
-    }
-  }catch (e) {
-    console.log(e)
-  }
-}
-
-async function createAccountSubmit(event:any) {
-  console.log("createAccountSubmit")
-  const usedDada = {
-    email:"victor_sinitca@mail.ru",
-    password:"aaaaa123",
-    name:"Tester"    ,
-  }
-  const user = await  authAPI.registration(usedDada.email, usedDada.password, usedDada.name)
-  if(user){
-    localStorage.setItem('token', user.accessToken);
-    console.log(`user:${JSON.stringify(user)}`)
-  }
-  console.log(`user:${user}`)
-}
-
-async function logoutSubmit(event:any) {
-  const user = await  authAPI.logout()
-  if(user){
-    localStorage.setItem('token', "");
-    console.log(`user:${JSON.stringify(user)}`)
-  }
-  console.log("logoutSubmit")
-}
-
-
-
-function resetSubmit(event:any) {
-  console.log("createAccountSubmit")
-}
-
 
 class PopupContainer {
   /**
@@ -83,7 +34,7 @@ class PopupContainer {
             ['password', 'password'],
           ],
           true,
-          loginSubmit,
+          LocalStorage.loginSubmit,
           this.openPopup,
         );
         break;
@@ -98,15 +49,18 @@ class PopupContainer {
             ['password', 'password'],
           ],
           false,
-          createAccountSubmit
+          LocalStorage.createAccountSubmit
         );
         break;
 
       case 'reset-password': // попап для забыл пароль
-        popup = new Popup(eventTarget, [['email', 'email']], false,resetSubmit);
+        popup = new Popup(eventTarget, [['email', 'email']], false, LocalStorage.logoutSubmit);
         if ($wrapper) $wrapper.innerHTML = '';
         break;
-
+      case 'logout': // попап для логаута
+        popup = new Popup(eventTarget, [[]], false, LocalStorage.logoutSubmit);
+        if ($wrapper) $wrapper.innerHTML = '';
+        break;
       default:
         throw new Error('eventTarget has no ID');
     }

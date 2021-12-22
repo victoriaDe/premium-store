@@ -54,10 +54,10 @@ class Router {
     if (product && product.length) {
       this.addRoute(hash, product[0].data.name, () => {
         LocalStorage.getUserData().then((userData) => {
-          if (userData) {
+          //if (userData) {
             NavPanelDOM.showMainNavContainer();
             Item.showSelectedItem(product[0], userData);
-          }
+         // }
         });
       });
       window.dispatchEvent(new HashChangeEvent('hashchange'));

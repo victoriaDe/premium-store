@@ -18,12 +18,13 @@ import {
   addOpenPopup,
   addClosePopup,
 } from '@scripts/base/listeners';
-
+console.log("main init")
 storeInit();
 reloadPageSameLink();
 
 /// /////////////////////////////////////////////////////////////////////
 
+/*
 const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
 const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
 const $wrapper: HTMLElement | null = document.getElementById('popupWrapper'); // серый фон попапа
@@ -40,3 +41,4 @@ if ($create) {
 if ($wrapper) {
   addClosePopup($wrapper);
 }
+*/

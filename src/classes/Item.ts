@@ -19,7 +19,7 @@ class Item {
    * @param userData текущий пользователь
    */
 
-  static showSelectedItem(product: IProduct, userData: IUser) {
+  static showSelectedItem(product: IProduct, userData: IUser | null) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
     );

@@ -59,7 +59,8 @@ class Filter {
   static filterProducts(filter: TFilter | 'All' | null) {
     let $target: HTMLElement | null;
     LocalStorage.getUserData().then((userData) => {
-      if (userData) {
+     // if (userData) {
+      console.log(`filterProducts userData:${userData} `)
         const actualFilter = filter;
         $target = document.querySelector(`[data-filter=${filter}]`);
         $target?.classList.add('active-link');
@@ -72,7 +73,7 @@ class Filter {
               this.createFilterProducts(data, userData, data, actualFilter!);
           });
         }
-      }
+     // }
     });
   }
 
@@ -81,7 +82,7 @@ class Filter {
    * @param userData текущий пользователь
    */
 
-  static filterTechniqueProducts(userData: IUser) {
+  static filterTechniqueProducts(userData: IUser |null) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
     ) as IProductLocalStorageData | null;
@@ -116,7 +117,7 @@ class Filter {
 
   static createFilterProducts(
     filteredProducts: IProduct[],
-    userData: IUser,
+    userData: IUser | null,
     productData: IProduct[],
     filter: string,
   ) {
@@ -207,7 +208,7 @@ class Filter {
    * @param userData текущий пользователь
    */
 
-  static showFilterProduct(filteredProducts: IProduct[], userData: IUser) {
+  static showFilterProduct(filteredProducts: IProduct[], userData: IUser | null) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
     );
@@ -240,7 +241,7 @@ class Filter {
    * @param userData текущий пользователь
    */
 
-  static createAllFilterProducts(userData: IUser) {
+  static createAllFilterProducts(userData: IUser | null) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
     );
@@ -263,7 +264,7 @@ class Filter {
    * @param userData текущий пользователь
    */
 
-  static showAllFilterProduct(userData: IUser) {
+  static showAllFilterProduct(userData: IUser | null) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
     );

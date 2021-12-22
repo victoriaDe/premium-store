@@ -20,7 +20,7 @@ import ItemDOM from '@classes/dom/ItemDOM';
 function lazy(
   amount: number,
   margin: number,
-  user: IUser,
+  user: IUser | null,
   products: IProduct[],
   item: ItemDOM,
 ) {

@@ -12,6 +12,7 @@ import {
   TLocalData,
 } from '@type/local-storage';
 import { authAPI } from '@api/authApi';
+import HeaderAuth from '@classes/HeaderAuth';
 
 /**
  * Класс для работы с локальным хранилищем
@@ -19,7 +20,7 @@ import { authAPI } from '@api/authApi';
 
 class LocalStorage {
   /** ID пользователя для рабоаты */
-  #userId = '61a6286353b5dad92e57b4c0';
+  #userId = '';
 
   /** Валюта продуктов */
   #currency = 'RUB' as TCurrency;
@@ -43,6 +44,10 @@ class LocalStorage {
     return null;
   }
 
+  setLocalData(id: string, data:string){
+    localStorage.setItem(id, data);
+  }
+
   /**
    * Метод для отправки данных пользователя с локального хранилища в БД
    */
@@ -58,15 +63,28 @@ class LocalStorage {
    * Метод для получения данных пользователя из БД и сохранения их в локальное хранилище
    */
 
+  async refreshUserData() {
+    try {
+      const userData = await authAPI.refresh();
+      this.#userId = userData.profile.id;
+      return userData.profile;
+    } catch (e) {
+      console.log(`refreshUserData   error:${e}`);
+    }
+
+  }
+
+
   async updateUserData() {
-    /*const userData = await UserAPI.getUserByID(this.#userId);*/
-    const userData = await authAPI.refresh();
+    const userData = await UserAPI.getUserByID(this.#userId);
     if (!userData) return null;
     const localUserData = {
-      data: userData.profile,
+      data: userData,
       dateAdded: Date.now(),
     };
-    localStorage.setItem('user', JSON.stringify(localUserData));
+    localStorage.setItem('user',  JSON.stringify(localUserData));
+    //this.setLocalData('user',  JSON.stringify(localUserData))
+
     return userData;
   }
 
@@ -86,7 +104,8 @@ class LocalStorage {
       data: productDataByFilter,
       dateAdded: Date.now(),
     };
-    localStorage.setItem(filter, JSON.stringify(localProductData));
+    localStorage.setItem('filter',  JSON.stringify(localProductData));
+    //this.setLocalData(filter,  JSON.stringify(localProductData))
     return productDataByFilter;
   }
 
@@ -107,7 +126,8 @@ class LocalStorage {
       // 3000000 - 10 минут - максимальное время актуальности данных в локальном хранилище
       setTimeout(() => {
         // запрос на получение новых данных после отрисоки на основе данных из локального хранилища
-        this.updateProductDataByFilter(filter).then(() => {});
+        this.updateProductDataByFilter(filter).then(() => {
+        });
       });
       return productDataStorageByFilter.data;
     } else {
@@ -123,20 +143,32 @@ class LocalStorage {
    */
 
   async getUserData() {
-    const userDataStorage = this.getLocalData(
-      'user',
-    ) as IUserLocalStorageData | null;
-    if (!userDataStorage) {
-      const userData = await this.updateUserData();
-      if (userData) return userData.profile;
-    } else if (Date.now() - userDataStorage.dateAdded < 3000000) {
-      // 3000000 - 10 минут
-      return userDataStorage.data;
-    } else {
-      const userData = await this.updateUserData();
-      if (userData) return userData.profile;
+    const isAuth=this.getLocalData('auth',)
+    console.log(`getUserData  auth:${isAuth}`)
+    if(isAuth){
+      const userDataStorage = this.getLocalData(
+        'user',
+      ) as IUserLocalStorageData | null;
+      if (!userDataStorage) {
+        try {
+          const userData = await this.updateUserData();
+          if (userData) return userData;
+          else return null
+        }catch (e) {
+          return null
+        }
+
+      } else if (Date.now() - userDataStorage.dateAdded < 3000000) {
+        // 3000000 - 10 минут
+        return userDataStorage.data;
+      } else {
+        const userData = await this.updateUserData();
+        if (userData) return userData;
+        else return null
+      }
+    }else {
+      return null
     }
-    return null;
   }
 
 
@@ -164,7 +196,7 @@ class LocalStorage {
 
   changeUserProductList(
     productId: string,
-    listType: "shoppingList" | "wishlist"
+    listType: 'shoppingList' | 'wishlist',
   ): IUserLocalStorageData | null {
     const user = this.getLocalData('user') as IUserLocalStorageData | null;
     if (user) {
@@ -174,13 +206,74 @@ class LocalStorage {
       } else {
         user.data[listType].push(productId);
       }
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user',  JSON.stringify(user));
+      //this.setLocalData('user', JSON.stringify(user))
       //передача пользовательских данных на сервер после отрисовки
       setTimeout(() => this.sendUserData());
       return user;
     }
     return null;
   }
+
+  async loginSubmit(event: any) {
+    console.log('loginSubmit');
+    const usedDada = {
+      email: 'victor_sinitca@mail.ru',
+      password: 'aaaaa123',
+    };
+    try {
+      const user = await authAPI.login(usedDada.email, usedDada.password);
+      if (user) {
+        localStorage.setItem('token',  user.accessToken);
+        //this.setLocalData('token', user.accessToken)
+        const localUserData = {
+          data: user.profile,
+          dateAdded: Date.now(),
+        };
+        localStorage.setItem('user',  JSON.stringify(localUserData));
+        localStorage.setItem("auth", "true")
+        //this.setLocalData('user',  JSON.stringify(localUserData))
+        HeaderAuth.setAuthorized(user.profile);
+        window.dispatchEvent(new HashChangeEvent('hashchange'))
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async createAccountSubmit(event: any) {
+    console.log('createAccountSubmit');
+    const usedDada = {
+      email: 'victor_sinitca@mail.ru',
+      password: 'aaaaa123',
+      name: 'Tester',
+    };
+    const user = await authAPI.registration(usedDada.email, usedDada.password, usedDada.name);
+    if (user) {
+     /* this.setLocalData('token', user.accessToken)*/
+      localStorage.setItem('token',  user.accessToken);
+      localStorage.setItem("auth", "true")
+      HeaderAuth.setAuthorized(user.profile);
+      window.dispatchEvent(new HashChangeEvent('hashchange'))
+    }
+  }
+
+  async logoutSubmit(event: any) {
+    const user = await authAPI.logout();
+    localStorage.setItem('token', "");
+    localStorage.setItem('user', "");
+    localStorage.setItem("auth", "false")
+    /*this.setLocalData('token', '')
+    this.setLocalData('user', '')*/
+    HeaderAuth.setAuthorized(undefined);
+    window.dispatchEvent(new HashChangeEvent('hashchange'))
+  }
+
+  resetSubmit(event: any) {
+    console.log('createAccountSubmit');
+  }
+
+
 }
 
 export default new LocalStorage();

@@ -21,7 +21,7 @@ instance.interceptors.request.use((config) => {
   }
 })
 
-/*axios.interceptors.response.use(
+axios.interceptors.response.use(
   response => {
     return response
   },
@@ -31,7 +31,7 @@ instance.interceptors.request.use((config) => {
     }
     return Promise.reject(error)
   }
-)*/
+)
 
 instance.interceptors.response.use(
   response => {

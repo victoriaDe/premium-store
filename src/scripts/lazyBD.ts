@@ -32,7 +32,7 @@ const createObserverOptions = (margin: number) => {
 function lazyBD(
   amount: number,
   margin: number,
-  user: IUser,
+  user: IUser | null,
   item: Item,
 ) {
   const $productsContainer = document.querySelector('.main-container-content');

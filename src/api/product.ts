@@ -29,7 +29,7 @@ class ProductAPI {
       );
       return response.data.data;
     } catch (err) {
-      throw new Error('Ooops!');
+      throw new Error('error in API getProductsByFilter!!!!');
     }
   }
   /**
@@ -55,7 +55,7 @@ class ProductAPI {
       );
       return response.data.data;
     } catch (err) {
-      throw new Error('Ooops!');
+      throw new Error('error in API getAllProductsByLazy!!!!');
     }
   }
 
@@ -76,7 +76,7 @@ class ProductAPI {
       });
       return response.data.data;
     } catch (err) {
-      throw new Error('Ooops!');
+      throw new Error('error in API getProductsByList!!!!');
     }
   }
 }

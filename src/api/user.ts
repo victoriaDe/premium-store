@@ -19,10 +19,11 @@ class UserAPI {
 
   static async getUserByID(id: string) {
     try {
+      console.log(`getUserByID id:${id} `)
       const response = await instance.get<IResponse<IUser>>(`user?id=${id}`);
       return response.data.data;
     } catch (err) {
-      throw new Error('Ooops!');
+      throw new Error('error in API getUserByID!');
     }
   }
 
@@ -35,7 +36,7 @@ class UserAPI {
       const response = await instance.get<IResponse<IUser[]>>('users');
       return response.data.data;
     } catch (err) {
-      throw new Error('Ooops!');
+      throw new Error('error in API getAllUsers!!');
     }
   }
 
@@ -65,7 +66,7 @@ class UserAPI {
       });
       return response.data.data;
     } catch (err) {
-      throw new Error('Ooops!');
+      throw new Error('error in API changeUserData!!!');
     }
   }
 }

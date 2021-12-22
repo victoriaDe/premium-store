@@ -91,11 +91,11 @@ class ItemDOM {
    * @param userData текущий пользователь
    */
 
-  static createItem(product: IProduct, userData: IUser): HTMLElement {
+  static createItem(product: IProduct, userData: IUser | null): HTMLElement {
     const $item = document.createElement('div');
     $item.classList.add('main-container-product');
-    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
-    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
+    const isAddedToWishlist = userData?.wishlist.includes(product.data.id);
+    const isAddedToPurchase = userData?.shoppingList.includes(product.data.id);
     let nation = '';
     let type = '';
 
@@ -127,13 +127,13 @@ class ItemDOM {
           </span>
           ${saleElement[0]}
         </span>
-          <button class="main-container-description_button-purchase ${
+          <button disabled="${userData? 'disabled' : ''}" class="main-container-description_button-purchase ${
             isAddedToPurchase ? 'button-purchase-added' : ''
           }">
             ${isAddedToPurchase ? 'added' : 'purchase'}
           </button>                            
       </div>
-      <button class="main-container-description_button-like ${
+      <button disabled="${userData? 'disabled' : ''}" class="main-container-description_button-like ${
         isAddedToWishlist ? 'button-like_active' : ''
       }">
       </button>`;
@@ -160,8 +160,8 @@ class ItemDOM {
    * @param userData текущий пользователь
    */
 
-  static createSelectedItem(product: IProduct, userData: IUser): HTMLElement {
-    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
+  static createSelectedItem(product: IProduct, userData: IUser | null): HTMLElement {
+    const isAddedToPurchase = userData?.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
@@ -181,7 +181,7 @@ class ItemDOM {
             </span>
             ${saleElement[0]}
           </div>
-          <button class="item-purchase-button ${
+          <button disabled="${userData? 'disabled' : ''}" class="item-purchase-button ${
             isAddedToPurchase ? 'button-purchase-added' : ''
           }">${isAddedToPurchase ? 'added' : 'purchase'}
           </button>
