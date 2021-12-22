@@ -95,7 +95,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 45px;
+  gap: 35px;
 
   @media screen and (max-device-width: s.$min-width) {
     gap: 20px;
@@ -135,9 +135,6 @@
   @media screen and (max-device-width: s.$min-width) {
     font-size: 0;
   }
-  @media screen and (max-device-width: s.$max-device-width) {
-    width: 15%;
-  }
 }
 
 .nav-link-active {
@@ -176,24 +173,18 @@
   }
 }
 
-
-.header-nav-links.icon-heart,
-.header-nav-links.icon-cart,
-.header-nav-account.login.icon-cart, {
-  font-size: 0;
+.header-nav-link.icon-heart:before,
+.header-nav-link.icon-cart:before {
+  @media screen and (max-device-width: s.$min-width) {
+    font-size: 1em;
+    color: c.$fColorGray;
+  }
 }
 
-
-.header-nav-links.icon-heart,
-.header-nav-links.icon-cart {
+.header-nav-link.icon-heart:before,
+.header-nav-link.icon-cart:before {
   @media screen and (max-device-width: s.$min-width) {
     font-size: 1rem;
     color: c.$fColorGray;
   }
 }
-
-[class^="icon-"]:focus, [class^="icon-"]:active,
-[class*=" icon-"]:focus, [class*=" icon-"]:active {
-  color: c.$fColor_orange;
-}
-
