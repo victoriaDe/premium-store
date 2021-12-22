@@ -23,7 +23,7 @@ class HeaderAuth {
             href="#shoppingcart"
             >Shopping cart <span class="cart-span-container">(0)</span></a
           >
-          <a class="header-nav-link" id="logout">Logout</a>      
+          <a class="header-nav-link logout" id="logout">Logout</a>      
       `;
       const $logout: HTMLElement | null = document.getElementById('logout'); // ссылка логина
       if ($logout) {
