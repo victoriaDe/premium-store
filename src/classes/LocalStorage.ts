@@ -219,8 +219,8 @@ class LocalStorage {
     console.log('loginSubmit');
     console.log(event);
     const usedDada = {
-      email: 'victor_sinitca@mail.ru',
-      password: 'aaaaa123',
+      email: event.target.form[0].value,
+      password: event.target.form[1].value,
     };
     console.log(usedDada);
 
@@ -246,11 +246,19 @@ class LocalStorage {
 
   async createAccountSubmit(event: any) {
     console.log('createAccountSubmit');
-    const usedDada = {
+    console.log(event);
+    /*const usedDada = {
       email: 'victor_sinitca@mail.ru',
       password: 'aaaaa123',
       name: 'Tester',
+    };*/
+    const usedDada = {
+      email: event.target.form[2].value,
+      password: event.target.form[3].value,
+      name: event.target.form[0].value,
     };
+    console.log(usedDada);
+
     const user = await authAPI.registration(usedDada.email, usedDada.password, usedDada.name);
     if (user) {
      /* this.setLocalData('token', user.accessToken)*/

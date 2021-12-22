@@ -127,13 +127,13 @@ class ItemDOM {
           </span>
           ${saleElement[0]}
         </span>
-          <button disabled="${userData? 'disabled' : ''}" class="main-container-description_button-purchase ${
+          <button  class="main-container-description_button-purchase ${
             isAddedToPurchase ? 'button-purchase-added' : ''
           }">
             ${isAddedToPurchase ? 'added' : 'purchase'}
           </button>                            
       </div>
-      <button disabled="${userData? 'disabled' : ''}" class="main-container-description_button-like ${
+      <button  class="main-container-description_button-like ${
         isAddedToWishlist ? 'button-like_active' : ''
       }">
       </button>`;
@@ -181,7 +181,7 @@ class ItemDOM {
             </span>
             ${saleElement[0]}
           </div>
-          <button disabled="${userData? 'disabled' : ''}" class="item-purchase-button ${
+          <button class="item-purchase-button ${
             isAddedToPurchase ? 'button-purchase-added' : ''
           }">${isAddedToPurchase ? 'added' : 'purchase'}
           </button>

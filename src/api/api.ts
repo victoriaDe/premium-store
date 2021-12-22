@@ -6,7 +6,7 @@ const LocalBaseURL = `http://localhost:7000/api/`;
 const ServerBaseURL = `https://wg-force3-backend.herokuapp.com/api/`;
 const ServerAuthBaseURL = `https://wg-server-auth.herokuapp.com/api/`;
 
-export const baseURL = ServerAuthBaseURL;
+export const baseURL = LocalBaseURL;
 
 const instance = axios.create({
   baseURL,
