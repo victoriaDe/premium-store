@@ -25,7 +25,7 @@ class PopupContainer {
     // описание аргументов класса ниже
     switch (
       eventTarget.id // определяем id элемента, каждому айдишнику соответствуют поля для класса
-    ) {
+      ) {
       case 'login': // попап для логина
         popup = new Popup(
           eventTarget,
