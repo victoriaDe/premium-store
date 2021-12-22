@@ -1,7 +1,8 @@
 import LocalStorage from '@classes/LocalStorage';
-import router from '@scripts/init/router';
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
+
+import router from '@scripts/init/router';
 
 // инициализация магазина
 const storeInit = () =>

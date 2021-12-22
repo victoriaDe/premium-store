@@ -10,10 +10,8 @@ import Wishlist from '@classes/Wishlist';
 import DOMElems from '@classes/DOMElems';
 import LocalStorage from '@classes/LocalStorage';
 
-import humanPrice from '@scripts/human-price';
+import { humanPrice, calcFinalPrice } from '@scripts/price';
 import localStorage from '@classes/LocalStorage';
-
-// import DOMElements from '@classes/DOMElements';
 
 /**
  * Класс для работы с корзиной
@@ -88,11 +86,10 @@ class ShoppingList {
                           isAddedToWishlist ? 'button-like_active' : ' '
                         }"></button>
                         <span class="item-purchase-prise">
-                          <span class="item-price-amount ${
-                            saleElement[3]
-                          }">${humanPrice(product.data.price.basic.cost)} ${
-      saleElement[2]
-    }</span>
+                          <span class="item-price-amount ${saleElement[3]}">
+                            ${humanPrice(product.data.price.basic.cost)} 
+                            ${saleElement[2]}
+                          </span>
                           ${saleElement[0]}
                         </span>
                         <button class="item-purchase-button ${
@@ -101,19 +98,7 @@ class ShoppingList {
                         </div>
                         </div>
     `;
-    Wishlist.addEvent($item, product);
-    const $buttonPurchase: any = $item.querySelector('.item-purchase-button');
-    $buttonPurchase.addEventListener('click', () => {
-      if (!$buttonPurchase.classList.contains('button-purchase-added')) {
-        let parent = $buttonPurchase.closest('.item-filtered-container');
-        parent?.classList.add('delete-item');
-
-        parent?.addEventListener('animationend', () => {
-          console.log(parent?.parentElement);
-          parent?.parentElement?.removeChild(parent);
-        });
-      }
-    });
+    Wishlist.addEvent($item, product, true);
     return $item;
   }
 
@@ -155,48 +140,17 @@ class ShoppingList {
 
         $container.append($totalContainer);
       } else {
-        $wrapper.append(Wishlist.createEmptyListItems('ShoppingList is empty'));
+        $wrapper.append(
+          Wishlist.createEmptyListItems('Your shopping cart is empty'),
+        );
         $wrapper.append(this.createHeaderList('Shopping list'));
       }
 
       $container.addEventListener('click', (event) => {
         const $target = event.target as HTMLElement;
-        const $totalPrice = $container.querySelector('.total-price > span');
 
         if ($target.tagName === 'INPUT') {
-          const $items = $container.querySelectorAll(
-            '.item-filtered-container',
-          );
-
-          const $checkedItems: Element[] = [];
-
-          $items.forEach(($item) => {
-            const $checkbox = $item.querySelector(
-              '[type=checkbox]',
-            ) as HTMLInputElement;
-
-            if ($checkbox.checked) {
-              $checkedItems.push($item);
-            }
-          });
-
-          let summaryPrice = 0;
-
-          $checkedItems.forEach(($item) => {
-            let $price = $item.querySelector('.item-price-reduced');
-            if (!$price) {
-              $price = $item.querySelector('.item-price-amount');
-            }
-            const priceStr = $price!
-              .textContent!.replace(',', '.')
-              .replace(/\s/g, '');
-            const price = Number.parseFloat(priceStr);
-            summaryPrice += price;
-          });
-
-          $totalPrice!.textContent = `${humanPrice(
-            String(summaryPrice),
-          )} ${localStorage.getCurrency()}`;
+          calcFinalPrice($container);
         }
       });
     }
@@ -228,7 +182,6 @@ class ShoppingList {
     showShopping: (shopping: string[]) => void,
     $buttonElement: HTMLElement,
   ): void {
-    /*    const data = LocalStorage.changeLocalShoppingList('user', product.data.id); */
     const data = LocalStorage.changeUserProductList(
       product.data.id,
       'shoppingList',
@@ -245,7 +198,6 @@ class ShoppingList {
         : 'added';
       $buttonElement.classList.toggle('button-purchase-added');
     }
-
   }
 }
 

@@ -2,21 +2,21 @@
  * @module Router
  */
 
-import { THRoute, TRouteCallback } from '@type/router';
+import { TRoute, TRouteCallback } from '@type/router';
 import { TCurrency } from '@type/local-storage';
 
 import LocalStorage from '@classes/LocalStorage';
 import Item from '@classes/Item';
-import NavPanel from '@classes/NavPanel';
+import NavPanelDOM from '@classes/dom/NavPanelDOM';
 import ProductAPI from '@api/product';
 
 /**
  * Class for creating a router with hash support
  */
 
-class HashRouter {
+class Router {
   /** array of saved routes */
-  #routes: THRoute[] = [];
+  #routes: TRoute[] = [];
 
   /**
    * Method for change a title to a browser tab
@@ -33,7 +33,7 @@ class HashRouter {
    * @param callback callback function for route
    */
 
-  addRoute(hash: string, title: string, callback: TRouteCallback): HashRouter {
+  addRoute(hash: string, title: string, callback: TRouteCallback): Router {
     this.#routes.push({
       hash,
       title,
@@ -55,12 +55,8 @@ class HashRouter {
       this.addRoute(hash, product[0].data.name, () => {
         LocalStorage.getUserData().then((userData) => {
           if (userData) {
-            NavPanel.showMainNavContainer();
-            Item.showSelectedItem(
-              product[0],
-              userData,
-              Item.createSelectedItem,
-            );
+            NavPanelDOM.showMainNavContainer();
+            Item.showSelectedItem(product[0], userData);
           }
         });
       });
@@ -75,7 +71,7 @@ class HashRouter {
    * @param hash hash route
    */
 
-  findRoute(hash: string): THRoute | undefined {
+  findRoute(hash: string): TRoute | undefined {
     return this.#routes.find((r) => r.hash === hash);
   }
 
@@ -104,18 +100,18 @@ class HashRouter {
 
   init(currency: TCurrency) {
     window.addEventListener('hashchange', async () => {
-      const hash = HashRouter.#getHash();
+      const hash = Router.#getHash();
       const route = this.findRoute(hash);
       if (route) {
         route.callback();
         route.isCalled = true;
-        HashRouter.#changeTitle(route.title);
+        Router.#changeTitle(route.title);
       } else {
         // пробуем создать путь сами
         const isRouteCreated = await this.createRoute(hash, currency);
 
         if (!isRouteCreated) {
-          HashRouter.#changeTitle('*****');
+          Router.#changeTitle('*****');
           throw new Error(`Path #'${hash}' is undefined`);
         }
       }
@@ -123,4 +119,4 @@ class HashRouter {
   }
 }
 
-export default HashRouter;
+export default Router;

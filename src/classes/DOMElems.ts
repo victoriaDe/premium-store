@@ -18,11 +18,16 @@ class DOMElems {
 
     const attributes = Object.keys(data);
 
-    for (const attr of attributes) {
+    attributes.forEach((attr) => {
       if (attr !== 'classes' && attr !== 'text' && attr !== 'inner') {
-        $elem.setAttribute(attr, data[attr]);
+        if (attr.startsWith('data-')) {
+          const name = attr.replace('data-', '');
+          $elem.dataset[name] = data[attr];
+        } else {
+          $elem.setAttribute(attr, data[attr]);
+        }
       }
-    }
+    });
 
     if (classes) {
       if (Array.isArray(classes)) {
@@ -81,6 +86,10 @@ class DOMElems {
 
   static p(data: TParElem): HTMLParagraphElement {
     return DOMElems.#elem('p', data) as HTMLParagraphElement;
+  }
+
+  static nav(data: TParElem): HTMLElement {
+    return DOMElems.#elem('nav', data);
   }
 }
 
