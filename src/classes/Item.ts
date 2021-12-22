@@ -69,7 +69,10 @@ class Item {
       priceAmount = 'price-sale';
       if (product.data.price.actual.discountType === '') {
         discountAmount =
-          +product.data.price.basic.cost - +product.data.price.actual.cost;
+          Math.floor(
+            (+product.data.price.basic.cost - +product.data.price.actual.cost) *
+              100,
+          ) / 100;
         sale = `<span class='item-sale'>-${discountAmount} ${product.data.price.basic.currency}</span>`;
       }
     }
