@@ -7,7 +7,7 @@ import { IUser } from '@type/user';
 import { IProductLocalStorageData } from '@type/local-storage';
 
 import Item from '@classes/Item';
-import ProductAPI from '@api/product';
+import ProductAPI from '@api/ProductAPI';
 import Wishlist from '@classes/Wishlist';
 
 import LocalStorage from '@classes/LocalStorage';
