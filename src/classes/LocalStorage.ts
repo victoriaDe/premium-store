@@ -217,10 +217,13 @@ class LocalStorage {
 
   async loginSubmit(event: any) {
     console.log('loginSubmit');
+    console.log(event);
     const usedDada = {
       email: 'victor_sinitca@mail.ru',
       password: 'aaaaa123',
     };
+    console.log(usedDada);
+
     try {
       const user = await authAPI.login(usedDada.email, usedDada.password);
       if (user) {
