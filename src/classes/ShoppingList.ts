@@ -14,13 +14,13 @@ import { humanPrice, calcFinalPrice } from '@scripts/price';
 import localStorage from '@classes/LocalStorage';
 
 /**
- * Класс для работы с корзиной
+ * Chopping cart class
  */
 
 class ShoppingList {
   /**
-   * Метод для создания шапки в корзине
-   * @param name текст шапки
+   * Method to create a 'hat' in the cart
+   * @param name text content of the 'hat'
    */
 
   static createHeaderList(name: string) {
@@ -31,9 +31,9 @@ class ShoppingList {
   }
 
   /**
-   * Метод для создания карточки продукта в корзине
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to create an item card
+   * @param product initial product
+   * @param userData current user
    */
 
   static createShoppingListItem(product: IProduct, userData: IUser) {
@@ -103,7 +103,7 @@ class ShoppingList {
   }
 
   /**
-   * Метод для создания корзины
+   * Method to create a cart
    */
 
   static async createShoppingList() {
@@ -157,8 +157,8 @@ class ShoppingList {
   }
 
   /**
-   * Метод для показа счётчика товаров в корзине
-   * @param shopping текущая корзина
+   * Method to display the amount of items in a cart
+   * @param shopping current cart
    */
 
   static showShoppingListCounter(shopping: string[]): void {
@@ -171,10 +171,10 @@ class ShoppingList {
   }
 
   /**
-   * Метод для изменения счётчика товаров в корзине
-   * @param product исходный продукт
+   * Method to change the amount of items in a cart
+   * @param product initial product
    * @param showShopping
-   * @param $buttonElement  элемент, вызвавший изменение счётчика
+   * @param $buttonElement elem which has caused counter changing
    */
 
   static changeShoppingListCounter(
