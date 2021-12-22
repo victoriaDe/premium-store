@@ -52,7 +52,6 @@ class Item {
     let priceAmount = '';
     let actualPrice = ``;
     let sale = ``;
-    console.log(product.data.price.basic.currency);
     let currency = `${getCurrencySign(product.data.price.basic.currency!)}`;
     if (product.data.price.basic.cost !== product.data.price.actual.cost) {
       actualPrice = `
