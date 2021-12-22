@@ -14,7 +14,7 @@
 
   background: rgba(0, 0, 0, 0.5);
 
-  animation: hideTree 8.3s ease-in;
+  animation: hideTree 5.3s ease-in;
 }
 
 svg {
@@ -33,7 +33,7 @@ path {
   stroke-width: .2;
   transform: scale(0);
   transform-origin: 50% 50%;
-  animation: star 8s ease-in;
-  animation-delay: calc((var(--no) - 165) * -.015s);
+  animation: star 5s ease-in;
+  animation-delay: calc((var(--no) - 165) * -.009s);
   //transform-box: fill-box;
 }
