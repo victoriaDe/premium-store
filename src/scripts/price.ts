@@ -1,5 +1,5 @@
 import localStorage from '@classes/LocalStorage';
-import { TCurrencyCode, TCurrencySign } from '@type/price';
+// import { TCurrencyCode, TCurrencySign } from '@type/price';
 
 function humanPrice(price: string): string {
   const numPrice = +price;
@@ -43,7 +43,7 @@ function calcFinalPrice($container: HTMLElement) {
   }
 }
 
-function getCurrencySign(currencyCode: TCurrencyCode): TCurrencySign {
+function getCurrencySign(currencyCode: string): string {
   switch (currencyCode) {
     case 'BYN':
       return 'BYN';
