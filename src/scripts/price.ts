@@ -1,4 +1,5 @@
 import localStorage from '@classes/LocalStorage';
+import { TCurrencyCode, TCurrencySign } from '@type/price';
 
 function humanPrice(price: string): string {
   const numPrice = +price;
@@ -42,4 +43,23 @@ function calcFinalPrice($container: HTMLElement) {
   }
 }
 
-export { humanPrice, parseToNumber, calcFinalPrice };
+function getCurrencySign(currencyCode: TCurrencyCode): TCurrencySign {
+  switch (currencyCode) {
+    case 'BYN':
+      return 'BYN';
+    case 'RUB':
+      return '₽';
+    case 'UAH':
+      return '₴';
+    case 'PLN':
+      return 'zł';
+    case 'CNY':
+      return '¥';
+    case 'EUR':
+      return '€';
+    default:
+      return '$';
+  }
+}
+
+export { humanPrice, parseToNumber, calcFinalPrice, getCurrencySign };
