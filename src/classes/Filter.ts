@@ -60,7 +60,7 @@ class Filter {
     let $target: HTMLElement | null;
     LocalStorage.getUserData().then((userData) => {
      // if (userData) {
-      console.log(`filterProducts userData:${userData} `)
+      //console.log(`filterProducts userData:${userData} `)
         const actualFilter = filter;
         $target = document.querySelector(`[data-filter=${filter}]`);
         $target?.classList.add('active-link');

@@ -144,7 +144,7 @@ class LocalStorage {
 
   async getUserData() {
     const isAuth=this.getLocalData('auth',)
-    console.log(`getUserData  auth:${isAuth}`)
+    //console.log(`getUserData  auth:${isAuth}`)
     if(isAuth){
       const userDataStorage = this.getLocalData(
         'user',

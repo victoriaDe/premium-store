@@ -5,14 +5,14 @@ import { IUser } from '@type/user';
 
 class HeaderAuth {
   static setAuthorized(userData:undefined | IUser) {
-    console.log(`setAuthorized: ${userData}`)
+   // console.log(`setAuthorized: ${userData}`)
     const $headerContainerNav: HTMLElement | null =
       document.querySelector('.header-container-nav');
     if (!$headerContainerNav) return;
     $headerContainerNav.innerHTML = ``;
 
     if (userData) {
-      console.log(`setAuthorized: ${userData}`)
+     // console.log(`setAuthorized: ${userData}`)
       $headerContainerNav.innerHTML = `
           <a id="wishlistId" class="icon-heart header-nav-link hash-link" href="#wishlist"
             >Wishlist <span class="wishlist-span-container">(0)</span></a
@@ -23,7 +23,9 @@ class HeaderAuth {
             href="#shoppingcart"
             >Shopping cart <span class="cart-span-container">(0)</span></a
           >
-          <a class="header-nav-link logout" id="logout">Logout</a>      
+          <div class="header-nav-account">          
+          <a class="header-nav-link icon-enter"  id="logout">Logout</a>  
+          </div>    
       `;
       const $logout: HTMLElement | null = document.getElementById('logout'); // ссылка логина
       if ($logout) {
@@ -36,7 +38,7 @@ class HeaderAuth {
 
 
     } else {
-      console.log(`setAuthorized: ${userData}`)
+      //console.log(`setAuthorized: ${userData}`)
       $headerContainerNav.innerHTML = `           
           <div class="header-nav-account">
             <a class="header-nav-link icon-enter" id="login">Login</a>
@@ -46,7 +48,7 @@ class HeaderAuth {
       `;
       const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
       const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
-      console.log($login)
+     // console.log($login)
       if ($login) {
         fixLoginPopup($login);
         addOpenPopup($login);
