@@ -30,12 +30,18 @@
     "baseUrl": "src",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "@/*": ["*"],  //short path to src folder
-      "@api/*": ["api/*"],  //short path to api folder
-      "@type/*": ["types/*"],  //short path to types folder
+
       "@scripts/*": ["scripts/*"],  //short path to scripts folder
       "@classes/*": ["classes/*"],  //short path to classes folder
+      "@api/*": ["classes/api/*"],  //short path to api folder
+      "@dom/*": ["classes/dom/*"],  //short path to dom folder
+
+      "@type/*": ["types/*"],  //short path to types folder
+
       "@page/*": ["page/*"], //short path to page folder
+
       "@scss/*": ["scss/*"],  //short path to scss folder
+
       "@images/*": ["images/*"]  //short path to images folder
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
@@ -57,7 +63,7 @@
      "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
     // "outFile": "./",                                  /* Specify a file that bundles all outputs into one JavaScript file. If `declaration` is true, also designates a file that bundles all .d.ts output. */
     // "outDir": "./",                                   /* Specify an output folder for all emitted files. */
-    // "removeComments": true,                           /* Disable emitting comments. */
+     "removeComments": true,                           /* Disable emitting comments. */
     // "noEmit": true,                                   /* Disable emitting files from a compilation. */
     // "importHelpers": true,                            /* Allow importing helper functions from tslib once per project, instead of including them per-file. */
     // "importsNotUsedAsValues": "remove",               /* Specify emit/checking behavior for imports that are only used for types */

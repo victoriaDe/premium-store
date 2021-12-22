@@ -3,8 +3,8 @@
  */
 
 import { TFilter } from '@type/product';
-import UserAPI from '@api/user';
-import ProductAPI from '@api/product';
+import UserAPI from '@api/UserAPI';
+import ProductAPI from '@api/ProductAPI';
 import {
   TCurrency,
   IProductLocalStorageData,
@@ -68,7 +68,6 @@ class LocalStorage {
     return userData;
   }
 
-
   /**
    * Метод для получения продуктов по типу из БД и сохранения их в локальное хранилище
    * @param filter - тип продукта
@@ -87,7 +86,6 @@ class LocalStorage {
     localStorage.setItem(filter, JSON.stringify(localProductData));
     return productDataByFilter;
   }
-
 
   /**
    * Главный метод для получения продуктов
@@ -115,7 +113,6 @@ class LocalStorage {
     return null;
   }
 
-
   /**
    * Главный метод для получения данных пользователя
    */
@@ -136,7 +133,6 @@ class LocalStorage {
     }
     return null;
   }
-
 
   /**
    * Метод для получения продуктов из БД по списку из пользовательских данных
@@ -162,7 +158,7 @@ class LocalStorage {
 
   changeUserProductList(
     productId: string,
-    listType: "shoppingList" | "wishlist"
+    listType: 'shoppingList' | 'wishlist',
   ): IUserLocalStorageData | null {
     const user = this.getLocalData('user') as IUserLocalStorageData | null;
     if (user) {
@@ -173,7 +169,7 @@ class LocalStorage {
         user.data[listType].push(productId);
       }
       localStorage.setItem('user', JSON.stringify(user));
-      //передача пользовательских данных на сервер после отрисовки
+      // передача пользовательских данных на сервер после отрисовки
       setTimeout(() => this.sendUserData());
       return user;
     }

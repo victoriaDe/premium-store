@@ -5,8 +5,7 @@
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
-import Item from '@classes/Item';
-
+import ItemDOM from '@dom/ItemDOM';
 
 /**
  * Function for lazy loading of products on the main page
@@ -22,7 +21,7 @@ function lazy(
   margin: number,
   user: IUser,
   products: IProduct[],
-  item: Item,
+  item: ItemDOM,
 ) {
   const $productsContainer = document.querySelector('.main-container-content');
 
@@ -55,7 +54,7 @@ function lazy(
             ) {
               if (i < products.length) {
                 $productsContainer.appendChild(
-                  Item.createItem(products[i], user /* , router */),
+                  ItemDOM.createItem(products[i], user /* , router */),
                 );
               } else {
                 break;
