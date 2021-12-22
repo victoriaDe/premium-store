@@ -159,7 +159,7 @@ class Filter {
     resetTypeButton: Element,
     allFilterTypes: NodeListOf<Element>,
     buttonsFilterList: NodeListOf<Element>,
-    userData: IUser,
+    userData: IUser | null,
   ) {
     resetTypeButton?.addEventListener('click', () => {
       buttonsFilterList.forEach((item, index) => {

@@ -14,12 +14,12 @@ class HeaderAuth {
     if (userData) {
       console.log(`setAuthorized: ${userData}`)
       $headerContainerNav.innerHTML = `
-          <a id="wishlistId" class="header-nav-link hash-link" href="#wishlist"
+          <a id="wishlistId" class="icon-heart header-nav-link hash-link" href="#wishlist"
             >Wishlist <span class="wishlist-span-container">(0)</span></a
           >
           <a
             id="shoppingId"
-            class="shopping header-nav-link hash-link"
+            class="icon-cart header-nav-link hash-link"
             href="#shoppingcart"
             >Shopping cart <span class="cart-span-container">(0)</span></a
           >
@@ -39,7 +39,7 @@ class HeaderAuth {
       console.log(`setAuthorized: ${userData}`)
       $headerContainerNav.innerHTML = `           
           <div class="header-nav-account">
-            <a class="header-nav-link" id="login">Login</a>
+            <a class="header-nav-link icon-enter" id="login">Login</a>
             <span>or</span>
             <a class="header-nav-link" id="create-account">Create account</a>
           </div>
