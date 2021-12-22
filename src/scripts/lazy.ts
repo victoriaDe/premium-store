@@ -5,8 +5,7 @@
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
-import ItemDOM from '@classes/dom/ItemDOM';
-
+import ItemDOM from '@dom/ItemDOM';
 
 /**
  * Function for lazy loading of products on the main page

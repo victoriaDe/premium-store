@@ -3,10 +3,11 @@
  */
 
 import { IUser } from '@type/user';
+
 import Item from '@classes/Item';
-import ProductAPI from '@api/product';
+import ProductAPI from '@api/ProductAPI';
 import LocalStorage from '@classes/LocalStorage';
-import ItemDOM from '@classes/dom/ItemDOM';
+import ItemDOM from '@dom/ItemDOM';
 
 /**
  * Function for create Observer options
@@ -29,19 +30,14 @@ const createObserverOptions = (margin: number) => {
  * @param item an instance of the Item class to create a product card
  */
 
-function lazyBD(
-  amount: number,
-  margin: number,
-  user: IUser,
-  item: Item,
-) {
+function lazyBD(amount: number, margin: number, user: IUser, item: Item) {
   const $productsContainer = document.querySelector('.main-container-content');
   if (!$productsContainer) return;
   // find the last product
   const $lastProduct = $productsContainer.lastElementChild;
   if (!$lastProduct) return null;
   const observerOptions = createObserverOptions(margin);
-  const observerCb: IntersectionObserverCallback = async function(
+  const observerCb: IntersectionObserverCallback = async function (
     entries,
     observer,
   ) {
@@ -59,7 +55,9 @@ function lazyBD(
         LocalStorage.getCurrency(),
       ).then((value) => {
         if (!value || !value.products) return;
-        value.products.forEach((val) => $productsContainer.appendChild(ItemDOM.createItem(val, user)));
+        value.products.forEach((val) =>
+          $productsContainer.appendChild(ItemDOM.createItem(val, user)),
+        );
 
         observer.unobserve(entry.target);
 
@@ -80,7 +78,6 @@ function lazyBD(
   const observer = new IntersectionObserver(observerCb, observerOptions);
   // add tracking from the product
   observer.observe($lastProduct);
-
 }
 
 export default lazyBD;
