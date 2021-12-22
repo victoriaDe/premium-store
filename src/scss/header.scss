@@ -81,6 +81,21 @@
   }
 }
 
+.header-nav-links.icon-heart,
+.header-nav-links.icon-cart,
+.header-nav-account.icon-enter {
+  font-size: 0;
+}
+
+.header-nav-links {
+  @media screen and (max-device-width: s.$min-width) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
 .header-container-nav {
   display: flex;
   flex-direction: row;
@@ -89,109 +104,80 @@
   gap: 45px;
 
   @media screen and (max-device-width: s.$min-width) {
-    gap: 35px;
+    gap: 20px;
+  }
+}
+
+.header-nav-link {
+  padding: 10px 0;
+  box-sizing: border-box;
+
+  font-size: s.$fzHeader_nav;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.025em;
+  text-transform: capitalize;
+  color: c.$fColorHeader;
+
+  transition: color 0.4s;
+
+  &:hover {
+    color: c.$fColorHeader_active;
+  }
+
+
+  span {
+    color: c.$fColorWhite;
+
+    @media screen and (max-device-width: s.$min-width) {
+      font-size: 1rem;
+    }
+  }
+
+  @media screen and (max-device-width: s.$min-width) {
+    font-size: 0;
   }
   @media screen and (max-device-width: s.$max-device-width) {
-    gap: 25px;
+    width: 15%;
   }
+}
 
-  .header-nav-link {
-    padding: 10px 0;
+.nav-link-active {
+  color: c.$fColorHeader_active;
+  border-bottom: 3px solid c.$fColorHeader_active;
+}
+
+.header-nav-account {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+
+
+  @media screen and (max-device-width: s.$min-width) {
+    position: relative;
     box-sizing: border-box;
+    padding-top: 2px;
 
-    font-size: s.$fzHeader_nav;
-    font-weight: 400;
-    font-style: normal;
-    letter-spacing: 0.025em;
-    text-transform: capitalize;
-    color: c.$fColorHeader;
-
-    transition: color 0.4s;
-
-    &:hover {
-      color: c.$fColorHeader_active;
-    }
-
-    span {
-      color: c.$fColorWhite;
-
-      @media screen and (max-device-width: s.$min-width) {
-        width: 40px;
-        display: inline-block;
-
-        position: relative;
-
-        font-size: 15px;
-      }
-    }
-
-    @media screen and (max-device-width: s.$min-width) {
-      font-size: 0;
-
-      span.wishlist-span-container {
-        &:after {
-          content: url("~@images/buttons/valentines-heart.png");
-          width: 16px;
-          height: 14px;
-
-          position: absolute;
-          top: 50%;
-          left: 35%;
-          transform: translate(50%, -50%);
-        }
-      }
-      span.cart-span-container {
-        text-align: right;
-
-        &:before {
-          content: url("~@images/buttons/cart.png");
-          width: 16px;
-          height: 14px;
-
-          position: absolute;
-          top: 50%;
-          left: -45%;
-          transform: translate(100%, -50%);
-        }
-      }
-    }
-    @media screen and (max-device-width: s.$max-device-width) {
-      width: 15%;
+    .header-nav-link {
+      display: none;
     }
   }
 
-  .nav-link-active {
-    color: c.$fColorHeader_active;
-    border-bottom: 3px solid c.$fColorHeader_active;
-  }
-
-  .header-nav-account {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-
-
+  span {
     @media screen and (max-device-width: s.$min-width) {
-      position: relative;
+      display: none;
     }
+  }
+}
 
-    .login {
-      background: url("~@images/buttons/ico.png") no-repeat center/contain;
-      width: 16px;
-      height: 14px;
-
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    span {
-      @media screen and (max-device-width: s.$min-width) {
-        font-size: 0;
-      }
-    }
+.header-nav-links.icon-heart,
+.header-nav-links.icon-cart,
+.header-nav-account.icon-enter {
+  @media screen and (max-device-width: s.$min-width) {
+    font-size: 1rem;
+    color: c.$fColorGray;
   }
 }
