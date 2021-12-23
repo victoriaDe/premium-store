@@ -3,7 +3,7 @@
  */
 
 import { TRoute, TRouteCallback } from '@type/router';
-import { TCurrency } from '@type/local-storage';
+import { TCurrencyCode } from '@type/price';
 
 import LocalStorage from '@classes/LocalStorage';
 import Item from '@classes/Item';
@@ -44,7 +44,7 @@ class Router {
    * @param hash хэш пути
    * @param currency валюта продуктов
    */
-  async createRoute(hash: string, currency: TCurrency): Promise<boolean> {
+  async createRoute(hash: string, currency: TCurrencyCode): Promise<boolean> {
     const product = await ProductAPI.getProductsByList([hash], currency);
     if (product && product.length) {
       this.addRoute(hash, product[0].data.name, () => {
@@ -80,7 +80,7 @@ class Router {
    * Method for initializing the router
    * @param currency валюта продуктов
    */
-  init(currency: TCurrency) {
+  init(currency: TCurrencyCode) {
     window.addEventListener('hashchange', async () => {
       try {
         const hash = Router.#getHash();

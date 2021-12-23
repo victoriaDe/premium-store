@@ -5,8 +5,8 @@
 import { TFilter } from '@type/product';
 import UserAPI from '@api/UserAPI';
 import ProductAPI from '@api/ProductAPI';
+import { TCurrencyCode } from '@type/price';
 import {
-  TCurrency,
   IProductLocalStorageData,
   IUserLocalStorageData,
   TLocalData,
@@ -21,7 +21,7 @@ class LocalStorage {
   #userId = '61a6286353b5dad92e57b4c0';
 
   /** Валюта продуктов */
-  #currency = 'PLN' as TCurrency;
+  #currency = 'PLN' as TCurrencyCode;
 
   /**
    * Метод для получения валюты продуктов
