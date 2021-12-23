@@ -24,7 +24,7 @@ class HeaderAuth {
             >Shopping cart <span class="cart-span-container">(0)</span></a 
           >
           <div class="header-nav-account">          
-          <a class="header-nav-link icon-user"  id="logout">PopaEnota</a>  
+          <a class="header-nav-link icon-user">${userData.name}</a>  
           <a class="header-nav-link icon-enter"  id="logout">Logout</a> 
           </div>    
       `;

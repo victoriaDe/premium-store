@@ -44,6 +44,7 @@ export const authAPI = {
 
   },
   refresh() {
-    return backEndInstance.get<AuthResponseType>(`/refresh`, ).then(response => response.data);
+    return backEndInstance.get<AuthResponseType>(`/refresh`, )
+      .then(response => response.data)
   },
 };
