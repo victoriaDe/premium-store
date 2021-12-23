@@ -53,7 +53,7 @@ class Item {
     let priceAmount = ``;
     let actualPrice = ``;
     let sale = ``;
-    let currency = `${getCurrencySign(product.data.price.basic.currency!)}`;
+    let currency = `${getCurrencySign(product.data.price.basic.currency)}`;
     if (product.data.price.basic.cost !== product.data.price.actual.cost) {
       actualPrice = `
       <span class = "item-arrow icon-arrow-right"></span>
@@ -66,9 +66,8 @@ class Item {
             +product.data.price.basic.cost,
       );
       sale = `<span class='item-sale'>-${discountAmount}%</span>`;
-      currency = ``;
       priceAmount = 'price-sale';
-      if (product.data.price.actual.discountType === '') {
+      if (product.data.price.actual.discountType) {
         discountAmount =
           Math.floor(
             (+product.data.price.basic.cost - +product.data.price.actual.cost) *
