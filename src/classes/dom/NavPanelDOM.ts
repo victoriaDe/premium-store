@@ -3,11 +3,11 @@
  */
 
 /**
- * Класс для работы с навигационной панелью
+ * Navigation class (filters)
  */
 class NavPanelDOM {
   /**
-   * Метод для создания навигационной панели
+   * Method to create a navbar
    */
   static createMainNavContainer(): HTMLElement {
     const $mainNavContainer = document.createElement('div');
@@ -35,7 +35,7 @@ class NavPanelDOM {
   }
 
   /**
-   * Метод для показа навигационной панели
+   * Method to display navbar
    */
   static showMainNavContainer() {
     const $mainContainer = document.getElementById('main-container-id');
