@@ -260,7 +260,7 @@ class Filter {
       });
     }
 
-    lazy(20, 100, userData, filteredProducts, new Item());
+    lazy(20, 100, userData, filteredProducts);
   }
 
   /**
@@ -308,7 +308,7 @@ class Filter {
             value.products.forEach((product: IProduct) => {
               $container.appendChild(ItemDOM.createItem(product, userData));
             });
-            lazyBD(40, 500, userData, new Item());
+            lazyBD(40, 500, userData);
           }
         },
       );
