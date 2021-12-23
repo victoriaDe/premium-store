@@ -1,3 +1,7 @@
+/**
+ * @module Local Storage
+ */
+
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
