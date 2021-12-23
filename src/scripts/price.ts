@@ -11,6 +11,25 @@ function parseToNumber(str: string): number {
   return Number.parseFloat(practicalStr);
 }
 
+function getCurrencySign(currencyCode: string): string {
+  switch (currencyCode) {
+    case 'BYN':
+      return 'BYN';
+    case 'RUB':
+      return '₽';
+    case 'UAH':
+      return '₴';
+    case 'PLN':
+      return 'zł';
+    case 'CNY':
+      return '¥';
+    case 'EUR':
+      return '€';
+    default:
+      return '$';
+  }
+}
+
 function calcFinalPrice($container: HTMLElement) {
   const $totalPrice = $container.querySelector('.total-price > span');
   const $items = $container.querySelectorAll('.item-filtered-container');
@@ -39,26 +58,7 @@ function calcFinalPrice($container: HTMLElement) {
   if ($totalPrice) {
     $totalPrice.textContent = `${humanPrice(
       String(summaryPrice),
-    )} ${localStorage.getCurrency()}`;
-  }
-}
-
-function getCurrencySign(currencyCode: string): string {
-  switch (currencyCode) {
-    case 'BYN':
-      return 'BYN';
-    case 'RUB':
-      return '₽';
-    case 'UAH':
-      return '₴';
-    case 'PLN':
-      return 'zł';
-    case 'CNY':
-      return '¥';
-    case 'EUR':
-      return '€';
-    default:
-      return '$';
+    )} ${getCurrencySign(localStorage.getCurrency())}`;
   }
 }
 

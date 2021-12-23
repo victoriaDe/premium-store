@@ -9,7 +9,7 @@ import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
 import LocalStorage from '@classes/LocalStorage';
 
-import { humanPrice, calcFinalPrice } from '@scripts/price';
+import { humanPrice, calcFinalPrice, getCurrencySign } from '@scripts/price';
 import localStorage from '@classes/LocalStorage';
 
 /**
@@ -107,7 +107,9 @@ class ShoppingList {
 
         const $totalPrice = document.createElement('p');
         $totalPrice.classList.add('total-price');
-        $totalPrice.innerHTML = `Total: <span>0 ${localStorage.getCurrency()}</span>`;
+        $totalPrice.innerHTML = `Total: <span>0 ${getCurrencySign(
+          localStorage.getCurrency(),
+        )}</span>`;
 
         const $totalBtn = document.createElement('button');
 
