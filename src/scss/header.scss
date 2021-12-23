@@ -160,6 +160,8 @@
     }
     .header-nav-link.icon-enter, .header-nav-link.icon-user {
       &:focus {
+        font-size: 1em;
+        display: block;
         color: c.$fColor_orange;
       }
     }
