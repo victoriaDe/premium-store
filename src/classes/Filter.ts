@@ -302,6 +302,9 @@ class Filter {
       $container.classList.add('main-container-content');
       $visualContainer.appendChild($container);
 
+
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
       ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency()).then(
         (value) => {
           if (value) {
@@ -311,7 +314,9 @@ class Filter {
             lazyBD(40, 500, userData);
           }
         },
-      );
+      ).finally(()=>{
+        if($spinner) $spinner.style.display="none"
+      });
     }
   }
 }

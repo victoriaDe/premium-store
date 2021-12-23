@@ -1,6 +1,9 @@
 @use '~@scss/variables/colors' as c;
 @use '~@scss/variables/sizes' as s;
 
+.spinner-display{
+  display: none;
+}
 
 .spinner {
   position: fixed;

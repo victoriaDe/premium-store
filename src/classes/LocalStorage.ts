@@ -65,6 +65,7 @@ class LocalStorage {
       dateAdded: Date.now(),
     };
     localStorage.setItem('user', JSON.stringify(localUserData));
+
     return userData;
   }
 
@@ -97,8 +98,16 @@ class LocalStorage {
       filter,
     ) as IProductLocalStorageData | null;
     if (!productDataStorageByFilter) {
+
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
+
       const productDataByFilter = await this.updateProductDataByFilter(filter);
-      if (productDataByFilter) return productDataByFilter;
+      if (productDataByFilter)  {
+        if($spinner) $spinner.style.display="none"
+        return productDataByFilter;
+      }
+      if($spinner) $spinner.style.display="none"
     } else if (Date.now() - productDataStorageByFilter.dateAdded < 3000000) {
       // 3000000 - 10 минут - максимальное время актуальности данных в локальном хранилище
       setTimeout(() => {
@@ -107,8 +116,14 @@ class LocalStorage {
       });
       return productDataStorageByFilter.data;
     } else {
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
       const productDataByFilter = await this.updateProductDataByFilter(filter);
-      if (productDataByFilter) return productDataByFilter;
+      if (productDataByFilter) {
+        if($spinner) $spinner.style.display="none"
+        return productDataByFilter;
+      }
+      if($spinner) $spinner.style.display="none"
     }
     return null;
   }
