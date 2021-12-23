@@ -5,10 +5,10 @@
 import { TRoute, TRouteCallback } from '@type/router';
 import { TCurrencyCode } from '@type/price';
 
-import LocalStorage from '@classes/LocalStorage';
 import Item from '@classes/Item';
 import NavPanelDOM from '@dom/NavPanelDOM';
 import ProductAPI from '@api/ProductAPI';
+import LocalStorage from '@classes/LocalStorage';
 
 /**
  * Class for creating a router with hash support

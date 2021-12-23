@@ -6,23 +6,20 @@ import { IProduct, TFilter } from '@type/product';
 import { IUser } from '@type/user';
 import { IProductLocalStorageData } from '@type/local-storage';
 
-import Item from '@classes/Item';
 import ProductAPI from '@api/ProductAPI';
 import Wishlist from '@classes/Wishlist';
+import ItemDOM from '@classes/dom/ItemDOM';
+import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
 import LocalStorage from '@classes/LocalStorage';
 
 import lazy from '@scripts/lazy';
 import lazyBD from '@scripts/lazyBD';
-import ItemDOM from '@classes/dom/ItemDOM';
-import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
 /**
  * Класс для фильтрации продуктов и работы с уже отфильтрованными продуктами
  */
-
 class Filter {
-  //  #nation #type #tier используются для фильтрации продуктов типа техника
   /** страна техники */
   static #nation: string | undefined;
 
@@ -35,7 +32,6 @@ class Filter {
   /**
    * Метод для добавления обработчиков кнопок фильтров
    */
-
   static addEvent(): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
@@ -55,7 +51,6 @@ class Filter {
    * Метод для фильтрации всех продуктов
    * @param filter фильтр для сортировки
    */
-
   static filterProducts(filter: TFilter | 'All' | null) {
     let $target: HTMLElement | null;
     LocalStorage.getUserData().then((userData) => {
@@ -80,7 +75,6 @@ class Filter {
    * Метод для фильтрации техники
    * @param userData текущий пользователь
    */
-
   static filterTechniqueProducts(userData: IUser) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
@@ -113,7 +107,6 @@ class Filter {
    * @param productData массив всех продуктов
    * @param filter фильтр для сортировки
    */
-
   static createFilterProducts(
     filteredProducts: IProduct[],
     userData: IUser,
@@ -161,7 +154,6 @@ class Filter {
    * @param buttonsFilterList список основных фильиров
    * @param userData текущий пользователь
    */
-
   static addFilterEvent(
     resetTypeButton: Element,
     allFilterTypes: NodeListOf<Element>,
@@ -236,7 +228,6 @@ class Filter {
    * @param filteredProducts массив фильтрованных продуктов
    * @param userData текущий пользователь
    */
-
   static showFilterProduct(filteredProducts: IProduct[], userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -267,7 +258,6 @@ class Filter {
    * Метод для создания всех продуктов
    * @param userData текущий пользователь
    */
-
   static createAllFilterProducts(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -290,7 +280,6 @@ class Filter {
    * Метод для показа всех продуктов
    * @param userData текущий пользователь
    */
-
   static showAllFilterProduct(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
