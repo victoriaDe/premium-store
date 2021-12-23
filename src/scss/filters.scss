@@ -238,7 +238,9 @@
 
 ///////////////////////////////////     ранг
 .types:before {
-  content: '*';
+  background-image: url("~@images/buttons/rect1.png"), url("~@images/buttons/rect2.png"), url("~@images/buttons/rect3.png");
+  background-position: center, left top, right bottom;
+  background-repeat: no-repeat;
 }
 
 .light:before {
