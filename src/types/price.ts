@@ -2,7 +2,7 @@
  * @module Price
  */
 
-/** код валюты */
+/** currency code */
 export type TCurrencyCode =
   | 'BYN'
   | 'USD'
@@ -13,5 +13,5 @@ export type TCurrencyCode =
   | 'MXN'
   | 'CNY';
 
-/** знак или код валюты */
+/** sign or code of currency*/
 export type TCurrencySign = 'BYN' | '₽' | '₴' | 'zł' | '¥' | '€' | '$';

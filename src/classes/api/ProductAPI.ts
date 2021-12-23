@@ -9,13 +9,13 @@ import { TCurrencyCode } from '@type/price';
 import { backEndInstance } from '@api/API';
 
 /**
- * Class for working with products
+ * Class for products
  */
 class ProductAPI {
   /**
-   * Method for getting an array of objects by filter
+   * Method to get an array of objects using filter
    * @param filter preset filter
-   * @param currency валюта товара
+   * @param currency currency
    */
   static async getProductsByFilter(
     filter: TFilter | 'All',
@@ -32,10 +32,10 @@ class ProductAPI {
   }
 
   /**
-   * Method for getting an array of objects by filter
-   * @param pageNumber номер загружаемой "страницы" продуктов
-   * @param pageSize количество загружаемых продуктов за 1 раз
-   * @param currency валюта для загрузки
+   * Method to get an array of objects using filter
+   * @param pageNumber loading 'product page' number
+   * @param pageSize раз loading products number per time
+   * @param currency currency while loading
    */
   static async getAllProductsByLazy(
     pageNumber = 1,
@@ -43,12 +43,10 @@ class ProductAPI {
     currency = '$',
   ) {
     try {
-      const response = await backEndInstance.get<
-        IResponse<{
-          countProducts: number;
-          products: IProduct[];
-        }>
-      >(
+      const response = await backEndInstance.get<IResponse<{
+        countProducts: number;
+        products: IProduct[];
+      }>>(
         `allProducts?pageNumber=${pageNumber}&pageSize=${pageSize}&currency=${currency}`,
       );
       return response.data.data;
@@ -58,9 +56,9 @@ class ProductAPI {
   }
 
   /**
-   * Method for getting an array of products by array of product ID
-   * @param listProductsID array of product ID
-   * @param currency валюта товара
+   * Method to get an array of products using array of products ID
+   * @param listProductsID array of products' ID
+   * @param currency product currency
    */
   static async getProductsByList(
     listProductsID: string[],

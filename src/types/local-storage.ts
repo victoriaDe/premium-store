@@ -6,22 +6,22 @@ import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
 export interface IUserLocalStorageData {
-  /** пользователь в локальном хранилище */
+  /** user in a LocalStorage */
   data: IUser;
 
-  /** дата добавления */
+  /** adding date */
   dateAdded: number;
 }
 
 export interface IProductLocalStorageData {
-  /** продукты в локальном хранилище */
+  /** products in a local storage */
   data: IProduct[];
 
-  /** дата добавления */
+  /** adding date */
   dateAdded: number;
 }
 
-/** данные в локальном хранилище */
+/** data in localStorage */
 export type TLocalData =
   | IUserLocalStorageData
   | IProductLocalStorageData

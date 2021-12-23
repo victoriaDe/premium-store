@@ -9,12 +9,12 @@ import Item from '@classes/Item';
 import LocalStorage from '@classes/LocalStorage';
 
 /**
- * Класс для работы со списком желаний
+ * Wishlist class
  */
 class Wishlist {
   /**
-   * Метод для создания шапки в списке желаний
-   * @param name текст шапки
+   * Method to create a 'hat' in the list
+   * @param name text content of the 'hat'
    */
   static createHeaderList(name: string) {
     const $header = document.createElement('div');
@@ -24,8 +24,8 @@ class Wishlist {
   }
 
   /**
-   * Метод для создания пустого списка желаний
-   * @param text отображаемый текст
+   * Method to create an empty list
+   * @param text list content
    */
   static createEmptyListItems(text: string) {
     const $item: HTMLElement = document.createElement('div');
@@ -35,9 +35,9 @@ class Wishlist {
   }
 
   /**
-   * Методя для добавления обработчиков на кнопки в карточке продукта в списке желаний
-   * @param $item кнопка в карточке продукта
-   * @param product исходный продукт
+   * Method to add listeners to product cart buttons in a list
+   * @param $item list cart button
+   * @param product initial product
    * @param shoppingList
    */
   static addEvent(
@@ -55,7 +55,7 @@ class Wishlist {
   }
 
   /**
-   * Метод для создания списка желаний
+   * method to create wishList
    */
   static async createWishlist() {
     const wishlistData = await LocalStorage.getListData('wishlist');
@@ -83,8 +83,8 @@ class Wishlist {
   }
 
   /**
-   * Метод для показа счётчика товаров в списке желаний
-   * @param wishList текущий список желаний
+   * Method to display products amount in a list
+   * @param wishList текущий current wishList
    */
   static showWishlistCounter(wishList: string[]): void {
     const $wishListCounter: HTMLElement | null = document.querySelector(
@@ -96,10 +96,10 @@ class Wishlist {
   }
 
   /**
-   * Метод для изменения счётчика товаров в списке желаний
-   * @param product исходный продукт
+   * Method to change wishList counter
+   * @param product initial product
    * @param showWishList
-   * @param $buttonElement элемент, вызвавший изменение счётчика
+   * @param $buttonElement element triggered counter changing
    */
   static changeWishlistCounter(
     product: IProduct,

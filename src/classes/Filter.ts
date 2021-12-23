@@ -17,7 +17,7 @@ import lazy from '@scripts/lazy/lazy';
 import lazyBD from '@scripts/lazy/lazyBD';
 
 /**
- * Класс для фильтрации продуктов и работы с уже отфильтрованными продуктами
+ * Product filtration & work with filtrated products class
  */
 class Filter {
   /** страна техники */
@@ -30,7 +30,7 @@ class Filter {
   static #tier: string | undefined;
 
   /**
-   * Метод для добавления обработчиков кнопок фильтров
+   * Method to add listeners to filters' buttons
    */
   static addEvent(): void {
     const $filterButtons: NodeListOf<Element> =
@@ -48,8 +48,8 @@ class Filter {
   }
 
   /**
-   * Метод для фильтрации всех продуктов
-   * @param filter фильтр для сортировки
+   * Method to filter all products
+   * @param filter filter to sort
    */
   static filterProducts(filter: TFilter | 'All' | null) {
     let $target: HTMLElement | null;
@@ -72,8 +72,8 @@ class Filter {
   }
 
   /**
-   * Метод для фильтрации техники
-   * @param userData текущий пользователь
+   * Method to filter
+   * @param userData current user
    */
   static filterTechniqueProducts(userData: IUser) {
     const techniqueProduct = LocalStorage.getLocalData(
@@ -101,11 +101,11 @@ class Filter {
   }
 
   /**
-   * Метод для создания фильтрованных продуктов
-   * @param filteredProducts массив фильтрованных продуктов
-   * @param userData текущий пользователь
-   * @param productData массив всех продуктов
-   * @param filter фильтр для сортировки
+   * Method to create filtered products
+   * @param filteredProducts filtered products array
+   * @param userData current user
+   * @param productData array with all items
+   * @param filter filter to sort
    */
   static createFilterProducts(
     filteredProducts: IProduct[],
@@ -224,9 +224,9 @@ class Filter {
   }
 
   /**
-   * Метод для показа фильтрованных продуктов
-   * @param filteredProducts массив фильтрованных продуктов
-   * @param userData текущий пользователь
+   * Method to display filtered products
+   * @param filteredProducts filtered products array
+   * @param userData current user
    */
   static showFilterProduct(filteredProducts: IProduct[], userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
@@ -255,8 +255,8 @@ class Filter {
   }
 
   /**
-   * Метод для создания всех продуктов
-   * @param userData текущий пользователь
+   * Method to create all products
+   * @param userData current user
    */
   static createAllFilterProducts(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
@@ -277,8 +277,8 @@ class Filter {
   }
 
   /**
-   * Метод для показа всех продуктов
-   * @param userData текущий пользователь
+   * Method to display all products
+   * @param userData current user
    */
   static showAllFilterProduct(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(

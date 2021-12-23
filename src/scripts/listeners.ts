@@ -1,7 +1,7 @@
 import PopupContainer from '@classes/PopupContainer';
 
 /**
- * Функция для работы перезагрузки страницы при клике по ссылке на эту же страницу
+ * Function to refresh the page if the link to the page has been clicked
  */
 function reloadPageSameLink() {
   document.addEventListener('click', (event) => {
@@ -23,8 +23,8 @@ function reloadPageSameLink() {
 }
 
 /**
- * Функция для отображения правильной шапки магазина в зависимости от ширины экрана
- * @param $loginID HTML элемент ссылки Login
+ * Function to change text to item through class
+ * @param $loginID  HTML element
  */
 function fixLoginPopup($loginID: HTMLElement) {
   window.addEventListener('resize', () => {
@@ -39,16 +39,16 @@ function fixLoginPopup($loginID: HTMLElement) {
 }
 
 /**
- * Функция, добавляющая обработчик кликов на выбранный элемент для открытия попапа
- * @param $target HTML элемент для активации попапа
+ * Function to add listener to a target to open popup
+ * @param $target HTML target element
  */
 function addOpenPopup($target: HTMLElement) {
   $target.addEventListener('click', (event) => PopupContainer.openPopup(event));
 }
 
 /**
- * Функция, добавляющая обработчик кликов на выбранный элемент для закрытия попапа
- * @param $target HTML элемент для дезактивации попапа
+ *  * Function to add listener to a target to close popup
+ * @param $target HTML HTML target element
  */
 function addClosePopup($target: HTMLElement) {
   $target.addEventListener('click', (event) =>

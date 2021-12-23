@@ -5,20 +5,20 @@
 import { TPopupInputs, TLinkHandler } from '@type/popup';
 
 /**
- * Класс для создания всплывающих окон
+ * Popup Class
  */
 class Popup {
-  /** элемент, вызвавший создание окна */
+  /** element triggered popup creation */
   #target: HTMLElement;
 
-  /** массив входных данных для заполнения формы */
-  readonly #inputs: TPopupInputs; // хз, какой тут должен быть тип, он на все ругается. Передаются данные для инпутов: [0] - текст,[1] - тип инпута
+  /** input data array to fill the form */
+  readonly #inputs: TPopupInputs;
 
-  /** коллбэк для ссылки восстановления пароля */
+  /** restore password link callback */
   #linkHandler: TLinkHandler | undefined;
 
-  /** флаг для указания наличия в форме ссылки восстановления пароля */
-  readonly #hasLink: boolean; // есть ли в попапе ссылка, по-хорошему, нужно было бы отпочковаться в другой класс с расширением, но ради одной ссылки не знаю, стоит ли
+  /** flag to specify if a restore password should be created*/
+  readonly #hasLink: boolean;
 
   constructor(
     target: HTMLElement,
@@ -33,36 +33,31 @@ class Popup {
   }
 
   /**
-   * Метод для создания заголовка формы
+   * Method to create form title
    */
   createHeader(): HTMLHeadingElement {
-    const title = this.#target.id.split('-').join(' '); // айдишник элемента, по которому кликнули переходит в читабельную форму
-    const $header = document.createElement('h2'); // создать Н2
-    $header.innerText = title; // записать
+    const title = this.#target.id.split('-').join(' ');
+    const $header = document.createElement('h2');
+    $header.innerText = title;
     return $header;
   }
 
   /**
-   * Метод для создания формы
-   * @param linkHandler коллбэк для ссылки восстановления пароля
+   * Method to create a form
+   * @param linkHandler restore password link callback
    */
   createForm(linkHandler?: TLinkHandler): HTMLFormElement {
-    const $form = document.createElement('form'); // создать форму
-    $form.classList.add('popup-form'); // только стили
+    const $form = document.createElement('form');
+    $form.classList.add('popup-form');
 
     for (let i = 0; i < this.#inputs.length; i += 1) {
-      // пробегает по каждому input [0] - текст для лейбла и плейсхолдера,[1] - тип инпута
       $form.innerHTML += `<label>${this.#inputs[i][0]} <input type='${
         this.#inputs[i][1]
       }' placeholder='Enter your ${this.#inputs[i][0]}'></label>`;
     }
-    // после генерации инпутов заталкиваем кнопу в форму
     $form.appendChild(Popup.createButton());
 
     if (this.#hasLink) {
-      // ссылка на восстановление пароля
-      // передавать аргументы наверняка можно и человеческим способом)
-
       $form.appendChild(
         Popup.createLink(
           'forget your password?',
@@ -72,7 +67,6 @@ class Popup {
       );
 
       if (window.screen.width <= 720) {
-        // ссылка на создание аккаунта для мал разрешения
         $form.appendChild(
           Popup.createLink('Create account', 'create-account', linkHandler!),
         );
@@ -83,7 +77,7 @@ class Popup {
   }
 
   /**
-   * Метод для создания кнопки OK
+   * Method to create submit button
    */
   static createButton(): HTMLButtonElement {
     // единственный адекватный метод без черни
@@ -94,30 +88,27 @@ class Popup {
   }
 
   /**
-   * Метод для создания ссылки
-   * @param str текст ссылки
-   * @param id ID для созданной ссылки
-   * @param handler коллбэк для созданной ссылки
+   * Method to create a link
+   * @param str link content
+   * @param id link id
+   * @param handler link callback
    */
   static createLink(
     str: string,
     id: string,
     handler: TLinkHandler,
   ): HTMLAnchorElement {
-    // принимает str - для текста самой ссылки, id - нужен, чтобы генерить попап новый по клику
     const $link = document.createElement('a');
     $link.id = id;
     $link.href = '#';
     $link.classList.add('popup-form-link');
     $link.innerText = str;
-    // не знаю, как по-другому повесить листенер, думала через нодлист как-то, он ведь должен обновляться сам, по идее
-    // но у меня не вышло
     $link.addEventListener('click', (event) => handler(event));
     return $link;
   }
 
   /**
-   * Метод для создания крестика закрытия формы
+   * Method to create close popup cross
    */
   static createSpan(): HTMLSpanElement {
     // это крестик
@@ -130,11 +121,11 @@ class Popup {
   }
 
   /**
-   * Метод для создания самого всплывающего окна
+   * Method to create popup container
    */
   renderHTML(): HTMLDivElement {
-    const $container = document.createElement('div'); // контейнер в обертке, оранжевый
-    $container.classList.add('pop-up-container'); // только стили
+    const $container = document.createElement('div');
+    $container.classList.add('pop-up-container');
 
     $container.append(
       this.createHeader(),
@@ -142,7 +133,7 @@ class Popup {
       this.#linkHandler
         ? this.createForm(this.#linkHandler)
         : this.createForm(),
-    ); // аппендаются все сгенеренные элементы
+    );
     return $container;
   }
 }

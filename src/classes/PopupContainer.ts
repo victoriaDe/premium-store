@@ -5,27 +5,29 @@
 import Popup from '@classes/Popup';
 
 /**
- * Класс для работы со всплывающими окнами
+ * Class to work with popups
  */
+
 class PopupContainer {
   /**
-   * Метод для открытия всплывающего окна
-   * @param event объект события, вызвавшего метод
+   * Method to open popup
+   * @param event event object triggered the method
    */
   static openPopup(event: MouseEvent) {
     let popup;
-    const $wrapper: HTMLElement | null =
-      document.getElementById('popupWrapper'); // серый фон попапа
-    const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
-    const eventTarget = event.target as HTMLElement; // куда кликнули
-    if ($wrapper?.children) $wrapper.innerHTML = ''; // если в обертке что-то есть, то нужно это обнулить, чтобы не плодить попапы
-    $body?.classList.add('lock'); // класс запрещает body скроллиться
+    const $wrapper: HTMLElement | null = document.getElementById('popupWrapper');
+    const $body: HTMLBodyElement | null = document.querySelector('body');
+    const eventTarget = event.target as HTMLElement;
+
+    if ($wrapper?.children) $wrapper.innerHTML = '';
+
+    $body?.classList.add('lock');
     $wrapper?.classList.add('visible');
-    // описание аргументов класса ниже
+
     switch (
-      eventTarget.id // определяем id элемента, каждому айдишнику соответствуют поля для класса
-    ) {
-      case 'login': // попап для логина
+      eventTarget.id
+      ) {
+      case 'login':
         popup = new Popup(
           eventTarget,
           [
@@ -37,7 +39,7 @@ class PopupContainer {
         );
         break;
 
-      case 'create-account': // попап для создания
+      case 'create-account':
         popup = new Popup(
           eventTarget,
           [
@@ -50,7 +52,7 @@ class PopupContainer {
         );
         break;
 
-      case 'reset-password': // попап для забыл пароль
+      case 'reset-password':
         popup = new Popup(eventTarget, [['email', 'email']], false);
         if ($wrapper) $wrapper.innerHTML = '';
         break;
@@ -60,30 +62,31 @@ class PopupContainer {
     }
 
     if ($wrapper && popup) {
-      $wrapper.appendChild(popup.renderHTML()); // добавить попап в обертку
-      $wrapper.classList.add('opened-popup'); // добавить класс, который открывает попап
+      $wrapper.appendChild(popup.renderHTML());
+      $wrapper.classList.add('opened-popup');
     }
   }
 
   /**
-   * Метод для закрытия всплывающего окна
-   * @param event объект события, вызвавшего метод
+   * Method to close popup
+   * @param event event object triggered the method
    */
-  static closePopup(event: MouseEvent) {
-    const $wrapper: HTMLElement | null =
-      document.getElementById('popupWrapper'); // серый фон попапа
-    const $body: HTMLBodyElement | null = document.querySelector('body'); // боди
-    const eventTarget = event.target as HTMLElement; // куда кликнули
-    $body?.classList.remove('lock'); // удалить запрет на скролл body
 
-    // если кликнули, чтобы закрыть попап по
+  static closePopup(event: MouseEvent) {
+    const $wrapper: HTMLElement | null = document.getElementById('popupWrapper');
+    const $body: HTMLBodyElement | null = document.querySelector('body');
+    const eventTarget = event.target as HTMLElement;
+
+    $body?.classList.remove('lock');
+
+
     if (
-      eventTarget === $wrapper || // врапперу (серому фону)
-      eventTarget === document.querySelector('.pop-up-container span') || // крестику
-      eventTarget === document.querySelector('.pop-up-container button') // кнопке ОК
+      eventTarget === $wrapper ||
+      eventTarget === document.querySelector('.pop-up-container span') ||
+      eventTarget === document.querySelector('.pop-up-container button')
     ) {
-      $wrapper?.classList.remove('opened-popup'); // сворачивает фраппер
-      if ($wrapper) $wrapper.innerHTML = ''; // снести все, что осталось в обертке
+      $wrapper?.classList.remove('opened-popup');
+      if ($wrapper) $wrapper.innerHTML = '';
     }
   }
 }

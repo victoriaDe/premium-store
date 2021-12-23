@@ -9,7 +9,7 @@ import Wishlist from '@classes/Wishlist';
 import router from '@scripts/init/router';
 
 /**
- * Функция для инициализации магазина
+ * Function to initialize the store
  */
 export default function storeInit() {
   document.addEventListener(
