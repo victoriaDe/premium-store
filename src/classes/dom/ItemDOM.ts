@@ -37,6 +37,12 @@ class ItemDOM {
     $item.classList.add('item-filtered-container');
 
     $item.innerHTML = `
+      <div class="checkbox-container">
+        <input type="checkbox" id="checkbox-${product.data.id}" name="name-${
+      product.data.id
+    }">
+        <label for="checkbox-${product.data.id}">Buy it!</label>
+      </div>
       <a class="item-filtered-img" href="#${
         product.data.id
       }" onclick="return false">
@@ -66,19 +72,8 @@ class ItemDOM {
         </div>
       </div>`;
 
-    if (page === 'shoppingList') {
-      const $checkboxContainer = document.createElement('div');
-      $checkboxContainer.classList.add('checkbox-container');
-
-      $checkboxContainer.innerHTML = `
-        <label>
-          <input type="checkbox" id="checkbox-${product.data.id}" class="checkbox-buy" name="will-buy" checked>
-        </label>`;
-
-      $item.prepend($checkboxContainer);
-    }
     ///
-    Wishlist.addEvent($item, product, false);
+    Wishlist.addEvent($item, product, page === 'shoppingList');
     ///
     return $item;
   }
