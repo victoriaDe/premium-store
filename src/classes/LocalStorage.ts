@@ -159,7 +159,16 @@ class LocalStorage {
     const userData = await this.getUserData();
     if (userData) {
       if (userData[listType].length > 0) {
-        return ProductAPI.getProductsByList(userData[listType], this.#currency);
+        const $spinner = document.getElementById("spinner")
+        if($spinner) $spinner.style.display="block"
+        const productData =  await ProductAPI.getProductsByList(userData[listType], this.#currency);
+        if(productData){
+          if($spinner) $spinner.style.display="none"
+          return productData
+        }else{
+          if($spinner) $spinner.style.display="none"
+          return null
+        }
       }
     }
     return null;
