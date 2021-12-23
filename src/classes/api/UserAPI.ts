@@ -12,8 +12,8 @@ import { backEndInstance } from '@api/API';
  */
 class UserAPI {
   /**
-   * Method for getting a user by ID
-   * @param id user ID
+   * Method to get a user by ID
+   * @param id user's ID
    */
   static async getUserByID(id: string) {
     try {
@@ -39,7 +39,7 @@ class UserAPI {
   }
 
   /**
-   * Method for adding a new user to the database
+   * Method to add add new user to the database
    * @param name new user`s name
    */
   static async addUser(name: string) {
@@ -54,7 +54,7 @@ class UserAPI {
   }
 
   /**
-   * Method for complex modification of user data (name, wishlist, shopping cart)
+   * Method for user data complex modification (name, wishlist, shopping cart)
    * @param user complete user data
    */
   static async changeUserData(user: IUser) {

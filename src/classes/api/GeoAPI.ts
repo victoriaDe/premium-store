@@ -5,11 +5,11 @@
 import { geoLocInstance } from '@api/API';
 
 /**
- * Класс для работы с геолокацией
+ * Geolocation class
  */
 class GeoAPI {
   /**
-   * Метод для получения местоположения пользователя браузером
+   * Method to get user's location by browser
    */
   static getPosition() {
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -19,9 +19,9 @@ class GeoAPI {
   }
 
   /**
-   * Метод для сохранения местоположения пользователя в локальное хранилище
-   * @param longitude долгота
-   * @param latitude широта
+   * Method to save user's location in local storage
+   * @param longitude geographic longitude
+   * @param latitude geographic latitude
    */
   static savePositon(longitude: number, latitude: number): void {
     window.localStorage.setItem('longitude', String(longitude));
@@ -29,9 +29,9 @@ class GeoAPI {
   }
 
   /**
-   * Метод для получения кода страны пользователя
-   * @param longitude долгота
-   * @param latitude широта
+   * Method to reach out user's country code
+   * @param longitude geographic longitude
+   * @param latitude geographic latitude
    */
   static async getCountryCode(
     longitude: number,
