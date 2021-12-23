@@ -20,13 +20,13 @@ import lazyBD from '@scripts/lazy/lazyBD';
  * Product filtration & work with filtrated products class
  */
 class Filter {
-  /** страна техники */
+  /** country */
   static #nation: string | undefined;
 
-  /** тип техники */
+  /** type */
   static #type: string | undefined;
 
-  /** уровень техники */
+  /** tier */
   static #tier: string | undefined;
 
   /**
@@ -148,7 +148,7 @@ class Filter {
   }
 
   /**
-   * Метод для добавления событий на фильтры для техники
+   * Method to add listeners to filters
    * @param resetTypeButton кнопка сброса фильтра
    * @param allFilterTypes список всех фильтров по типам
    * @param buttonsFilterList список основных фильиров
