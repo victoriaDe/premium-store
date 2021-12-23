@@ -154,23 +154,28 @@ class Filter {
     Filter.showFilterProduct(filteredProducts, userData);
   }
 
+  /**
+   * Метод для добавления событий на фильтры для техники
+   * @param resetTypeButton кнопка сброса фильтра
+   * @param allFilterTypes список всех фильтров по типам
+   * @param buttonsFilterList список основных фильиров
+   * @param userData текущий пользователь
+   */
+
   static addFilterEvent(
     resetTypeButton: Element,
     allFilterTypes: NodeListOf<Element>,
     buttonsFilterList: NodeListOf<Element>,
     userData: IUser,
   ) {
+    const filterText: { [char: string]: string } = {
+      nations: 'All nations',
+      types: 'All types',
+      tiers: 'All tiers',
+    };
     resetTypeButton?.addEventListener('click', () => {
-      buttonsFilterList.forEach((item, index) => {
-        if (index === 0) {
-          item.textContent = 'All nations';
-        }
-        if (index === 1) {
-          item.textContent = 'All types';
-        }
-        if (index === 2) {
-          item.textContent = 'All tiers';
-        }
+      buttonsFilterList.forEach((item) => {
+        item.textContent = filterText[item.classList[1]];
         item.classList.remove(item.classList[3]);
       });
       this.#type = 'all';
@@ -249,15 +254,13 @@ class Filter {
       let itemCounter = 0;
       filteredProducts.forEach((value: IProduct) => {
         if (itemCounter < 20) {
-          $container.appendChild(
-            ItemDOM.createItem(value, userData /* , router */),
-          );
+          $container.appendChild(ItemDOM.createItem(value, userData));
           itemCounter += value.span;
         }
       });
     }
 
-    lazy(20, 100, userData, filteredProducts);
+    lazy(20, 100, userData, filteredProducts, new Item());
   }
 
   /**
@@ -305,7 +308,7 @@ class Filter {
             value.products.forEach((product: IProduct) => {
               $container.appendChild(ItemDOM.createItem(product, userData));
             });
-            lazyBD(40, 500, userData);
+            lazyBD(40, 500, userData, new Item());
           }
         },
       );
