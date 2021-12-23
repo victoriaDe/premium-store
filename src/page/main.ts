@@ -1,9 +1,5 @@
-import '../elements/elements';
-import '../elements/tree';
-
-import '@scss/main.scss';
-
-
+import '@scripts/elements';
+import '@scripts/tree';
 import storeInit from '@scripts/init/store';
 import {
   reloadPageSameLink,
@@ -11,6 +7,8 @@ import {
   addOpenPopup,
   addClosePopup,
 } from '@scripts/base/listeners';
+
+import '@scss/main.scss';
 
 storeInit();
 reloadPageSameLink();

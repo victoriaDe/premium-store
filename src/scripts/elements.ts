@@ -1,6 +1,8 @@
 const $login = document.getElementById('login');
-const $popup = document.getElementById('popupWrapper');
 
+/**
+ * Функция для расчёта отступа основного контента от шапки
+ */
 function countPadding() {
   const $headerHeight: number | undefined =
     document.querySelector('header')?.offsetHeight;
@@ -20,4 +22,3 @@ function load() {
 
 window.addEventListener('load', load);
 window.addEventListener('resize', load);
-
