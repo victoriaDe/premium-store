@@ -23,7 +23,7 @@ class LocalStorage {
   #userId = '';
 
   /** Валюта продуктов */
-  #currency = 'RUB' as TCurrency;
+  #currency = 'PLN' as TCurrency;
 
   /**
    * Метод для получения валюты продуктов

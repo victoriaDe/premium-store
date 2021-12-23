@@ -7,10 +7,9 @@ import { IUser } from '@type/user';
 
 import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
-import DOMElems from '@classes/DOMElems';
 import LocalStorage from '@classes/LocalStorage';
 
-import { humanPrice, calcFinalPrice } from '@scripts/price';
+import { humanPrice, calcFinalPrice, getCurrencySign } from '@scripts/price';
 import localStorage from '@classes/LocalStorage';
 
 /**
@@ -42,26 +41,6 @@ class ShoppingList {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
     const saleElement = Item.getSale(product);
-
-    const $likeBtn = DOMElems.btn({
-      classes: [
-        'item-description-likeBtn',
-        isAddedToWishlist ? 'button-like_active' : '',
-      ],
-    });
-
-    const $purchaseBtn = DOMElems.btn({
-      text: 'added',
-      classes: [
-        'item-purchase-button',
-        isAddedToPurchase ? 'button-purchase-added' : '',
-      ],
-    });
-
-    const $image = DOMElems.img({
-      src: product.data.images.span_2x1,
-      alt: product.data.name,
-    });
 
     $item.innerHTML = `
     <div class="checkbox-container">
@@ -128,7 +107,9 @@ class ShoppingList {
 
         const $totalPrice = document.createElement('p');
         $totalPrice.classList.add('total-price');
-        $totalPrice.innerHTML = `Total: <span>0 ${localStorage.getCurrency()}</span>`;
+        $totalPrice.innerHTML = `Total: <span>0 ${getCurrencySign(
+          localStorage.getCurrency(),
+        )}</span>`;
 
         const $totalBtn = document.createElement('button');
 
