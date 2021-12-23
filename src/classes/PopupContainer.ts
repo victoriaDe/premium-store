@@ -58,7 +58,7 @@ class PopupContainer {
         if ($wrapper) $wrapper.innerHTML = '';
         break;
       case 'logout': // попап для логаута
-        popup = new Popup(eventTarget, [[]], false, LocalStorage.logoutSubmit);
+        popup = new Popup(eventTarget, [], false, LocalStorage.logoutSubmit);
         if ($wrapper) $wrapper.innerHTML = '';
         break;
       default:
