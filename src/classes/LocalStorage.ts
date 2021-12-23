@@ -13,18 +13,18 @@ import {
 } from '@type/local-storage';
 
 /**
- * Класс для работы с локальным хранилищем
+ * Localstorage Class
  */
 
 class LocalStorage {
-  /** ID пользователя для рабоаты */
+  /** user ID */
   #userId = '61a6286353b5dad92e57b4c0';
 
-  /** Валюта продуктов */
+  /** product currency */
   #currency = 'PLN' as TCurrency;
 
   /**
-   * Метод для получения валюты продуктов
+   * Method to receive product currency
    */
 
   getCurrency() {
@@ -32,8 +32,8 @@ class LocalStorage {
   }
 
   /**
-   * Метод для получения данных из локального хранилища
-   * @param id ID запрашиваемых данных
+   * Method to receive data from localStorage
+   * @param id requested data ID
    */
 
   getLocalData(id: string): TLocalData {
@@ -43,7 +43,7 @@ class LocalStorage {
   }
 
   /**
-   * Метод для отправки данных пользователя с локального хранилища в БД
+   * Method to sent user data from localStorage to database
    */
 
   async sendUserData() {
@@ -54,7 +54,7 @@ class LocalStorage {
   }
 
   /**
-   * Метод для получения данных пользователя из БД и сохранения их в локальное хранилище
+   * Method to receive user data from database and save it in localStorage
    */
 
   async updateUserData() {
@@ -69,8 +69,8 @@ class LocalStorage {
   }
 
   /**
-   * Метод для получения продуктов по типу из БД и сохранения их в локальное хранилище
-   * @param filter - тип продукта
+   * Method to receive products from database using theirs type and save them in localStorage
+   * @param filter - product type
    */
 
   async updateProductDataByFilter(filter: TFilter | 'All') {
@@ -88,8 +88,8 @@ class LocalStorage {
   }
 
   /**
-   * Главный метод для получения продуктов
-   * @param filter - тип продукта
+   * Main method to receive products
+   * @param filter - product type
    */
 
   async getProductDataByFilter(filter: TFilter | 'All') {
@@ -103,7 +103,8 @@ class LocalStorage {
       // 3000000 - 10 минут - максимальное время актуальности данных в локальном хранилище
       setTimeout(() => {
         // запрос на получение новых данных после отрисоки на основе данных из локального хранилища
-        this.updateProductDataByFilter(filter).then(() => {});
+        this.updateProductDataByFilter(filter).then(() => {
+        });
       });
       return productDataStorageByFilter.data;
     } else {
@@ -114,7 +115,7 @@ class LocalStorage {
   }
 
   /**
-   * Главный метод для получения данных пользователя
+   * Main method to receive user data
    */
 
   async getUserData() {
@@ -135,8 +136,8 @@ class LocalStorage {
   }
 
   /**
-   * Метод для получения продуктов из БД по списку из пользовательских данных
-   * @param listType - тип списка
+   * Method to receive products from database user data list
+   * @param listType - list type
    */
 
   async getListData(listType: 'shoppingList' | 'wishlist') {
@@ -151,9 +152,9 @@ class LocalStorage {
   }
 
   /**
-   * Метод для изменения локальной корзины пользователя
-   * @param productId ID продукта
-   * @param listType выбор типа списка продуктов
+   * Method to change user local cart
+   * @param productId product ID
+   * @param listType choosing of product list type
    */
 
   changeUserProductList(

@@ -9,14 +9,14 @@ import LocalStorage from '@classes/LocalStorage';
 import ItemDOM from '@classes/dom/ItemDOM';
 
 /**
- * Класс для работы с продуктом
+ * Product class
  */
 
 class Item {
   /**
-   * Метод для отображения карточки продукта
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to display product card
+   * @param product initial product
+   * @param userData current user
    */
 
   static showSelectedItem(product: IProduct, userData: IUser) {
@@ -44,8 +44,8 @@ class Item {
   }
 
   /**
-   * Метод для получения стоимостных данных продукта
-   * @param product исходный продукт
+   * Method to receive product value data
+   * @param product initial product
    */
 
   static getSale(product: IProduct) {
@@ -80,7 +80,7 @@ class Item {
   }
 
   /**
-   * Метод для добавления обработчиков на кнопки
+   * Method to add listeners to buttons
    * @param $buttonPurchase
    * @param $likeButton
    * @param product
