@@ -3,7 +3,7 @@
 
 //ShoppingList.createHeaderList()    Wishlist.createHeaderList()
 .list-header-container {
-  display: flex;
+  display: none;
   justify-content: center;
   position: fixed;
   width: 50vw;
@@ -13,4 +13,8 @@
 
   background: radial-gradient(ellipse at top, c.$bgColor_main, transparent);
   border-radius: 0 0 50% 50% /0 0 100% 100%;
+
+  @media screen and (max-device-width: s.$min-width) {
+    display: flex;
+  }
 }
