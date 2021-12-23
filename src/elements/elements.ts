@@ -1,10 +1,13 @@
+/**
+ * Method to count padding for main container and resizing it
+ */
+
 const $login = document.getElementById('login');
-const $popup = document.getElementById('popupWrapper');
 
 function countPadding() {
-  const $headerHeight: number | undefined =
-    document.querySelector('header')?.offsetHeight;
+  const $headerHeight: number | undefined = document.querySelector('header')?.offsetHeight;
   const $main: HTMLElement | null = document.querySelector('main');
+
   if ($main) {
     $main.style.paddingTop = `${$headerHeight}px`;
   }
