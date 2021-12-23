@@ -35,7 +35,6 @@ class Router {
       hash,
       title,
       callback,
-      isCalled: false,
     });
     return this;
   }
@@ -71,15 +70,6 @@ class Router {
   }
 
   /**
-   * Method whether the given route was called
-   * @param hash hash route
-   */
-  checkRoute(hash: string): boolean | undefined {
-    const route = this.findRoute(hash);
-    return route?.isCalled;
-  }
-
-  /**
    * Method for getting hash
    */
   static #getHash(): string {
@@ -97,7 +87,6 @@ class Router {
         const route = this.findRoute(hash);
         if (route) {
           route.callback();
-          route.isCalled = true;
           Router.#changeTitle(route.title);
         } else {
           // пробуем создать путь сами
