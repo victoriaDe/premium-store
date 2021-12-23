@@ -7,7 +7,6 @@ import { TPopupInputs, TLinkHandler } from '@type/popup';
 /**
  * Класс для создания всплывающих окон
  */
-
 class Popup {
   /** элемент, вызвавший создание окна */
   #target: HTMLElement;
@@ -36,7 +35,6 @@ class Popup {
   /**
    * Метод для создания заголовка формы
    */
-
   createHeader(): HTMLHeadingElement {
     const title = this.#target.id.split('-').join(' '); // айдишник элемента, по которому кликнули переходит в читабельную форму
     const $header = document.createElement('h2'); // создать Н2
@@ -48,7 +46,6 @@ class Popup {
    * Метод для создания формы
    * @param linkHandler коллбэк для ссылки восстановления пароля
    */
-
   createForm(linkHandler?: TLinkHandler): HTMLFormElement {
     const $form = document.createElement('form'); // создать форму
     $form.classList.add('popup-form'); // только стили
@@ -88,7 +85,6 @@ class Popup {
   /**
    * Метод для создания кнопки OK
    */
-
   static createButton(): HTMLButtonElement {
     // единственный адекватный метод без черни
     const $btn = document.createElement('button');
@@ -103,7 +99,6 @@ class Popup {
    * @param id ID для созданной ссылки
    * @param handler коллбэк для созданной ссылки
    */
-
   static createLink(
     str: string,
     id: string,
@@ -124,7 +119,6 @@ class Popup {
   /**
    * Метод для создания крестика закрытия формы
    */
-
   static createSpan(): HTMLSpanElement {
     // это крестик
     // можно по- идее сразу на него повесить лисенер на закрытие, как на линках, сейчас он вешается в функции closePopup,
@@ -138,7 +132,6 @@ class Popup {
   /**
    * Метод для создания самого всплывающего окна
    */
-
   renderHTML(): HTMLDivElement {
     const $container = document.createElement('div'); // контейнер в обертке, оранжевый
     $container.classList.add('pop-up-container'); // только стили

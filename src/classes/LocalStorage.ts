@@ -3,30 +3,29 @@
  */
 
 import { TFilter } from '@type/product';
-import UserAPI from '@api/UserAPI';
-import ProductAPI from '@api/ProductAPI';
+import { TCurrencyCode } from '@type/price';
 import {
-  TCurrency,
   IProductLocalStorageData,
   IUserLocalStorageData,
   TLocalData,
 } from '@type/local-storage';
 
+import UserAPI from '@api/UserAPI';
+import ProductAPI from '@api/ProductAPI';
+
 /**
  * Класс для работы с локальным хранилищем
  */
-
 class LocalStorage {
   /** ID пользователя для рабоаты */
   #userId = '61a6286353b5dad92e57b4c0';
 
   /** Валюта продуктов */
-  #currency = 'PLN' as TCurrency;
+  #currency = 'PLN' as TCurrencyCode;
 
   /**
    * Метод для получения валюты продуктов
    */
-
   getCurrency() {
     return this.#currency;
   }
@@ -35,7 +34,6 @@ class LocalStorage {
    * Метод для получения данных из локального хранилища
    * @param id ID запрашиваемых данных
    */
-
   getLocalData(id: string): TLocalData {
     const dataJson: string | null = localStorage.getItem(`${id}`);
     if (dataJson) return JSON.parse(dataJson);
@@ -45,7 +43,6 @@ class LocalStorage {
   /**
    * Метод для отправки данных пользователя с локального хранилища в БД
    */
-
   async sendUserData() {
     const userData = this.getLocalData('user') as IUserLocalStorageData | null;
     if (userData) {
@@ -56,7 +53,6 @@ class LocalStorage {
   /**
    * Метод для получения данных пользователя из БД и сохранения их в локальное хранилище
    */
-
   async updateUserData() {
     const userData = await UserAPI.getUserByID(this.#userId);
     if (!userData) return null;
@@ -73,7 +69,6 @@ class LocalStorage {
    * Метод для получения продуктов по типу из БД и сохранения их в локальное хранилище
    * @param filter - тип продукта
    */
-
   async updateProductDataByFilter(filter: TFilter | 'All') {
     const productDataByFilter = await ProductAPI.getProductsByFilter(
       filter,
@@ -92,7 +87,6 @@ class LocalStorage {
    * Главный метод для получения продуктов
    * @param filter - тип продукта
    */
-
   async getProductDataByFilter(filter: TFilter | 'All') {
     const productDataStorageByFilter = this.getLocalData(
       filter,
@@ -131,7 +125,6 @@ class LocalStorage {
   /**
    * Главный метод для получения данных пользователя
    */
-
   async getUserData() {
     const userDataStorage = this.getLocalData(
       'user',
@@ -153,7 +146,6 @@ class LocalStorage {
    * Метод для получения продуктов из БД по списку из пользовательских данных
    * @param listType - тип списка
    */
-
   async getListData(listType: 'shoppingList' | 'wishlist') {
     // всегда берем актуальные данные с сервера по списку id
     const userData = await this.getUserData();
@@ -179,7 +171,6 @@ class LocalStorage {
    * @param productId ID продукта
    * @param listType выбор типа списка продуктов
    */
-
   changeUserProductList(
     productId: string,
     listType: 'shoppingList' | 'wishlist',
