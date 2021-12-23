@@ -7,7 +7,6 @@ import { TPopupInputs, TLinkHandler } from '@type/popup';
 /**
  * Popup Class
  */
-
 class Popup {
   /** element triggered popup creation */
   #target: HTMLElement;
@@ -36,7 +35,6 @@ class Popup {
   /**
    * Method to create form title
    */
-
   createHeader(): HTMLHeadingElement {
     const title = this.#target.id.split('-').join(' ');
     const $header = document.createElement('h2');
@@ -48,7 +46,6 @@ class Popup {
    * Method to create a form
    * @param linkHandler restore password link callback
    */
-
   createForm(linkHandler?: TLinkHandler): HTMLFormElement {
     const $form = document.createElement('form');
     $form.classList.add('popup-form');
@@ -82,7 +79,6 @@ class Popup {
   /**
    * Method to create submit button
    */
-
   static createButton(): HTMLButtonElement {
     // единственный адекватный метод без черни
     const $btn = document.createElement('button');
@@ -97,7 +93,6 @@ class Popup {
    * @param id link id
    * @param handler link callback
    */
-
   static createLink(
     str: string,
     id: string,
@@ -115,7 +110,6 @@ class Popup {
   /**
    * Method to create close popup cross
    */
-
   static createSpan(): HTMLSpanElement {
     // это крестик
     // можно по- идее сразу на него повесить лисенер на закрытие, как на линках, сейчас он вешается в функции closePopup,
@@ -129,7 +123,6 @@ class Popup {
   /**
    * Method to create popup container
    */
-
   renderHTML(): HTMLDivElement {
     const $container = document.createElement('div');
     $container.classList.add('pop-up-container');

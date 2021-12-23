@@ -6,23 +6,20 @@ import { IProduct, TFilter } from '@type/product';
 import { IUser } from '@type/user';
 import { IProductLocalStorageData } from '@type/local-storage';
 
-import Item from '@classes/Item';
 import ProductAPI from '@api/ProductAPI';
 import Wishlist from '@classes/Wishlist';
+import ItemDOM from '@classes/dom/ItemDOM';
+import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
 import LocalStorage from '@classes/LocalStorage';
 
 import lazy from '@scripts/lazy';
 import lazyBD from '@scripts/lazyBD';
-import ItemDOM from '@classes/dom/ItemDOM';
-import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
 /**
  * Product filtration & work with filtrated products class
  */
-
 class Filter {
-  //  #nation #type #tier используются для фильтрации продуктов типа техника
   /** страна техники */
   static #nation: string | undefined;
 
@@ -35,7 +32,6 @@ class Filter {
   /**
    * Method to add listeners to filters' buttons
    */
-
   static addEvent(): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
@@ -55,7 +51,6 @@ class Filter {
    * Method to filter all products
    * @param filter filter to sort
    */
-
   static filterProducts(filter: TFilter | 'All' | null) {
     let $target: HTMLElement | null;
     LocalStorage.getUserData().then((userData) => {
@@ -80,7 +75,6 @@ class Filter {
    * Method to filter
    * @param userData current user
    */
-
   static filterTechniqueProducts(userData: IUser) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
@@ -113,7 +107,6 @@ class Filter {
    * @param productData array with all items
    * @param filter filter to sort
    */
-
   static createFilterProducts(
     filteredProducts: IProduct[],
     userData: IUser,
@@ -154,23 +147,27 @@ class Filter {
     Filter.showFilterProduct(filteredProducts, userData);
   }
 
+  /**
+   * Метод для добавления событий на фильтры для техники
+   * @param resetTypeButton кнопка сброса фильтра
+   * @param allFilterTypes список всех фильтров по типам
+   * @param buttonsFilterList список основных фильиров
+   * @param userData текущий пользователь
+   */
   static addFilterEvent(
     resetTypeButton: Element,
     allFilterTypes: NodeListOf<Element>,
     buttonsFilterList: NodeListOf<Element>,
     userData: IUser,
   ) {
+    const filterText: { [char: string]: string } = {
+      nations: 'All nations',
+      types: 'All types',
+      tiers: 'All tiers',
+    };
     resetTypeButton?.addEventListener('click', () => {
-      buttonsFilterList.forEach((item, index) => {
-        if (index === 0) {
-          item.textContent = 'All nations';
-        }
-        if (index === 1) {
-          item.textContent = 'All types';
-        }
-        if (index === 2) {
-          item.textContent = 'All tiers';
-        }
+      buttonsFilterList.forEach((item) => {
+        item.textContent = filterText[item.classList[1]];
         item.classList.remove(item.classList[3]);
       });
       this.#type = 'all';
@@ -231,7 +228,6 @@ class Filter {
    * @param filteredProducts filtered products array
    * @param userData current user
    */
-
   static showFilterProduct(filteredProducts: IProduct[], userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -249,9 +245,7 @@ class Filter {
       let itemCounter = 0;
       filteredProducts.forEach((value: IProduct) => {
         if (itemCounter < 20) {
-          $container.appendChild(
-            ItemDOM.createItem(value, userData /* , router */),
-          );
+          $container.appendChild(ItemDOM.createItem(value, userData));
           itemCounter += value.span;
         }
       });
@@ -264,7 +258,6 @@ class Filter {
    * Method to create all products
    * @param userData current user
    */
-
   static createAllFilterProducts(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -287,7 +280,6 @@ class Filter {
    * Method to display all products
    * @param userData current user
    */
-
   static showAllFilterProduct(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -299,6 +291,9 @@ class Filter {
       $container.classList.add('main-container-content');
       $visualContainer.appendChild($container);
 
+
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
       ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency()).then(
         (value) => {
           if (value) {
@@ -308,7 +303,9 @@ class Filter {
             lazyBD(40, 500, userData);
           }
         },
-      );
+      ).finally(()=>{
+        if($spinner) $spinner.style.display="none"
+      });
     }
   }
 }

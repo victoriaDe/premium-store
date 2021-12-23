@@ -3,17 +3,18 @@
  */
 
 import { TFilter } from '@type/product';
-import UserAPI from '@api/UserAPI';
-import ProductAPI from '@api/ProductAPI';
+import { TCurrencyCode } from '@type/price';
 import {
-  TCurrency,
   IProductLocalStorageData,
   IUserLocalStorageData,
   TLocalData,
 } from '@type/local-storage';
 
+import UserAPI from '@api/UserAPI';
+import ProductAPI from '@api/ProductAPI';
+
 /**
- * Localstorage Class
+ * LocalStorage Class
  */
 
 class LocalStorage {
@@ -21,7 +22,7 @@ class LocalStorage {
   #userId = '61a6286353b5dad92e57b4c0';
 
   /** product currency */
-  #currency = 'PLN' as TCurrency;
+  #currency = 'PLN' as TCurrencyCode;
 
   /**
    * Method to receive product currency
@@ -65,6 +66,7 @@ class LocalStorage {
       dateAdded: Date.now(),
     };
     localStorage.setItem('user', JSON.stringify(localUserData));
+
     return userData;
   }
 
@@ -91,14 +93,21 @@ class LocalStorage {
    * Main method to receive products
    * @param filter - product type
    */
-
   async getProductDataByFilter(filter: TFilter | 'All') {
     const productDataStorageByFilter = this.getLocalData(
       filter,
     ) as IProductLocalStorageData | null;
     if (!productDataStorageByFilter) {
+
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
+
       const productDataByFilter = await this.updateProductDataByFilter(filter);
-      if (productDataByFilter) return productDataByFilter;
+      if (productDataByFilter)  {
+        if($spinner) $spinner.style.display="none"
+        return productDataByFilter;
+      }
+      if($spinner) $spinner.style.display="none"
     } else if (Date.now() - productDataStorageByFilter.dateAdded < 3000000) {
       // 3000000 - 10 минут - максимальное время актуальности данных в локальном хранилище
       setTimeout(() => {
@@ -108,8 +117,14 @@ class LocalStorage {
       });
       return productDataStorageByFilter.data;
     } else {
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
       const productDataByFilter = await this.updateProductDataByFilter(filter);
-      if (productDataByFilter) return productDataByFilter;
+      if (productDataByFilter) {
+        if($spinner) $spinner.style.display="none"
+        return productDataByFilter;
+      }
+      if($spinner) $spinner.style.display="none"
     }
     return null;
   }
@@ -117,7 +132,6 @@ class LocalStorage {
   /**
    * Main method to receive user data
    */
-
   async getUserData() {
     const userDataStorage = this.getLocalData(
       'user',
@@ -139,13 +153,21 @@ class LocalStorage {
    * Method to receive products from database user data list
    * @param listType - list type
    */
-
   async getListData(listType: 'shoppingList' | 'wishlist') {
     // всегда берем актуальные данные с сервера по списку id
     const userData = await this.getUserData();
     if (userData) {
       if (userData[listType].length > 0) {
-        return ProductAPI.getProductsByList(userData[listType], this.#currency);
+        const $spinner = document.getElementById("spinner")
+        if($spinner) $spinner.style.display="block"
+        const productData =  await ProductAPI.getProductsByList(userData[listType], this.#currency);
+        if(productData){
+          if($spinner) $spinner.style.display="none"
+          return productData
+        }else{
+          if($spinner) $spinner.style.display="none"
+          return null
+        }
       }
     }
     return null;
@@ -156,7 +178,6 @@ class LocalStorage {
    * @param productId product ID
    * @param listType choosing of product list type
    */
-
   changeUserProductList(
     productId: string,
     listType: 'shoppingList' | 'wishlist',

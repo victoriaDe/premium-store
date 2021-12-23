@@ -4,6 +4,7 @@
 
 import { TFilter } from '@type/product';
 
+/** коллбэк для маршрута */
 export type TRouteCallback = (...args: any[]) => void;
 
 export type TRoute = {

@@ -4,7 +4,7 @@
 
 import { IProduct, TFilter } from '@type/product';
 import { IResponse } from '@type/api';
-import { TCurrency } from '@type/local-storage';
+import { TCurrencyCode } from '@type/price';
 
 import { backEndInstance } from '@api/API';
 
@@ -19,7 +19,7 @@ class ProductAPI {
    */
   static async getProductsByFilter(
     filter: TFilter | 'All',
-    currency: TCurrency,
+    currency: TCurrencyCode,
   ) {
     try {
       const response = await backEndInstance.get<IResponse<IProduct[]>>(
@@ -62,7 +62,7 @@ class ProductAPI {
    */
   static async getProductsByList(
     listProductsID: string[],
-    currency: TCurrency,
+    currency: TCurrencyCode,
   ) {
     const response = await backEndInstance.post<IResponse<IProduct[]>>(
       'products',

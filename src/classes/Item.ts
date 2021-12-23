@@ -1,24 +1,26 @@
+/**
+ * @module Item
+ */
+
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
 
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
+import ItemDOM from '@classes/dom/ItemDOM';
+import LocalStorage from '@classes/LocalStorage';
 
 import { calcFinalPrice, humanPrice, getCurrencySign } from '@scripts/price';
-import LocalStorage from '@classes/LocalStorage';
-import ItemDOM from '@classes/dom/ItemDOM';
 
 /**
  * Product class
  */
-
 class Item {
   /**
    * Method to display product card
    * @param product initial product
    * @param userData current user
    */
-
   static showSelectedItem(product: IProduct, userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -47,9 +49,8 @@ class Item {
    * Method to receive product value data
    * @param product initial product
    */
-
-  static getSale(product: IProduct) {
-    let priceAmount = '';
+  static getPrice(product: IProduct) {
+    let priceAmount = ``;
     let actualPrice = ``;
     let sale = ``;
     let currency = `${getCurrencySign(product.data.price.basic.currency!)}`;
@@ -86,7 +87,6 @@ class Item {
    * @param product
    * @param shoppingList
    */
-
   static addButtonEvent(
     $buttonPurchase: HTMLElement | null,
     $likeButton: HTMLElement | null,
