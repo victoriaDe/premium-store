@@ -33,7 +33,6 @@ function lazyBD(
   amount: number,
   margin: number,
   user: IUser | null,
-  item: Item,
 ) {
   const $productsContainer = document.querySelector('.main-container-content');
   if (!$productsContainer) return;
