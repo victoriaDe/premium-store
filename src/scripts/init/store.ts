@@ -1,11 +1,17 @@
+/**
+ * @module Init
+ */
+
 import LocalStorage from '@classes/LocalStorage';
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
 
 import router from '@scripts/init/router';
 
-// инициализация магазина
-const storeInit = () =>
+/**
+ * Функция для инициализации магазина
+ */
+export default function storeInit() {
   document.addEventListener(
     'DOMContentLoaded',
     async () => {
@@ -20,5 +26,4 @@ const storeInit = () =>
     },
     { once: true },
   );
-
-export default storeInit;
+}
