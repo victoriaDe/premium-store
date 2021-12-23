@@ -31,9 +31,11 @@
       padding: 0 0 15px 30px;
     }
 
-    .main-container-description_button-purchase {
-      display: block;
-      pointer-events: auto;
+    @media screen and (min-device-width: s.$min-width) {
+      .main-container-description_button-purchase {
+        display: block;
+        pointer-events: auto;
+      }
     }
 
   }
@@ -250,15 +252,6 @@
 
   &:hover {
     opacity: 0.8;
-  }
-
-  @media screen and (max-device-width: s.$max-device-width) {
-    display: block;
-    pointer-events: auto;
-    height: 30px;
-    width: 80px;
-    font-size: 10px;
-    margin-left: 0;
   }
 }
 
