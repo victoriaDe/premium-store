@@ -158,7 +158,15 @@
     .header-nav-link:last-of-type {
       display: none;
     }
-    .logo {
+    .login {
+      &:focus {
+        color: c.$fColor_orange;
+      }
+    }
+    .create {
+      font-size: 1em;
+      color: c.$fColorHeader_active;
+
       &:focus {
         color: c.$fColor_orange;
       }
