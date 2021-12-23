@@ -21,13 +21,14 @@ class HeaderAuth {
             id="shoppingId"
             class="icon-cart header-nav-link hash-link"
             href="#shoppingcart"
-            >Shopping cart <span class="cart-span-container">(0)</span></a
+            >Shopping cart <span class="cart-span-container">(0)</span></a 
           >
           <div class="header-nav-account">          
-          <a class="header-nav-link icon-user"  id="logout">Jopa Enota</a>  
-          <a class="header-nav-link icon-enter"  id="logout">Logout</a>  
+          <a class="header-nav-link icon-user"  id="logout">PopaEnota</a>  
+          <a class="header-nav-link icon-enter"  id="logout">Logout</a> 
           </div>    
       `;
+      //можно вывести имя или ник, если не на 3 строки
       const $logout: HTMLElement | null = document.getElementById('logout'); // ссылка логина
       if ($logout) {
         fixLoginPopup($logout);
@@ -47,6 +48,9 @@ class HeaderAuth {
             <a class="header-nav-link create" id="create-account">Create account</a>
           </div>
       `;
+      //предлагаю оставить create словами, тк адекватной иконки для создания я не припомню, а если будет непонятно, что это - в него не будут тыкать
+      //если будут варианты - прикрутить иконку - 2 минуты. можешь глянуть iconmoon - если вдруг что-то понравится
+
       const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
       const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
       // console.log($login)
