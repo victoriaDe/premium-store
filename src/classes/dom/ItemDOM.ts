@@ -31,18 +31,21 @@ class ItemDOM {
         : user.shoppingList.includes(product.data.id);
     const isAddedToWishlist =
       page === 'wishlist' ? true : user.wishlist.includes(product.data.id);
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
 
     const $item = document.createElement('div');
     $item.classList.add('item-filtered-container');
 
-    $item.innerHTML = `
-      <div class="checkbox-container">
-        <input type="checkbox" id="checkbox-${product.data.id}" name="name-${
-      product.data.id
-    }">
+    const $checkboxContainer = document.createElement('div');
+    $checkboxContainer.classList.add('checkbox-container');
+
+    $checkboxContainer.innerHTML = `
+    <input type="checkbox" id="checkbox-${product.data.id}" name="name-${product.data.id}">
         <label for="checkbox-${product.data.id}">Buy it!</label>
-      </div>
+    `;
+
+    $item.innerHTML = `
+      ${page === 'shoppingList' ? $checkboxContainer.outerHTML : ''}
       <a class="item-filtered-img" href="#${
         product.data.id
       }" onclick="return false">
@@ -100,7 +103,7 @@ class ItemDOM {
         </span>`;
     }
 
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
     $item.innerHTML = `
       <a class="main-container-link ${
         isAddedToPurchase ? 'main-container-link-added' : ''
@@ -160,7 +163,7 @@ class ItemDOM {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
 
     if (product) {
       $item.innerHTML = `
