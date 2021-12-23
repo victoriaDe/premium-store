@@ -10,8 +10,8 @@ import ItemDOM from '@dom/ItemDOM';
 /**
  * Function for lazy loading of products on the main page
  * @param amount number of products to download
- * @param margin target padding (allows you to start loading new products earlier)
- * @param user current store user
+ * @param margin target margin (allows to start loading new products earlier)
+ * @param user current user
  * @param products products to display on the page
  */
 function lazy(
