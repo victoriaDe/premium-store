@@ -48,8 +48,8 @@ class Item {
    * @param product исходный продукт
    */
 
-  static getSale(product: IProduct) {
-    let priceAmount = '';
+  static getPrice(product: IProduct) {
+    let priceAmount = ``;
     let actualPrice = ``;
     let sale = ``;
     let currency = `${getCurrencySign(product.data.price.basic.currency!)}`;

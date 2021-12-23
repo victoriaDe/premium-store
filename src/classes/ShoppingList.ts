@@ -40,7 +40,7 @@ class ShoppingList {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
 
     $item.innerHTML = `
     <div class="checkbox-container">
