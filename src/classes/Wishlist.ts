@@ -36,7 +36,7 @@ class Wishlist {
   static createWishlistItem(product: IProduct, userData: IUser) {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
     $item.classList.add('item-filtered-container');
     $item.innerHTML = `
       <a class="item-filtered-img" href="#${

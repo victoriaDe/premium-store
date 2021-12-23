@@ -31,7 +31,7 @@ class ItemDOM {
         : user.shoppingList.includes(product.data.id);
     const isAddedToWishlist =
       page === 'wishlist' ? true : user.wishlist.includes(product.data.id);
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
 
     const $item = document.createElement('div');
     $item.classList.add('item-filtered-container');
@@ -105,7 +105,7 @@ class ItemDOM {
         </span>`;
     }
 
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
     $item.innerHTML = `
       <a class="main-container-link ${
         isAddedToPurchase ? 'main-container-link-added' : ''
@@ -165,7 +165,7 @@ class ItemDOM {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
 
     if (product) {
       $item.innerHTML = `
