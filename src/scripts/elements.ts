@@ -4,6 +4,9 @@
 
 const $login = document.getElementById('login');
 
+/**
+ * Функция для расчёта отступа основного контента от шапки
+ */
 function countPadding() {
   const $headerHeight: number | undefined = document.querySelector('header')?.offsetHeight;
   const $main: HTMLElement | null = document.querySelector('main');
@@ -23,4 +26,3 @@ function load() {
 
 window.addEventListener('load', load);
 window.addEventListener('resize', load);
-

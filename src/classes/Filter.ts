@@ -13,8 +13,8 @@ import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
 import LocalStorage from '@classes/LocalStorage';
 
-import lazy from '@scripts/lazy';
-import lazyBD from '@scripts/lazyBD';
+import lazy from '@scripts/lazy/lazy';
+import lazyBD from '@scripts/lazy/lazyBD';
 
 /**
  * Product filtration & work with filtrated products class
@@ -291,21 +291,20 @@ class Filter {
       $container.classList.add('main-container-content');
       $visualContainer.appendChild($container);
 
-
-      const $spinner = document.getElementById("spinner")
-      if($spinner) $spinner.style.display="block"
-      ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency()).then(
-        (value) => {
+      const $spinner = document.getElementById('spinner');
+      if ($spinner) $spinner.style.display = 'block';
+      ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency())
+        .then((value) => {
           if (value) {
             value.products.forEach((product: IProduct) => {
               $container.appendChild(ItemDOM.createItem(product, userData));
             });
             lazyBD(40, 500, userData);
           }
-        },
-      ).finally(()=>{
-        if($spinner) $spinner.style.display="none"
-      });
+        })
+        .finally(() => {
+          if ($spinner) $spinner.style.display = 'none';
+        });
     }
   }
 }
