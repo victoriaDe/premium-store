@@ -3,26 +3,23 @@
  */
 
 import { IProduct } from '@type/product';
-import { IUser } from '@type/user';
 
-import Item from '@classes/Item';
 import Wishlist from '@classes/Wishlist';
-import DOMElems from '@classes/DOMElems';
+import ItemDOM from '@dom/ItemDOM';
 import LocalStorage from '@classes/LocalStorage';
 
-import { humanPrice, calcFinalPrice } from '@scripts/price';
 import localStorage from '@classes/LocalStorage';
 
-/**
- * Класс для работы с корзиной
- */
+import { calcFinalPrice, getCurrencySign } from '@scripts/price';
 
+/**
+ * Shopping cart class
+ */
 class ShoppingList {
   /**
-   * Метод для создания шапки в корзине
-   * @param name текст шапки
+   * Method to create a 'hat' in the cart
+   * @param name text content of the 'hat'
    */
-
   static createHeaderList(name: string) {
     const $header = document.createElement('div');
     $header.innerHTML = `${name}`;
@@ -31,81 +28,8 @@ class ShoppingList {
   }
 
   /**
-   * Метод для создания карточки продукта в корзине
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to create a cart
    */
-
-  static createShoppingListItem(product: IProduct, userData: IUser) {
-    const isAddedToWishlist = userData.wishlist.includes(product.data.id);
-    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
-    const $item: HTMLElement = document.createElement('div');
-    $item.classList.add('item-filtered-container');
-    const saleElement = Item.getSale(product);
-
-    const $likeBtn = DOMElems.btn({
-      classes: [
-        'item-description-likeBtn',
-        isAddedToWishlist ? 'button-like_active' : '',
-      ],
-    });
-
-    const $purchaseBtn = DOMElems.btn({
-      text: 'added',
-      classes: [
-        'item-purchase-button',
-        isAddedToPurchase ? 'button-purchase-added' : '',
-      ],
-    });
-
-    const $image = DOMElems.img({
-      src: product.data.images.span_2x1,
-      alt: product.data.name,
-    });
-
-    $item.innerHTML = `
-    <div class="checkbox-container">
-            <input type="checkbox" id="checkbox-${
-              product.data.id
-            }" name="name-${product.data.id}">
-        <label for="checkbox-${product.data.id}">Buy it!</label>
-    </div>
-      <a class="item-filtered-img" href="#${
-        product.data.id
-      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
-      product.data.name
-    }"></a>
-                <div class="item-filtered-description">
-                    <h2>
-                      ${product.data.name}
-                      ${saleElement[1]}
-                    </h2>
-                    ${product.data.description}
-                    <div>
-                        <button class="item-description-likeBtn ${
-                          isAddedToWishlist ? 'button-like_active' : ' '
-                        }"></button>
-                        <span class="item-purchase-prise">
-                          <span class="item-price-amount ${saleElement[3]}">
-                            ${humanPrice(product.data.price.basic.cost)} 
-                            ${saleElement[2]}
-                          </span>
-                          ${saleElement[0]}
-                        </span>
-                        <button class="item-purchase-button ${
-                          isAddedToPurchase ? 'button-purchase-added' : ''
-                        }">added</button>
-                        </div>
-                        </div>
-    `;
-    Wishlist.addEvent($item, product, true);
-    return $item;
-  }
-
-  /**
-   * Метод для создания корзины
-   */
-
   static async createShoppingList() {
     const shoppingListData = await LocalStorage.getListData('shoppingList');
     const userData = await LocalStorage.getUserData();
@@ -118,7 +42,9 @@ class ShoppingList {
       $wrapper.innerHTML = '';
       if (shoppingListData && userData) {
         shoppingListData.forEach((product) => {
-          $container.append(this.createShoppingListItem(product, userData));
+          $container.append(
+            ItemDOM.createAddedItem(product, userData, 'shoppingList'),
+          );
         });
         $wrapper.append(this.createHeaderList('Shopping list'));
         $wrapper.append($container);
@@ -128,7 +54,9 @@ class ShoppingList {
 
         const $totalPrice = document.createElement('p');
         $totalPrice.classList.add('total-price');
-        $totalPrice.innerHTML = `Total: <span>0 ${localStorage.getCurrency()}</span>`;
+        $totalPrice.innerHTML = `Total: <span>0 ${getCurrencySign(
+          localStorage.getCurrency(),
+        )}</span>`;
 
         const $totalBtn = document.createElement('button');
 
@@ -157,10 +85,9 @@ class ShoppingList {
   }
 
   /**
-   * Метод для показа счётчика товаров в корзине
-   * @param shopping текущая корзина
+   * Method to display the amount of items in a cart
+   * @param shopping current cart
    */
-
   static showShoppingListCounter(shopping: string[]): void {
     const $shoppingCounter: HTMLElement | null = document.querySelector(
       '.cart-span-container',
@@ -171,12 +98,11 @@ class ShoppingList {
   }
 
   /**
-   * Метод для изменения счётчика товаров в корзине
-   * @param product исходный продукт
+   * Method to change the amount of items in a cart
+   * @param product initial product
    * @param showShopping
-   * @param $buttonElement  элемент, вызвавший изменение счётчика
+   * @param $buttonElement elem which has caused counter changing
    */
-
   static changeShoppingListCounter(
     product: IProduct,
     showShopping: (shopping: string[]) => void,

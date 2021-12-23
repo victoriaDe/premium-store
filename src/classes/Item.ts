@@ -1,24 +1,26 @@
+/**
+ * @module Item
+ */
+
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
 
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
-
-import { calcFinalPrice, humanPrice } from '@scripts/price';
-import LocalStorage from '@classes/LocalStorage';
 import ItemDOM from '@classes/dom/ItemDOM';
+import LocalStorage from '@classes/LocalStorage';
+
+import { calcFinalPrice, humanPrice, getCurrencySign } from '@scripts/price';
 
 /**
- * Класс для работы с продуктом
+ * Product class
  */
-
 class Item {
   /**
-   * Метод для отображения карточки продукта
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to display product card
+   * @param product initial product
+   * @param userData current user
    */
-
   static showSelectedItem(product: IProduct, userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -44,21 +46,20 @@ class Item {
   }
 
   /**
-   * Метод для получения стоимостных данных продукта
-   * @param product исходный продукт
+   * Method to receive product value data
+   * @param product initial product
    */
-
-  static getSale(product: IProduct) {
-    let priceAmount = '';
+  static getPrice(product: IProduct) {
+    let priceAmount = ``;
     let actualPrice = ``;
     let sale = ``;
-    let currency = `${product.data.price.basic.currency}`;
+    let currency = `${getCurrencySign(product.data.price.basic.currency!)}`;
     if (product.data.price.basic.cost !== product.data.price.actual.cost) {
       actualPrice = `
       <span class = "item-arrow icon-arrow-right"></span>
       <span class="item-price-reduced">${humanPrice(
         product.data.price.actual.cost,
-      )} ${product.data.price.basic.currency}</span>`;
+      )} ${currency}</span>`;
       let discountAmount = Math.ceil(
         100 -
           (100 * +product.data.price.actual.cost) /
@@ -69,21 +70,23 @@ class Item {
       priceAmount = 'price-sale';
       if (product.data.price.actual.discountType === '') {
         discountAmount =
-          +product.data.price.basic.cost - +product.data.price.actual.cost;
-        sale = `<span class='item-sale'>-${discountAmount} ${product.data.price.basic.currency}</span>`;
+          Math.floor(
+            (+product.data.price.basic.cost - +product.data.price.actual.cost) *
+              100,
+          ) / 100;
+        sale = `<span class='item-sale'>-${discountAmount} ${currency}</span>`;
       }
     }
     return [actualPrice, sale, currency, priceAmount];
   }
 
   /**
-   * Метод для добавления обработчиков на кнопки
+   * Method to add listeners to buttons
    * @param $buttonPurchase
    * @param $likeButton
    * @param product
    * @param shoppingList
    */
-
   static addButtonEvent(
     $buttonPurchase: HTMLElement | null,
     $likeButton: HTMLElement | null,

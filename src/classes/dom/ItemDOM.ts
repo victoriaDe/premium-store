@@ -11,14 +11,14 @@ import Item from '@classes/Item';
 import { humanPrice } from '@scripts/price';
 
 /**
- * Класс для создания DOM продукта
+ * Class to create a product DOM
  */
 class ItemDOM {
   /**
-   * Метод для создания карточки продукта на страницах корзины и списка желаний
-   * @param product исходный продукт
-   * @param user текущий пользователь
-   * @param page название страницы
+   * Method to create product card on pages (wishlist and shopping cart)
+   * @param product initial product
+   * @param user current user
+   * @param page page title
    */
   static createAddedItem(
     product: IProduct,
@@ -31,12 +31,21 @@ class ItemDOM {
         : user.shoppingList.includes(product.data.id);
     const isAddedToWishlist =
       page === 'wishlist' ? true : user.wishlist.includes(product.data.id);
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
 
     const $item = document.createElement('div');
     $item.classList.add('item-filtered-container');
 
+    const $checkboxContainer = document.createElement('div');
+    $checkboxContainer.classList.add('checkbox-container');
+
+    $checkboxContainer.innerHTML = `
+    <input type="checkbox" id="checkbox-${product.data.id}" name="name-${product.data.id}">
+        <label for="checkbox-${product.data.id}">Buy it!</label>
+    `;
+
     $item.innerHTML = `
+      ${page === 'shoppingList' ? $checkboxContainer.outerHTML : ''}
       <a class="item-filtered-img" href="#${
         product.data.id
       }" onclick="return false">
@@ -66,27 +75,16 @@ class ItemDOM {
         </div>
       </div>`;
 
-    if (page === 'shoppingList') {
-      const $checkboxContainer = document.createElement('div');
-      $checkboxContainer.classList.add('checkbox-container');
-
-      $checkboxContainer.innerHTML = `
-        <label>
-          <input type="checkbox" id="checkbox-${product.data.id}" class="checkbox-buy" name="will-buy" checked>
-        </label>`;
-
-      $item.prepend($checkboxContainer);
-    }
     ///
-    Wishlist.addEvent($item, product, false);
+    Wishlist.addEvent($item, product, page === 'shoppingList');
     ///
     return $item;
   }
 
   /**
-   * Метод для создания карточки продукта на главной странице и страницах фильтров
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to create product card on pages (main and filters)
+   * @param product initial product
+   * @param userData current user
    */
   static createItem(product: IProduct, userData: IUser): HTMLElement {
     const $item = document.createElement('div');
@@ -105,7 +103,7 @@ class ItemDOM {
         </span>`;
     }
 
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
     $item.innerHTML = `
       <a class="main-container-link ${
         isAddedToPurchase ? 'main-container-link-added' : ''
@@ -156,16 +154,16 @@ class ItemDOM {
   }
 
   /**
-   * Метод для создания карточки продукта на странице самого продукта
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to create product card on page (product)
+   * @param product initial product
+   * @param userData current user
    */
   static createSelectedItem(product: IProduct, userData: IUser): HTMLElement {
     const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-container');
     $item.id = 'mainItem';
-    const saleElement = Item.getSale(product);
+    const saleElement = Item.getPrice(product);
 
     if (product) {
       $item.innerHTML = `

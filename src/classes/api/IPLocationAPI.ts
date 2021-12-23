@@ -5,11 +5,11 @@
 import { ipLocInstance } from '@api/API';
 
 /**
- * Класс для определения местоположения пользователя, опираясь на IP адрес
+ * Class to determine user's location through IP
  */
 class IPLocationAPI {
   /**
-   * Метод для получения кода страны пользователя
+   * Method to reach out user's country code
    */
   static async getCountryCode(): Promise<string> {
     try {

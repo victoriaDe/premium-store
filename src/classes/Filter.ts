@@ -6,23 +6,20 @@ import { IProduct, TFilter } from '@type/product';
 import { IUser } from '@type/user';
 import { IProductLocalStorageData } from '@type/local-storage';
 
-import Item from '@classes/Item';
 import ProductAPI from '@api/ProductAPI';
 import Wishlist from '@classes/Wishlist';
-
-import LocalStorage from '@classes/LocalStorage';
-
-import lazy from '@scripts/lazy';
-import lazyBD from '@scripts/lazyBD';
 import ItemDOM from '@classes/dom/ItemDOM';
 import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
-/**
- * Класс для фильтрации продуктов и работы с уже отфильтрованными продуктами
- */
+import LocalStorage from '@classes/LocalStorage';
 
+import lazy from '@scripts/lazy/lazy';
+import lazyBD from '@scripts/lazy/lazyBD';
+
+/**
+ * Product filtration & work with filtrated products class
+ */
 class Filter {
-  //  #nation #type #tier используются для фильтрации продуктов типа техника
   /** страна техники */
   static #nation: string | undefined;
 
@@ -33,9 +30,8 @@ class Filter {
   static #tier: string | undefined;
 
   /**
-   * Метод для добавления обработчиков кнопок фильтров
+   * Method to add listeners to filters' buttons
    */
-
   static addEvent(): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
@@ -52,10 +48,9 @@ class Filter {
   }
 
   /**
-   * Метод для фильтрации всех продуктов
-   * @param filter фильтр для сортировки
+   * Method to filter all products
+   * @param filter filter to sort
    */
-
   static filterProducts(filter: TFilter | 'All' | null) {
     let $target: HTMLElement | null;
     LocalStorage.getUserData().then((userData) => {
@@ -77,10 +72,9 @@ class Filter {
   }
 
   /**
-   * Метод для фильтрации техники
-   * @param userData текущий пользователь
+   * Method to filter
+   * @param userData current user
    */
-
   static filterTechniqueProducts(userData: IUser) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
@@ -107,13 +101,12 @@ class Filter {
   }
 
   /**
-   * Метод для создания фильтрованных продуктов
-   * @param filteredProducts массив фильтрованных продуктов
-   * @param userData текущий пользователь
-   * @param productData массив всех продуктов
-   * @param filter фильтр для сортировки
+   * Method to create filtered products
+   * @param filteredProducts filtered products array
+   * @param userData current user
+   * @param productData array with all items
+   * @param filter filter to sort
    */
-
   static createFilterProducts(
     filteredProducts: IProduct[],
     userData: IUser,
@@ -134,66 +127,19 @@ class Filter {
     if (filter === 'Technique') {
       const $itemFilter = VehiclesFilterDOM.createVehiclesFilter();
       $wrapper?.append($itemFilter);
-      const filterList = $itemFilter.querySelectorAll(
+      const buttonsFilterList = $itemFilter.querySelectorAll(
         '.filter-container-checkedBtn',
       );
-      const filterType = $itemFilter.querySelectorAll('.filter-btn');
-      const allVehicles = $itemFilter.querySelector('.item-filters-btn');
-      const allFilterButtons = $itemFilter.querySelectorAll(
-        '.filter-container-checkedBtn',
-      );
-      allVehicles?.addEventListener('click', () => {
-        allFilterButtons.forEach((item, index) => {
-          if (index === 0) {
-            item.textContent = 'All nations';
-          }
-          if (index === 1) {
-            item.textContent = 'All types';
-          }
-          if (index === 2) {
-            item.textContent = 'All tiers';
-          }
-          item.classList.remove(item.classList[3]);
-        });
-        this.#type = 'all';
-        this.#tier = 'all';
-        this.#nation = 'all';
-        this.filterTechniqueProducts(userData /* , productData, router */);
-      });
-      filterType.forEach((item) => {
-        item.addEventListener('click', (e: any) => {
-          const $elem = e.currentTarget.parentElement.parentElement
-            ?.firstElementChild as HTMLElement;
-          if (e.currentTarget.classList[0] === 'nations-btn') {
-            this.#nation = e.currentTarget.dataset.nation;
-          } else if (e.currentTarget.classList[0] === 'type-btn') {
-            this.#type = e.currentTarget.dataset.type;
-          }
-          if (e.currentTarget.classList[0] !== 'tires-btn') {
-            if ($elem.classList.length > 3) {
-              $elem.classList.remove($elem.classList[3]);
-              $elem.classList.add(e.currentTarget.firstElementChild.className);
-              $elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
-            } else {
-              $elem.classList.add(e.currentTarget.firstElementChild.className);
-              $elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
-            }
-          }
-          if (e.currentTarget.classList[0] === 'tires-btn') {
-            $elem.textContent = `${e.currentTarget.firstElementChild.textContent}`;
-            this.#tier = e.currentTarget.dataset.tier;
-          }
-          e.currentTarget.parentElement.parentElement.lastElementChild.classList.toggle(
-            'opened-list',
-          );
-          this.filterTechniqueProducts(userData);
-        });
-      });
-      filterList.forEach((item) => {
-        item.addEventListener('click', (e: any) => {
-          e.currentTarget.nextElementSibling.classList.toggle('opened-list');
-        });
-      });
+      const allFilterTypes = $itemFilter.querySelectorAll('.filter-btn');
+      const resetTypeButton = $itemFilter.querySelector('.item-filters-btn');
+      if (resetTypeButton) {
+        Filter.addFilterEvent(
+          resetTypeButton,
+          allFilterTypes,
+          buttonsFilterList,
+          userData,
+        );
+      }
     }
     if ($visualContainer) {
       $wrapper?.append($visualContainer);
@@ -202,11 +148,86 @@ class Filter {
   }
 
   /**
-   * Метод для показа фильтрованных продуктов
-   * @param filteredProducts массив фильтрованных продуктов
+   * Метод для добавления событий на фильтры для техники
+   * @param resetTypeButton кнопка сброса фильтра
+   * @param allFilterTypes список всех фильтров по типам
+   * @param buttonsFilterList список основных фильиров
    * @param userData текущий пользователь
    */
+  static addFilterEvent(
+    resetTypeButton: Element,
+    allFilterTypes: NodeListOf<Element>,
+    buttonsFilterList: NodeListOf<Element>,
+    userData: IUser,
+  ) {
+    const filterText: { [char: string]: string } = {
+      nations: 'All nations',
+      types: 'All types',
+      tiers: 'All tiers',
+    };
+    resetTypeButton?.addEventListener('click', () => {
+      buttonsFilterList.forEach((item) => {
+        item.textContent = filterText[item.classList[1]];
+        item.classList.remove(item.classList[3]);
+      });
+      this.#type = 'all';
+      this.#tier = 'all';
+      this.#nation = 'all';
+      this.filterTechniqueProducts(userData);
+    });
 
+    allFilterTypes.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        const $eventElement = e.currentTarget as HTMLElement;
+        const $filterTypeButton = $eventElement.parentElement?.parentElement
+          ?.firstElementChild as HTMLElement;
+        const filterButtonContent =
+          $eventElement.firstElementChild?.textContent;
+        const filterType = $eventElement.classList[0];
+        if (filterType === 'nations-btn') {
+          this.#nation = $eventElement.dataset.nation;
+        } else if (filterType === 'type-btn') {
+          this.#type = $eventElement.dataset.type;
+        }
+        if (filterType !== 'tires-btn') {
+          if ($filterTypeButton.classList.length > 3) {
+            $filterTypeButton.classList.remove($filterTypeButton.classList[3]);
+            $filterTypeButton.classList.add(
+              $eventElement.firstElementChild?.className!,
+            );
+            $filterTypeButton.textContent = filterButtonContent!;
+          } else {
+            $filterTypeButton.classList.add(
+              $eventElement.firstElementChild?.className!,
+            );
+            $filterTypeButton.textContent = filterButtonContent!;
+          }
+        }
+        if ($eventElement.classList[0] === 'tires-btn') {
+          $filterTypeButton.textContent = filterButtonContent!;
+          this.#tier = $eventElement.dataset.tier;
+        }
+        $eventElement.parentElement?.parentElement?.lastElementChild?.classList.toggle(
+          'opened-list',
+        );
+        this.filterTechniqueProducts(userData);
+      });
+    });
+
+    buttonsFilterList.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        (e.currentTarget as HTMLElement).nextElementSibling?.classList.toggle(
+          'opened-list',
+        );
+      });
+    });
+  }
+
+  /**
+   * Method to display filtered products
+   * @param filteredProducts filtered products array
+   * @param userData current user
+   */
   static showFilterProduct(filteredProducts: IProduct[], userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -224,22 +245,19 @@ class Filter {
       let itemCounter = 0;
       filteredProducts.forEach((value: IProduct) => {
         if (itemCounter < 20) {
-          $container.appendChild(
-            ItemDOM.createItem(value, userData /* , router */),
-          );
+          $container.appendChild(ItemDOM.createItem(value, userData));
           itemCounter += value.span;
         }
       });
     }
 
-    lazy(20, 100, userData, filteredProducts, new Item());
+    lazy(20, 100, userData, filteredProducts);
   }
 
   /**
-   * Метод для создания всех продуктов
-   * @param userData текущий пользователь
+   * Method to create all products
+   * @param userData current user
    */
-
   static createAllFilterProducts(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -259,10 +277,9 @@ class Filter {
   }
 
   /**
-   * Метод для показа всех продуктов
-   * @param userData текущий пользователь
+   * Method to display all products
+   * @param userData current user
    */
-
   static showAllFilterProduct(userData: IUser) {
     const $visualContainer: HTMLElement | null = document.getElementById(
       'main-visual-container',
@@ -274,16 +291,20 @@ class Filter {
       $container.classList.add('main-container-content');
       $visualContainer.appendChild($container);
 
-      ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency()).then(
-        (value) => {
+      const $spinner = document.getElementById('spinner');
+      if ($spinner) $spinner.style.display = 'block';
+      ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency())
+        .then((value) => {
           if (value) {
             value.products.forEach((product: IProduct) => {
               $container.appendChild(ItemDOM.createItem(product, userData));
             });
-            lazyBD(40, 500, userData, new Item());
+            lazyBD(40, 500, userData);
           }
-        },
-      );
+        })
+        .finally(() => {
+          if ($spinner) $spinner.style.display = 'none';
+        });
     }
   }
 }

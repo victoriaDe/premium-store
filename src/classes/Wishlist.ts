@@ -3,23 +3,19 @@
  */
 
 import { IProduct } from '@type/product';
-import { IUser } from '@type/user';
 
-import LocalStorage from '@classes/LocalStorage';
+import ItemDOM from '@dom/ItemDOM';
 import Item from '@classes/Item';
-
-import { humanPrice } from '@scripts/price';
+import LocalStorage from '@classes/LocalStorage';
 
 /**
- * Класс для работы со списком желаний
+ * Wishlist class
  */
-
 class Wishlist {
   /**
-   * Метод для создания шапки в списке желаний
-   * @param name текст шапки
+   * Method to create a 'hat' in the list
+   * @param name text content of the 'hat'
    */
-
   static createHeaderList(name: string) {
     const $header = document.createElement('div');
     $header.innerHTML = `${name}`;
@@ -28,51 +24,9 @@ class Wishlist {
   }
 
   /**
-   * Метод для создания карточки продукта в списке желаний
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to create an empty list
+   * @param text list content
    */
-
-  static createWishlistItem(product: IProduct, userData: IUser) {
-    const isAddedToPurchase = userData.shoppingList.includes(product.data.id);
-    const $item: HTMLElement = document.createElement('div');
-    const saleElement = Item.getSale(product);
-    $item.classList.add('item-filtered-container');
-    $item.innerHTML = `
-      <a class="item-filtered-img" href="#${
-        product.data.id
-      }" onclick="return false"><img src=${product.data.images.span_2x1} alt="${
-      product.data.name
-    }"></a>
-                <div class="item-filtered-description">
-                    <h2>
-                      ${product.data.name}
-                      ${saleElement[1]}
-                    </h2>
-                    ${product.data.description}
-                    <div>
-                        <button class="item-description-likeBtn button-like_active"></button>
-                        <span class="item-purchase-prise">
-                          <span class="item-price-amount ${saleElement[3]}">
-                            ${humanPrice(product.data.price.basic.cost)} 
-                             ${saleElement[2]}
-                          </span>
-                          ${saleElement[0]}
-                        </span>
-                        <button class="item-purchase-button ${
-                          isAddedToPurchase ? 'button-purchase-added' : ''
-                        }">${isAddedToPurchase ? 'added' : 'purchase'}</button>
-                    </div>
-    `;
-    Wishlist.addEvent($item, product, false);
-    return $item;
-  }
-
-  /**
-   * Метод для создания пустого списка желаний
-   * @param text отображаемый текст
-   */
-
   static createEmptyListItems(text: string) {
     const $item: HTMLElement = document.createElement('div');
     $item.classList.add('item-filtered-container');
@@ -81,12 +35,11 @@ class Wishlist {
   }
 
   /**
-   * Методя для добавления обработчиков на кнопки в карточке продукта в списке желаний
-   * @param $item кнопка в карточке продукта
-   * @param product исходный продукт
+   * Method to add listeners to product cart buttons in a list
+   * @param $item list cart button
+   * @param product initial product
    * @param shoppingList
    */
-
   static addEvent(
     $item: HTMLElement,
     product: IProduct,
@@ -102,9 +55,8 @@ class Wishlist {
   }
 
   /**
-   * Метод для создания списка желаний
+   * method to create wishList
    */
-
   static async createWishlist() {
     const wishlistData = await LocalStorage.getListData('wishlist');
     const userData = await LocalStorage.getUserData();
@@ -117,7 +69,9 @@ class Wishlist {
       $wrapper.innerHTML = '';
       if (userData && wishlistData && wishlistData.length > 0) {
         wishlistData?.forEach((product) => {
-          $container.append(this.createWishlistItem(product, userData));
+          $container.append(
+            ItemDOM.createAddedItem(product, userData, 'wishlist'),
+          );
         });
         $wrapper.append($container);
         $wrapper.append(this.createHeaderList('Wishlist'));
@@ -129,10 +83,9 @@ class Wishlist {
   }
 
   /**
-   * Метод для показа счётчика товаров в списке желаний
-   * @param wishList текущий список желаний
+   * Method to display products amount in a list
+   * @param wishList текущий current wishList
    */
-
   static showWishlistCounter(wishList: string[]): void {
     const $wishListCounter: HTMLElement | null = document.querySelector(
       '.wishlist-span-container',
@@ -143,12 +96,11 @@ class Wishlist {
   }
 
   /**
-   * Метод для изменения счётчика товаров в списке желаний
-   * @param product исходный продукт
+   * Method to change wishList counter
+   * @param product initial product
    * @param showWishList
-   * @param $buttonElement элемент, вызвавший изменение счётчика
+   * @param $buttonElement element triggered counter changing
    */
-
   static changeWishlistCounter(
     product: IProduct,
     showWishList: (wishlist: string[]) => void,

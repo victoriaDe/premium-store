@@ -10,18 +10,15 @@ import ItemDOM from '@dom/ItemDOM';
 /**
  * Function for lazy loading of products on the main page
  * @param amount number of products to download
- * @param margin target padding (allows you to start loading new products earlier)
- * @param user current store user
+ * @param margin target margin (allows to start loading new products earlier)
+ * @param user current user
  * @param products products to display on the page
- * @param item an instance of the Item class to create a product card
  */
-
 function lazy(
   amount: number,
   margin: number,
   user: IUser,
   products: IProduct[],
-  item: ItemDOM,
 ) {
   const $productsContainer = document.querySelector('.main-container-content');
 

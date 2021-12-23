@@ -3,11 +3,11 @@
  */
 
 /**
- * Класс для создания DOM с фильтрами техники
+ * Class to create Filters' DOM
  */
 class VehiclesFilterDOM {
   /**
-   * Метод для создания панели фильтров для техники.
+   * Method to create filters relevant to it's assignment
    */
   static createVehiclesFilter() {
     const $itemFilter = document.createElement('div');

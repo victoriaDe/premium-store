@@ -4,16 +4,14 @@
 
 import { IUser } from '@type/user';
 
-import Item from '@classes/Item';
 import ProductAPI from '@api/ProductAPI';
-import LocalStorage from '@classes/LocalStorage';
 import ItemDOM from '@dom/ItemDOM';
+import LocalStorage from '@classes/LocalStorage';
 
 /**
  * Function for create Observer options
- * @param margin отступ от нижней границы для срабатывани загрузки
+ * @param margin margin-bottom to trigger download
  */
-
 const createObserverOptions = (margin: number) => {
   return {
     root: null,
@@ -23,14 +21,12 @@ const createObserverOptions = (margin: number) => {
 };
 
 /**
- * Function for lazy loading of products on the main page
+ * Function for lazy loading of products from database on the main page
  * @param amount number of products to download
- * @param margin target padding (allows you to start loading new products earlier)
- * @param user current store user
- * @param item an instance of the Item class to create a product card
+ * @param margin target padding (allows to start loading new products earlier)
+ * @param user current user
  */
-
-function lazyBD(amount: number, margin: number, user: IUser, item: Item) {
+function lazyBD(amount: number, margin: number, user: IUser) {
   const $productsContainer = document.querySelector('.main-container-content');
   if (!$productsContainer) return;
   // find the last product
