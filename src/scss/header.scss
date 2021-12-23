@@ -168,7 +168,8 @@
     .header-nav-link.create {
       font-size: 1em;
       color: c.$fColorHeader_active;
-      display: block;
+    //  display: block;
+      display: none;
 
       &:focus, &:active {
         color: c.$fColor_orange;
