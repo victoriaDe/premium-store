@@ -4,15 +4,15 @@ import Wishlist from '@classes/Wishlist';
 import { IUser } from '@type/user';
 
 class HeaderAuth {
-  static setAuthorized(userData:undefined | IUser) {
-   // console.log(`setAuthorized: ${userData}`)
+  static setAuthorized(userData: undefined | IUser) {
+    // console.log(`setAuthorized: ${userData}`)
     const $headerContainerNav: HTMLElement | null =
       document.querySelector('.header-container-nav');
     if (!$headerContainerNav) return;
     $headerContainerNav.innerHTML = ``;
 
     if (userData) {
-     // console.log(`setAuthorized: ${userData}`)
+      // console.log(`setAuthorized: ${userData}`)
       $headerContainerNav.innerHTML = `
           <a id="wishlistId" class="icon-heart header-nav-link hash-link" href="#wishlist"
             >Wishlist <span class="wishlist-span-container">(0)</span></a
@@ -24,6 +24,7 @@ class HeaderAuth {
             >Shopping cart <span class="cart-span-container">(0)</span></a
           >
           <div class="header-nav-account">          
+          <a class="header-nav-link icon-user"  id="logout">Jopa Enota</a>  
           <a class="header-nav-link icon-enter"  id="logout">Logout</a>  
           </div>    
       `;
@@ -43,12 +44,12 @@ class HeaderAuth {
           <div class="header-nav-account">
             <a class="header-nav-link icon-enter" id="login">Login</a>
             <span>or</span>
-            <a class="header-nav-link" id="create-account">Create account</a>
+            <a class="header-nav-link create" id="create-account">Create account</a>
           </div>
       `;
       const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
       const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
-     // console.log($login)
+      // console.log($login)
       if ($login) {
         fixLoginPopup($login);
         addOpenPopup($login);
