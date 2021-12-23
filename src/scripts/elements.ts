@@ -1,12 +1,9 @@
 /**
- * Method to count padding for main container and resizing it
+ * Function to count padding for main container and resizing it
  */
 
 const $login = document.getElementById('login');
 
-/**
- * Функция для расчёта отступа основного контента от шапки
- */
 function countPadding() {
   const $headerHeight: number | undefined = document.querySelector('header')?.offsetHeight;
   const $main: HTMLElement | null = document.querySelector('main');

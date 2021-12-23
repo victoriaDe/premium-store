@@ -1,7 +1,7 @@
 import PopupContainer from '@classes/PopupContainer';
 
 /**
- * Функция для работы перезагрузки страницы при клике по ссылке на эту же страницу
+ * Function to refresh the page if the link to the page has been clicked
  */
 function reloadPageSameLink() {
   document.addEventListener('click', (event) => {
@@ -23,6 +23,7 @@ function reloadPageSameLink() {
 }
 
 /**
+ * Function to
  * Функция для отображения правильной шапки магазина в зависимости от ширины экрана
  * @param $loginID HTML элемент ссылки Login
  */
