@@ -2,10 +2,10 @@
  * @module Popup
  */
 
-/** массив с входыми данными для создания попапа */
+/** input data array to use in a popup */
 type TPopupInputs = Array<string[]>;
 
-/** обработчик для ссылки в попапе */
+/** listener for a link in popup*/
 type TLinkHandler = (event: MouseEvent) => void;
 
 export { TPopupInputs, TLinkHandler };

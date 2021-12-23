@@ -3,35 +3,35 @@
  */
 
 export interface IResponse<T> {
-  /** код выполнения */
+  /** execution code */
   resultCode: 0 | 1;
 
-  /** ошибки (код выполнения 1) */
+  /** errors (execution code 1) */
   messages: string[];
 
-  /** данные с сервера */
+  /** server data */
   data: T | null;
 }
 
 export interface IAddUserReq {
-  /** имя пользователя */
+  /** user name */
   name: string;
 }
 
 export interface IGetProductsByListReq {
-  /** список ID продуктов */
+  /** list of products ID */
   listProductsId: string[];
 }
 
 export interface IChangeWishlistReq {
-  /** ID пользователя */
+  /** user ID */
   userId: string;
 
-  /** ID продукта */
+  /**product ID */
   productId: string;
 }
 
 export interface IChangePurchaseReq extends IChangeWishlistReq {
-  /** флаг, показывающий добавлен ли продукт в корзину */
+  /** has the product been added to a cart */
   isAdd: boolean;
 }
