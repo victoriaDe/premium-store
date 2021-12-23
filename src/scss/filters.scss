@@ -185,7 +185,6 @@
 }
 
 
-///////////////////////////////////     страны
 .nations:before {
   content: url("~@images/country/nations.png");
 }
@@ -234,10 +233,10 @@
   content: url("~@images/country/filter-germany.png");
 }
 
-///////////////////////////////////
 
-///////////////////////////////////     ранг
 .types:before {
+  content: '';
+  width: 20px;
   background-image: url("~@images/buttons/rect1.png"), url("~@images/buttons/rect2.png"), url("~@images/buttons/rect3.png");
   background-position: center, left top, right bottom;
   background-repeat: no-repeat;
@@ -245,31 +244,35 @@
 
 .light:before {
   content: url("~@images/buttons/diamond.png");
+  background: none;
 }
 
 .medium:before {
   content: url("~@images/buttons/diamond_cross.png");
+  background: none;
 }
 
 .heavy:before {
   content: url("~@images/buttons/diamond_2cross.png");
+  background: none;
 }
 
 .destroy:before {
   content: url("~@images/buttons/triangle_down.png");
+  background: none;
 }
 
 .spg:before {
   content: url("~@images/buttons/square.png");
+  background: none;
 }
 
 .multirole:before {
   content: url("~@images/buttons/triangle_top.png");
+  background: none;
 }
 
-///////////////////////////////////
 
-//////////////////////////////////      tiers
 .tiers {
   text-align: center;
 

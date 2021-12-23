@@ -62,7 +62,7 @@ class ItemDOM {
             isAddedToWishlist ? 'button-like_active' : ''
           }">
           </button>
-          <span class="item-purchase-prise">
+          <span class="item-purchase-price">
             <span class="item-price-amount ${saleElement[3]}">
               ${humanPrice(product.data.price.basic.cost)} ${saleElement[2]}
             </span>
