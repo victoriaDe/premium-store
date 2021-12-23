@@ -31,9 +31,11 @@
       padding: 0 0 15px 30px;
     }
 
-    .main-container-description_button-purchase {
-      display: block;
-      pointer-events: auto;
+    @media screen and (min-device-width: s.$min-width) {
+      .main-container-description_button-purchase {
+        display: block;
+        pointer-events: auto;
+      }
     }
 
   }

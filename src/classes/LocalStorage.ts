@@ -85,6 +85,8 @@ class LocalStorage {
     localStorage.setItem('user',  JSON.stringify(localUserData));
     //this.setLocalData('user',  JSON.stringify(localUserData))
 
+    localStorage.setItem('user', JSON.stringify(localUserData));
+
     return userData;
   }
 
@@ -104,11 +106,10 @@ class LocalStorage {
       data: productDataByFilter,
       dateAdded: Date.now(),
     };
-    localStorage.setItem('filter',  JSON.stringify(localProductData));
+    localStorage.setItem(filter,  JSON.stringify(localProductData));
     //this.setLocalData(filter,  JSON.stringify(localProductData))
     return productDataByFilter;
   }
-
 
   /**
    * Главный метод для получения продуктов
@@ -120,23 +121,35 @@ class LocalStorage {
       filter,
     ) as IProductLocalStorageData | null;
     if (!productDataStorageByFilter) {
+
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
+
       const productDataByFilter = await this.updateProductDataByFilter(filter);
-      if (productDataByFilter) return productDataByFilter;
+      if (productDataByFilter)  {
+        if($spinner) $spinner.style.display="none"
+        return productDataByFilter;
+      }
+      if($spinner) $spinner.style.display="none"
     } else if (Date.now() - productDataStorageByFilter.dateAdded < 3000000) {
       // 3000000 - 10 минут - максимальное время актуальности данных в локальном хранилище
       setTimeout(() => {
         // запрос на получение новых данных после отрисоки на основе данных из локального хранилища
-        this.updateProductDataByFilter(filter).then(() => {
-        });
+        this.updateProductDataByFilter(filter).then(() => {});
       });
       return productDataStorageByFilter.data;
     } else {
+      const $spinner = document.getElementById("spinner")
+      if($spinner) $spinner.style.display="block"
       const productDataByFilter = await this.updateProductDataByFilter(filter);
-      if (productDataByFilter) return productDataByFilter;
+      if (productDataByFilter) {
+        if($spinner) $spinner.style.display="none"
+        return productDataByFilter;
+      }
+      if($spinner) $spinner.style.display="none"
     }
     return null;
   }
-
 
   /**
    * Главный метод для получения данных пользователя
@@ -169,8 +182,8 @@ class LocalStorage {
     }else {
       return null
     }
-  }
 
+  }
 
   /**
    * Метод для получения продуктов из БД по списку из пользовательских данных
@@ -182,7 +195,16 @@ class LocalStorage {
     const userData = await this.getUserData();
     if (userData) {
       if (userData[listType].length > 0) {
-        return ProductAPI.getProductsByList(userData[listType], this.#currency);
+        const $spinner = document.getElementById("spinner")
+        if($spinner) $spinner.style.display="block"
+        const productData =  await ProductAPI.getProductsByList(userData[listType], this.#currency);
+        if(productData){
+          if($spinner) $spinner.style.display="none"
+          return productData
+        }else{
+          if($spinner) $spinner.style.display="none"
+          return null
+        }
       }
     }
     return null;
@@ -206,9 +228,8 @@ class LocalStorage {
       } else {
         user.data[listType].push(productId);
       }
-      localStorage.setItem('user',  JSON.stringify(user));
-      //this.setLocalData('user', JSON.stringify(user))
-      //передача пользовательских данных на сервер после отрисовки
+      localStorage.setItem('user', JSON.stringify(user));
+      // передача пользовательских данных на сервер после отрисовки
       setTimeout(() => this.sendUserData());
       return user;
     }
