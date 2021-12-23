@@ -1,3 +1,7 @@
+/**
+ * @module Others
+ */
+
 import PopupContainer from '@classes/PopupContainer';
 
 /**
