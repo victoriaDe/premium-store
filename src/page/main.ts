@@ -6,14 +6,12 @@ import {
   fixLoginPopup,
   addOpenPopup,
   addClosePopup,
-} from '@scripts/base/listeners';
+} from '@scripts/listeners';
 
 import '@scss/main.scss';
 
 storeInit();
 reloadPageSameLink();
-
-/// /////////////////////////////////////////////////////////////////////
 
 const $login: HTMLElement | null = document.getElementById('login'); // ссылка логина
 const $create: HTMLElement | null = document.getElementById('create-account'); // ссылка создать аккаунт
