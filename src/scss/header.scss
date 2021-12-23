@@ -158,7 +158,7 @@
     .header-nav-link:last-of-type {
       display: none;
     }
-    .icon-enter, .icon-user {
+    .header-nav-link.icon-enter, .header-nav-link.icon-user {
       &:focus {
         color: c.$fColor_orange;
       }
