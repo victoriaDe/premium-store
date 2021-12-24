@@ -1,6 +1,12 @@
+/**
+ * @module Others
+ */
+
 import PopupContainer from '@classes/PopupContainer';
 
-// для работы перезагрузки по кликам
+/**
+ * Function to refresh the page if the link to the page has been clicked
+ */
 function reloadPageSameLink() {
   document.addEventListener('click', (event) => {
     const $target = event.target as HTMLElement;
@@ -20,7 +26,10 @@ function reloadPageSameLink() {
   });
 }
 
-// корректная форма на малых экранах
+/**
+ * Function to change text to item through class
+ * @param $loginID  HTML element
+ */
 function fixLoginPopup($loginID: HTMLElement) {
   window.addEventListener('resize', () => {
     // отслеживание ширины экрана, если <= 720, то css убирает текст по медиа запросам, а здесь добавляется класс login
@@ -33,10 +42,18 @@ function fixLoginPopup($loginID: HTMLElement) {
   });
 }
 
+/**
+ * Function to add listener to a target to open popup
+ * @param $target HTML target element
+ */
 function addOpenPopup($target: HTMLElement) {
   $target.addEventListener('click', (event) => PopupContainer.openPopup(event));
 }
 
+/**
+ *  * Function to add listener to a target to close popup
+ * @param $target HTML HTML target element
+ */
 function addClosePopup($target: HTMLElement) {
   $target.addEventListener('click', (event) =>
     PopupContainer.closePopup(event),

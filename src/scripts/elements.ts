@@ -1,10 +1,17 @@
-const $login = document.getElementById('login');
-const $popup = document.getElementById('popupWrapper');
+/**
+ * @module Others
+ */
 
+const $login = document.getElementById('login');
+
+/**
+ * Function to count padding for main container and resizing it
+ */
 function countPadding() {
   const $headerHeight: number | undefined =
     document.querySelector('header')?.offsetHeight;
   const $main: HTMLElement | null = document.querySelector('main');
+
   if ($main) {
     $main.style.paddingTop = `${$headerHeight}px`;
   }
@@ -20,4 +27,3 @@ function load() {
 
 window.addEventListener('load', load);
 window.addEventListener('resize', load);
-

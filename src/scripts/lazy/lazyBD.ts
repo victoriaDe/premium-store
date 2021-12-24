@@ -12,7 +12,7 @@ import ItemDOM from '@dom/ItemDOM';
 
 /**
  * Function for create Observer options
- * @param margin отступ от нижней границы для срабатывани загрузки
+ * @param margin margin-bottom to trigger download
  */
 const createObserverOptions = (margin: number) => {
   return {
@@ -23,10 +23,10 @@ const createObserverOptions = (margin: number) => {
 };
 
 /**
- * Function for lazy loading of products from BD on the main page
+ * Function for lazy loading of products from database on the main page
  * @param amount number of products to download
- * @param margin target padding (allows you to start loading new products earlier)
- * @param user current store user
+ * @param margin target padding (allows to start loading new products earlier)
+ * @param user current user
  */
 
 function lazyBD(

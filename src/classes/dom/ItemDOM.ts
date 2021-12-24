@@ -12,14 +12,14 @@ import { humanPrice } from '@scripts/price';
 import { addOpenPopup, fixLoginPopup } from '@scripts/base/listeners';
 
 /**
- * Класс для создания DOM продукта
+ * Class to create a product DOM
  */
 class ItemDOM {
   /**
-   * Метод для создания карточки продукта на страницах корзины и списка желаний
-   * @param product исходный продукт
-   * @param user текущий пользователь
-   * @param page название страницы
+   * Method to create product card on pages (wishlist and shopping cart)
+   * @param product initial product
+   * @param user current user
+   * @param page page title
    */
   static createAddedItem(
     product: IProduct,
@@ -63,7 +63,7 @@ class ItemDOM {
       isAddedToWishlist ? 'button-like_active' : ''
     }">
           </button>
-          <span class="item-purchase-prise">
+          <span class="item-purchase-price">
             <span class="item-price-amount ${saleElement[3]}">
               ${humanPrice(product.data.price.basic.cost)} ${saleElement[2]}
             </span>
@@ -83,9 +83,9 @@ class ItemDOM {
   }
 
   /**
-   * Метод для создания карточки продукта на главной странице и страницах фильтров
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to create product card on pages (main and filters)
+   * @param product initial product
+   * @param userData current user
    */
   static createItem(product: IProduct, userData: IUser | null): HTMLElement {
     const $item = document.createElement('div');
@@ -163,9 +163,9 @@ class ItemDOM {
   }
 
   /**
-   * Метод для создания карточки продукта на странице самого продукта
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to create product card on page (product)
+   * @param product initial product
+   * @param userData current user
    */
 
   static createSelectedItem(product: IProduct, userData: IUser | null): HTMLElement {

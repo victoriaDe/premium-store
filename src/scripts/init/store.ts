@@ -7,11 +7,11 @@ import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
 
 import router from '@scripts/init/router';
-
 import HeaderAuth from '@classes/HeaderAuth';
 
-
-// инициализация магазина
+/**
+ * Function to initialize the store
+ */
 const storeInit = () =>
   document.addEventListener(
     'DOMContentLoaded',

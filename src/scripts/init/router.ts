@@ -10,7 +10,7 @@ import ShoppingList from '@classes/ShoppingList';
 import Filter from '@classes/Filter';
 import NavPanelDOM from '@dom/NavPanelDOM';
 
-/** эксземпляр роутера */
+/** instance of Router */
 const router = new Router();
 
 const arr: TFilterRoute[] = [

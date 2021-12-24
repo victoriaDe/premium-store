@@ -5,31 +5,29 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { authAPI } from '@api/authApi';
 
-/** URL сервера с БД */
+/** database server URL */
 
 const LocalBaseURL = `http://localhost:7000/api/`;
 const backEndBaseURL = `https://wg-force3-backend.herokuapp.com/api/`;
 
-/** URL для обратного геокодирования */
-const ServerAuthBaseURL = `https://wg-server-auth.herokuapp.com/api/`;
+/** reverse geocode URL */
 const geoLocBaseURL = 'https://eu1.locationiq.com/v1/';
 
-/** URL для определения страны по IP */
+/** country identification through IP URL*/
 const ipLocBaseURL = 'http://ipwhois.app/json/';
 
-
-/** экземпляр axios для работы с сервером и БД */
+/** axios instance for server and database */
 const backEndInstance = axios.create({
   baseURL: LocalBaseURL,
   withCredentials: true,
 } as AxiosRequestConfig);
 
-/** экземпляр axios для определения местоположения пользователя по геолокации */
+/** axios instance for user's location determining through geolocation*/
 const geoLocInstance = axios.create({
   baseURL: geoLocBaseURL,
 });
 
-/** экземпляр axios для определения местоположения пользователя по IP адресу */
+/** axios instance for user's location determining through IP*/
 const ipLocInstance = axios.create({
   baseURL: ipLocBaseURL,
 });

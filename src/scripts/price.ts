@@ -6,8 +6,8 @@ import localStorage from '@classes/LocalStorage';
 // import { TCurrencyCode, TCurrencySign } from '@type/price';
 
 /**
- * Функция для получения цены в удобном человеку представлении
- * @param price цена продукта в виде строки
+ * Function to receive price value in a readable form
+ * @param price price value (string)
  */
 function humanPrice(price: string): string {
   const numPrice = +price;
@@ -15,8 +15,8 @@ function humanPrice(price: string): string {
 }
 
 /**
- * Функция для перевода цены из удобной человеку формы в обычную
- * @param str строка с ценой в удобном для человека виде
+ * Function to covert readable price value back
+ * @param str price value in a readable form (string)
  */
 function parseToNumber(str: string): number {
   const practicalStr = str.replace(',', '.').replace(/\s/g, '');
@@ -24,8 +24,8 @@ function parseToNumber(str: string): number {
 }
 
 /**
- * Функция для получения знака или кода валюты
- * @param currencyCode код валюты
+ * Function to receive a sign or code of currency
+ * @param currencyCode currency code
  */
 function getCurrencySign(currencyCode: string): string {
   switch (currencyCode) {
@@ -47,8 +47,8 @@ function getCurrencySign(currencyCode: string): string {
 }
 
 /**
- * Функция для расчёта финальной цены выбранных продуктов в корзине
- * @param $container HTML элемент, содержащий продукты для расчёта
+ * Function to count final price of the chosen products
+ * @param $container HTML element containing products to count
  */
 function calcFinalPrice($container: HTMLElement) {
   const $totalPrice = $container.querySelector('.total-price > span');

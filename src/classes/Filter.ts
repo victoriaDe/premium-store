@@ -6,36 +6,32 @@ import { IProduct, TFilter } from '@type/product';
 import { IUser } from '@type/user';
 import { IProductLocalStorageData } from '@type/local-storage';
 
-import Item from '@classes/Item';
 import ProductAPI from '@api/ProductAPI';
 import Wishlist from '@classes/Wishlist';
-
-import LocalStorage from '@classes/LocalStorage';
-
-import lazy from '@scripts/lazy';
-import lazyBD from '@scripts/lazyBD';
 import ItemDOM from '@classes/dom/ItemDOM';
 import VehiclesFilterDOM from '@classes/dom/VehiclesFilterDOM';
 
-/**
- * Класс для фильтрации продуктов и работы с уже отфильтрованными продуктами
- */
+import LocalStorage from '@classes/LocalStorage';
 
+import lazy from '@scripts/lazy/lazy';
+import lazyBD from '@scripts/lazy/lazyBD';
+
+/**
+ * Product filtration & work with filtrated products class
+ */
 class Filter {
-  //  #nation #type #tier используются для фильтрации продуктов типа техника
-  /** страна техники */
+  /** country */
   static #nation: string | undefined;
 
-  /** тип техники */
+  /** type */
   static #type: string | undefined;
 
-  /** уровень техники */
+  /** tier */
   static #tier: string | undefined;
 
   /**
-   * Метод для добавления обработчиков кнопок фильтров
+   * Method to add listeners to filters' buttons
    */
-
   static addEvent(): void {
     const $filterButtons: NodeListOf<Element> =
       document.querySelectorAll('.main-nav-link');
@@ -52,10 +48,9 @@ class Filter {
   }
 
   /**
-   * Метод для фильтрации всех продуктов
-   * @param filter фильтр для сортировки
+   * Method to filter all products
+   * @param filter filter to sort
    */
-
   static filterProducts(filter: TFilter | 'All' | null) {
     let $target: HTMLElement | null;
     LocalStorage.getUserData().then((userData) => {
@@ -78,10 +73,9 @@ class Filter {
   }
 
   /**
-   * Метод для фильтрации техники
-   * @param userData текущий пользователь
+   * Method to filter
+   * @param userData current user
    */
-
   static filterTechniqueProducts(userData: IUser |null) {
     const techniqueProduct = LocalStorage.getLocalData(
       'Technique',
@@ -108,13 +102,12 @@ class Filter {
   }
 
   /**
-   * Метод для создания фильтрованных продуктов
-   * @param filteredProducts массив фильтрованных продуктов
-   * @param userData текущий пользователь
-   * @param productData массив всех продуктов
-   * @param filter фильтр для сортировки
+   * Method to create filtered products
+   * @param filteredProducts filtered products array
+   * @param userData current user
+   * @param productData array with all items
+   * @param filter filter to sort
    */
-
   static createFilterProducts(
     filteredProducts: IProduct[],
     userData: IUser | null,
@@ -156,13 +149,12 @@ class Filter {
   }
 
   /**
-   * Метод для добавления событий на фильтры для техники
+   * Method to add listeners to filters
    * @param resetTypeButton кнопка сброса фильтра
    * @param allFilterTypes список всех фильтров по типам
    * @param buttonsFilterList список основных фильиров
    * @param userData текущий пользователь
    */
-
   static addFilterEvent(
     resetTypeButton: Element,
     allFilterTypes: NodeListOf<Element>,
@@ -233,9 +225,9 @@ class Filter {
   }
 
   /**
-   * Метод для показа фильтрованных продуктов
-   * @param filteredProducts массив фильтрованных продуктов
-   * @param userData текущий пользователь
+   * Method to display filtered products
+   * @param filteredProducts filtered products array
+   * @param userData current user
    */
 
   static showFilterProduct(filteredProducts: IProduct[], userData: IUser | null) {
@@ -265,8 +257,8 @@ class Filter {
   }
 
   /**
-   * Метод для создания всех продуктов
-   * @param userData текущий пользователь
+   * Method to create all products
+   * @param userData current user
    */
 
   static createAllFilterProducts(userData: IUser | null) {
@@ -288,8 +280,8 @@ class Filter {
   }
 
   /**
-   * Метод для показа всех продуктов
-   * @param userData текущий пользователь
+   * Method to display all products
+   * @param userData current user
    */
 
   static showAllFilterProduct(userData: IUser | null) {
@@ -303,21 +295,20 @@ class Filter {
       $container.classList.add('main-container-content');
       $visualContainer.appendChild($container);
 
-
-      const $spinner = document.getElementById("spinner")
-      if($spinner) $spinner.style.display="block"
-      ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency()).then(
-        (value) => {
+      const $spinner = document.getElementById('spinner');
+      if ($spinner) $spinner.style.display = 'block';
+      ProductAPI.getAllProductsByLazy(1, 40, LocalStorage.getCurrency())
+        .then((value) => {
           if (value) {
             value.products.forEach((product: IProduct) => {
               $container.appendChild(ItemDOM.createItem(product, userData));
             });
             lazyBD(40, 500, userData);
           }
-        },
-      ).finally(()=>{
-        if($spinner) $spinner.style.display="none"
-      });
+        })
+        .finally(() => {
+          if ($spinner) $spinner.style.display = 'none';
+        });
     }
   }
 }

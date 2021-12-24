@@ -10,14 +10,20 @@
 
 [Frontend](https://github.com/ASKorag/premium-store)
 
+[Frontend with authorization](https://github.com/ASKorag/ps-auth)
+
 [Backend](https://github.com/Victor-Sinitca/WG_Force3_BackEnd)
 
 [Admin app ](https://github.com/Victor-Sinitca/wg-server-admin) was created to manipulate backend
+
+[Server for authorization](https://github.com/Victor-Sinitca/wg_forge_server_auth)
 
 ## Live
 ***
 
 [Website](https://askorag.github.io/premium-store/frontend/)
+
+[Website with authorization](https://askorag.github.io/ps-auth/)
 
 [Admin app](https://victor-sinitca.github.io/wg-server-admin/)
 

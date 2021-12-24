@@ -2,7 +2,7 @@
  * @module Product
  */
 
-/** страна происхождения техники */
+/** country of origin */
 type TCountry =
   | 'china'
   | 'czech'
@@ -16,76 +16,76 @@ type TCountry =
   | 'usa'
   | 'ussr';
 
-/** тип техники */
+/** type */
 type TTechnique = 'AT-SPG' | 'heavyTank' | 'lightTank' | 'mediumTank' | 'SPG';
 
-/** класс техники */
+/** tier */
 type TTier = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
 
-/** тип продукта */
+/** product type */
 export type TFilter = 'Technique' | 'Premium' | 'Gold' | 'Provisions';
 
 export interface IProductData {
-  /** ID продукта */
+  /** product ID */
   id: string;
 
-  /** название продукта */
+  /** product name*/
   name: string;
 
-  /** описание продукта */
+  /** product description */
   description: string;
 
-  /** стоимость продукта */
+  /** product value */
   price: {
-    /** базовая стоимость продукта */
+    /** basic value */
     basic: {
-      /** значение базовой стоимости продукта */
+      /** basic value amount */
       cost: string;
 
-      /** валюта базовой стоимости */
+      /** basic value currency */
       currency: string;
     };
 
-    /** актуальная стоимость продукта */
+    /** actual price*/
     actual: {
-      /** значение актуальной стоимости продукта */
+      /** actual price value */
       cost: string;
 
-      /** тип скидки */
+      /** sale type */
       discountType: string;
     };
   };
 
-  /** изображения продукта */
+  /** product img */
   images: {
-    /** ссылка на изображение для большой плитки */
+    /** link to a big product img*/
     span_1x1: string;
 
-    /** ссылка на изображение для маленькой плитки */
+    /** link to a small product img */
     span_2x1: string;
   };
 }
 
 export interface ITechniqueData extends IProductData {
   filter: {
-    /** страна техники */
+    /** country */
     nation: TCountry;
 
-    /** тип техники */
+    /** type */
     type: TTechnique;
 
-    /** класс техники */
+    /** tier */
     tier: TTier;
   };
 }
 
 export interface IProduct {
-  /** тип продукта */
+  /** type */
   type: TFilter;
 
-  /** количество ячеек, занимаемых продуктом */
+  /** number of column which product can take */
   span: number;
 
-  /** данные продукта */
+  /** product data */
   data: IProductData | ITechniqueData;
 }

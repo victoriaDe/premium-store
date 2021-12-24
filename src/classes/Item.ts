@@ -1,22 +1,25 @@
+/**
+ * @module Item
+ */
+
 import { IProduct } from '@type/product';
 import { IUser } from '@type/user';
 
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
+import ItemDOM from '@classes/dom/ItemDOM';
+import LocalStorage from '@classes/LocalStorage';
 
 import { calcFinalPrice, humanPrice, getCurrencySign } from '@scripts/price';
-import LocalStorage from '@classes/LocalStorage';
-import ItemDOM from '@classes/dom/ItemDOM';
 
 /**
- * Класс для работы с продуктом
+ * Product class
  */
-
 class Item {
   /**
-   * Метод для отображения карточки продукта
-   * @param product исходный продукт
-   * @param userData текущий пользователь
+   * Method to display product card
+   * @param product initial product
+   * @param userData current user
    */
 
   static showSelectedItem(product: IProduct, userData: IUser | null) {
@@ -44,15 +47,14 @@ class Item {
   }
 
   /**
-   * Метод для получения стоимостных данных продукта
-   * @param product исходный продукт
+   * Method to receive product value data
+   * @param product initial product
    */
-
   static getPrice(product: IProduct) {
     let priceAmount = ``;
     let actualPrice = ``;
     let sale = ``;
-    let currency = `${getCurrencySign(product.data.price.basic.currency!)}`;
+    let currency = `${getCurrencySign(product.data.price.basic.currency)}`;
     if (product.data.price.basic.cost !== product.data.price.actual.cost) {
       actualPrice = `
       <span class = "item-arrow icon-arrow-right"></span>
@@ -65,9 +67,8 @@ class Item {
             +product.data.price.basic.cost,
       );
       sale = `<span class='item-sale'>-${discountAmount}%</span>`;
-      currency = ``;
       priceAmount = 'price-sale';
-      if (product.data.price.actual.discountType === '') {
+      if (product.data.price.actual.discountType) {
         discountAmount =
           Math.floor(
             (+product.data.price.basic.cost - +product.data.price.actual.cost) *
@@ -80,13 +81,12 @@ class Item {
   }
 
   /**
-   * Метод для добавления обработчиков на кнопки
+   * Method to add listeners to buttons
    * @param $buttonPurchase
    * @param $likeButton
    * @param product
    * @param shoppingList
    */
-
   static addButtonEvent(
     $buttonPurchase: HTMLElement | null,
     $likeButton: HTMLElement | null,

@@ -23,15 +23,15 @@
 .main-container-product {
   position: relative;
   height: 300px;
+  @media screen and (min-device-width: s.$min-width) {
+    &:hover {
+      background: rgba(0, 0, 0, 0.7);
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.7);
+      .main-container-description {
+        padding: 0 0 15px 30px;
+      }
 
-    .main-container-description {
-      padding: 0 0 15px 30px;
-    }
 
-    @media screen and (min-device-width: s.$min-width) {
       .main-container-description_button-purchase {
         display: block;
         pointer-events: auto;

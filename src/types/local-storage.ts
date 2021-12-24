@@ -1,23 +1,28 @@
+/**
+ * @module Local Storage
+ */
+
 import { IUser } from '@type/user';
 import { IProduct } from '@type/product';
 
-/** user в local storage */
 export interface IUserLocalStorageData {
+  /** user in a LocalStorage */
   data: IUser;
+
+  /** adding date */
   dateAdded: number;
 }
 
-/** продукты в local storage */
 export interface IProductLocalStorageData {
+  /** products in a local storage */
   data: IProduct[];
+
+  /** adding date */
   dateAdded: number;
 }
 
-/** продукты в local storage */
+/** data in localStorage */
 export type TLocalData =
   | IUserLocalStorageData
   | IProductLocalStorageData
   | null;
-
-/** тип валюты */
-export type TCurrency = '' | 'BYN' | 'RUB';

@@ -13,7 +13,7 @@ import localStorage from '@classes/LocalStorage';
 import { calcFinalPrice, getCurrencySign } from '@scripts/price';
 
 /**
- * Chopping cart class
+ * Shopping cart class
  */
 class ShoppingList {
   /**
