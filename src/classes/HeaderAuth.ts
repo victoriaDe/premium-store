@@ -1,7 +1,8 @@
-import { addClosePopup, addOpenPopup, fixLoginPopup } from '@scripts/base/listeners';
+
 import ShoppingList from '@classes/ShoppingList';
 import Wishlist from '@classes/Wishlist';
 import { IUser } from '@type/user';
+import { addClosePopup, addOpenPopup, fixLoginPopup } from '@scripts/listeners';
 
 class HeaderAuth {
   static setAuthorized(userData: undefined | IUser) {

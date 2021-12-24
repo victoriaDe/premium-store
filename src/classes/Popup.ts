@@ -53,17 +53,14 @@ class Popup {
   createForm(linkHandler?: TLinkHandler): HTMLFormElement {
     const $form = document.createElement('form');
     $form.classList.add('popup-form');
-    if(this.#inputs.length){
-    for (let i = 0; i < this.#inputs.length; i += 1) {
-      $form.innerHTML += `<label>${this.#inputs[i][0]} <input type='${
-        this.#inputs[i][1]
-      }' placeholder='Enter your ${this.#inputs[i][0]}'></label>`;
+    if (this.#inputs.length) {
+      for (let i = 0; i < this.#inputs.length; i += 1) {
+        $form.innerHTML += `<label>${this.#inputs[i][0]} <input type='${
+          this.#inputs[i][1]
+        }' placeholder='Enter your ${this.#inputs[i][0]}'></label>`;
+      }
     }
-    }
-    $form.appendChild(Popup.createButton());
 
-
-    // после генерации инпутов заталкиваем кнопу в форму
     $form.appendChild(Popup.createButton(this.#onSubmit));
 
     if (this.#hasLink) {

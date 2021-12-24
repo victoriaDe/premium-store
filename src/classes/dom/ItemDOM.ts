@@ -9,7 +9,6 @@ import Wishlist from '@classes/Wishlist';
 import Item from '@classes/Item';
 
 import { humanPrice } from '@scripts/price';
-import { addOpenPopup, fixLoginPopup } from '@scripts/base/listeners';
 
 /**
  * Class to create a product DOM
