@@ -253,15 +253,6 @@
   &:hover {
     opacity: 0.8;
   }
-
-  @media screen and (min-device-width: s.$max-device-width) {
-    display: block;
-    pointer-events: auto;
-    height: 30px;
-    width: 80px;
-    font-size: 10px;
-    margin-left: 0;
-  }
 }
 
 .main-container-product.span-two {
