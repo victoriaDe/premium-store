@@ -3,6 +3,7 @@ const { resolve } = require('path');
 // plugins
 const HTMLWebpackPlugin = require('html-webpack-plugin'); // plugin for generate html file
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin'); // plugin for output css styles in a separate file
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
 const isDevMode =
   process.argv[process.argv.indexOf('--mode') + 1] === 'development'; // check development mode
@@ -15,6 +16,14 @@ module.exports = {
     // dist folder is the default output directory
     filename: 'index.js', // this is name of output js file after build
     clean: true, // clear the output directory on every build
+  },
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'esnext',
+        css: true,
+      }),
+    ],
   },
   stats: 'errors-warnings', // show after run webpack only errors and warnings
   resolve: {
@@ -55,7 +64,11 @@ module.exports = {
       // this is array of loaders (any files apart from .js and .json files)
       {
         test: /\.ts$/, // search .ts files
-        use: 'ts-loader', // use ts-loader loader
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'ts',
+          target: 'esnext',
+        },
         exclude: /node_modules/, // exclude node_modules folder
       },
       {

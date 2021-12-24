@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "browserslist": [
-    "last 2 version"
+    "last 2 Chrome versions",
+    "last 2 ff versions",
+    "last 2 Edge versions",
+    "last 2 Safari versions",
+    "last 2 and_chr versions",
+    "last 2 and_ff versions",
+    "last 2 Android versions",
+    "last 2 iOS versions"
   ],
   "directories": {
     "test": "tests"
@@ -32,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
     "css-loader": "^6.5.1",
+    "esbuild-loader": "^2.18.0",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.0.0",
