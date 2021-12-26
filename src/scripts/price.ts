@@ -3,6 +3,7 @@
  */
 
 import localStorage from '@classes/LocalStorage';
+import { TCurrencyCode } from '@type/price';
 // import { TCurrencyCode, TCurrencySign } from '@type/price';
 
 /**
@@ -82,4 +83,24 @@ function calcFinalPrice($container: HTMLElement) {
   }
 }
 
-export { humanPrice, parseToNumber, calcFinalPrice, getCurrencySign };
+function getDiscount(
+  basicPrice: number,
+  actualPrice: number,
+  currencyCode: TCurrencyCode,
+  discountType: 'percent' | 'fixed',
+): string {
+  if (discountType === 'percent') {
+    const discount = Math.ceil(100 - (100 * actualPrice) / basicPrice);
+    return `${discount}%`;
+  }
+  const discount = Math.floor((basicPrice - actualPrice) * 100) / 100;
+  return `${discount} ${getCurrencySign(currencyCode)}`;
+}
+
+export {
+  humanPrice,
+  parseToNumber,
+  calcFinalPrice,
+  getCurrencySign,
+  getDiscount,
+};

@@ -2,6 +2,8 @@
  * @module Product
  */
 
+import { TCurrencyCode } from '@type/price';
+
 /** country of origin */
 type TCountry =
   | 'china'
@@ -29,7 +31,7 @@ export interface IProductData {
   /** product ID */
   id: string;
 
-  /** product name*/
+  /** product name */
   name: string;
 
   /** product description */
@@ -43,22 +45,22 @@ export interface IProductData {
       cost: string;
 
       /** basic value currency */
-      currency: string;
+      currency: TCurrencyCode;
     };
 
-    /** actual price*/
+    /** actual price */
     actual: {
       /** actual price value */
       cost: string;
 
       /** sale type */
-      discountType: string;
+      discountType: 'percent' | 'fixed';
     };
   };
 
   /** product img */
   images: {
-    /** link to a big product img*/
+    /** link to a big product img */
     span_1x1: string;
 
     /** link to a small product img */

@@ -10,7 +10,12 @@ import Wishlist from '@classes/Wishlist';
 import ItemDOM from '@classes/dom/ItemDOM';
 import LocalStorage from '@classes/LocalStorage';
 
-import { calcFinalPrice, humanPrice, getCurrencySign } from '@scripts/price';
+import {
+  calcFinalPrice,
+  humanPrice,
+  getCurrencySign,
+  getDiscount,
+} from '@scripts/price';
 
 /**
  * Product class
@@ -50,33 +55,41 @@ class Item {
    * @param product initial product
    */
   static getPrice(product: IProduct) {
-    let priceAmount = ``;
-    let actualPrice = ``;
-    let sale = ``;
-    let currency = `${getCurrencySign(product.data.price.basic.currency)}`;
-    if (product.data.price.basic.cost !== product.data.price.actual.cost) {
-      actualPrice = `
+    const basicPrice = product.data.price.basic.cost;
+    const actualPrice = product.data.price.actual.cost;
+    let $priceAmount = ``;
+    let $actualPrice = ``;
+    let $sale = ``;
+    const currency = `${getCurrencySign(product.data.price.basic.currency)}`;
+    if (basicPrice !== actualPrice) {
+      $actualPrice = `
       <span class = "item-arrow icon-arrow-right"></span>
       <span class="item-price-reduced">${humanPrice(
         product.data.price.actual.cost,
       )} ${currency}</span>`;
-      let discountAmount = Math.ceil(
+      const discountAmount = Math.ceil(
         100 -
           (100 * +product.data.price.actual.cost) /
             +product.data.price.basic.cost,
       );
-      sale = `<span class='item-sale'>-${discountAmount}%</span>`;
-      priceAmount = 'price-sale';
+      $sale = `<span class='item-sale'>-${discountAmount}%</span>`;
+      $priceAmount = 'price-sale';
       if (product.data.price.actual.discountType) {
-        discountAmount =
-          Math.floor(
-            (+product.data.price.basic.cost - +product.data.price.actual.cost) *
-              100,
-          ) / 100;
-        sale = `<span class='item-sale'>-${discountAmount} ${currency}</span>`;
+        // discountAmount =
+        //   Math.floor(
+        //     (+product.data.price.basic.cost - +product.data.price.actual.cost) *
+        //       100,
+        //   ) / 100;
+        // sale = `<span class='item-sale'>-${discountAmount} ${currency}</span>`;
+        $sale = `<span class='item-sale'>-${getDiscount(
+          +basicPrice,
+          +actualPrice,
+          product.data.price.basic.currency,
+          product.data.price.actual.discountType,
+        )}</span>`;
       }
     }
-    return [actualPrice, sale, currency, priceAmount];
+    return [$actualPrice, $sale, currency, $priceAmount];
   }
 
   /**
